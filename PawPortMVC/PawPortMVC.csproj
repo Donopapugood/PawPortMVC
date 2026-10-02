@@ -91,6 +91,9 @@
     <None Include="wwwroot\recursos\Img\veterinaria-perro.png" />
     <None Include="wwwroot\recursos\Img\Veterinario - copia.png" />
     <None Include="wwwroot\recursos\Img\Veterinario.png" />
+    <None Include="wwwroot\contents\Img\Ciudad_Mexico.png" />
+    <None Include="wwwroot\contents\Img\Buenos_Aires.png" />
+    <None Include="wwwroot\contents\Img\Madrid.png" />
   </ItemGroup>
 
 </Project>

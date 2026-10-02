@@ -40,7 +40,25 @@
             @foreach (Clinica c in clinicas)
             {
                 <article class="card-paw">
-                    <img class="card-img" src="@c.Imagen" alt="@c.Nombre" />
+                    @{
+                        var imgSrc = c.Imagen;
+                        if (!string.IsNullOrEmpty(imgSrc) && imgSrc.StartsWith("http", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            switch (c.Nombre)
+                            {
+                                case "Clínica El Gato Feliz":
+                                    imgSrc = Url.Content("~/contents/Img/Buenos_Aires.png");
+                                    break;
+                                case "Clínica Mundo Animal":
+                                    imgSrc = Url.Content("~/contents/Img/Ciudad_Mexico.png");
+                                    break;
+                                case "Clínica Alfa":
+                                    imgSrc = Url.Content("~/contents/Img/Madrid.png");
+                                    break;
+                            }
+                        }
+                    }
+                    <img class="card-img" src="@imgSrc" alt="@c.Nombre" />
                     <div class="card-body-paw">
                         <h3>@c.Nombre</h3>
                         <p class="muted">📍 @c.Ciudad</p>

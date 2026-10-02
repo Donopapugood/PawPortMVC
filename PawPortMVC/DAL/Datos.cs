@@ -8,9 +8,9 @@ namespace PawPortMVC.DAL
     {
         public static List<Clinica> Clinicas = new List<Clinica>
         {
-            new Clinica { Nombre = "Clínica Lomas", Ciudad = "Ciudad de México", Imagen = "/recursos/img/clinica1.jpg", Especialidad = "Medicina general", Calificacion = 4.8 },
-            new Clinica { Nombre = "Clínica Retiro", Ciudad = "Madrid", Imagen = "/recursos/img/clinica2.jpg", Especialidad = "Cirugía", Calificacion = 4.7 },
-            new Clinica { Nombre = "Clínica Palermo", Ciudad = "Buenos Aires", Imagen = "/recursos/img/clinica3.jpg", Especialidad = "Dermatología", Calificacion = 4.9 },
+            new Clinica { Nombre = "Clínica Lomas", Ciudad = "Ciudad de México", Imagen = "/contents/Img/Ciudad_Mexico.png", Especialidad = "Medicina general", Calificacion = 4.8 },
+            new Clinica { Nombre = "Clínica Retiro", Ciudad = "Madrid", Imagen = "/contents/Img/Madrid.png", Especialidad = "Cirugía", Calificacion = 4.7 },
+            new Clinica { Nombre = "Clínica Palermo", Ciudad = "Buenos Aires", Imagen = "/contents/Img/Buenos_Aires.png", Especialidad = "Dermatología", Calificacion = 4.9 },
             new Clinica { Nombre = "Veterinaria Escalón", Ciudad = "San Salvador", Imagen = "/recursos/img/clinica4.jpg", Especialidad = "Cardiología", Calificacion = 4.6 }
         };
 
