@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - PawPort</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/pawport.css" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+    <header class="nav-paw">
+        <div class="container nav-inner">
+            <a class="brand" asp-controller="Home" asp-action="Index">🐾 PawPort</a>
+            <nav class="menu">
+                <a asp-controller="Home" asp-action="Index">Inicio</a>
+                <a asp-controller="Portafolio" asp-action="Index">Portafolio</a>
+                <a asp-controller="ExplorarClinicas" asp-action="Index">Explorar Clínicas</a>
+                <a asp-controller="MisMascotas" asp-action="Index">Mis Mascotas</a>
+                <a asp-controller="AgendarCita" asp-action="Index">Agendar Cita</a>
+                <a asp-controller="Login" asp-action="Index">Iniciar sesión</a>
+                <a asp-controller="Registro" asp-action="Index" class="btn-paw">Registrarse</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="footer-paw">
+        <div class="container">
+            <div class="grid">
+                <div>
+                    <h4>🐾 PawPort</h4>
+                    <p>El pasaporte médico unificado para tu mascota. Proyecto de A2D2.</p>
+                </div>
+                <div>
+                    <h4>Plataforma</h4>
+                    <a asp-controller="ExplorarClinicas" asp-action="Index">Clínicas</a>
+                    <a asp-controller="Portafolio" asp-action="Index">Portafolio</a>
+                </div>
+                <div>
+                    <h4>Contacto</h4>
+                    <p>contacto@pawport.com<br />+503 2222 0000<br />San Salvador, El Salvador</p>
+                </div>
+            </div>
+            <div class="footer-bottom">© @DateTime.Now.Year PawPort - A2D2. Todos los derechos reservados.</div>
+        </div>
+    </footer>
+</body>
+</html>

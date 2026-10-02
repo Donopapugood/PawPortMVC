@@ -1,0 +1,33 @@
+﻿@model List<Cita>
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_AdminLayout";
+}
+<section class="section">
+    <div class="container">
+        <h2 style="text-align:left">Panel de Control Clínico</h2>
+        <p class="muted">Resumen de la operación de tu clínica.</p>
+        <div class="grid">
+            <div class="card-paw pad stat-card"><b>8</b>Citas de hoy</div>
+            <div class="card-paw pad stat-card"><b>156</b>Pacientes activos</div>
+            <div class="card-paw pad stat-card"><b>4.8</b>Calificación</div>
+            <div class="card-paw pad stat-card"><b>12</b>Veterinarios</div>
+        </div>
+        <h3 style="margin-top:2rem">Citas del día</h3>
+        <div class="scroll">
+            <table class="tabla">
+                <tr><th>Hora</th><th>Paciente</th><th>Propietario</th><th>Motivo</th><th>Estado</th></tr>
+                @foreach (Cita c in Model)
+                {
+                    <tr>
+                        <td>@c.Hora</td>
+                        <td>@c.Mascota</td>
+                        <td>@c.Propietario</td>
+                        <td>@c.Motivo</td>
+                        <td><span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span></td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</section>

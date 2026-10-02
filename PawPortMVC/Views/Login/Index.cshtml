@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+<div class="login-grid">
+    <img src="/recursos/img/hero.jpg" class="login-img" alt="Mascota" />
+    <div class="login-form">
+        <div class="form-card" style="width:100%">
+            <h2>¡Hola de nuevo! 👋</h2>
+            <p class="muted">Ingresa a tu cuenta PawPort.</p>
+            <form asp-controller="Login" asp-action="Index" method="post">
+                <label>Tipo de usuario</label>
+                <select name="rol" class="form-control">
+                    <option>Propietario</option>
+                    <option>Veterinario</option>
+                </select>
+                <label>Correo electrónico</label>
+                <input type="email" name="correo" class="form-control" />
+                <label>Contraseña</label>
+                <input type="password" name="clave" class="form-control" />
+                <br />
+                <button type="submit" class="btn-paw">Iniciar sesión</button>
+            </form>
+            @if (ViewBag.Error != null)
+            {
+                <p class="msg-error">@ViewBag.Error</p>
+            }
+            <p class="muted" style="margin-top:1rem">¿No tienes cuenta? <a asp-controller="Registro" asp-action="Index">Regístrate</a></p>
+        </div>
+    </div>
+</div>

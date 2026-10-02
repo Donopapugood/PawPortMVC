@@ -1,0 +1,50 @@
+﻿@model List<Mascota>
+@{
+    ViewData["Title"] = "Mis mascotas";
+}
+<section class="section">
+    <div class="container">
+        <h2 style="text-align:left">Mis Mascotas</h2>
+        <p class="muted">Aquí está la información de tus mascotas.</p>
+        <div class="grid">
+            @foreach (Mascota m in Model)
+            {
+                <article class="card-paw">
+                    <img class="card-img" src="@m.Imagen" alt="@m.Nombre" />
+                    <div class="card-body-paw">
+                        <h3>@m.Nombre</h3>
+                        <p class="muted">@m.Especie · @m.Raza · @m.Edad años</p>
+                        <span class="badge-paw @(m.Vacunas == "Al día" ? "ok" : "wait")">Vacunas: @m.Vacunas</span>
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>
+
+<div class="form-card">
+    <h3>Registrar mascota</h3>
+    <form asp-controller="MisMascotas" asp-action="Registrar" method="post" enctype="multipart/form-data">
+        <label>Nombre</label>
+        <input type="text" name="nombre" class="form-control" />
+        <label>Especie</label>
+        <select name="especie" class="form-control">
+            <option>Perro</option>
+            <option>Gato</option>
+            <option>Ave</option>
+            <option>Otro</option>
+        </select>
+        <label>Raza</label>
+        <input type="text" name="raza" class="form-control" />
+        <label>Edad (años)</label>
+        <input type="number" name="edad" class="form-control" min="0" />
+        <label>Foto</label>
+        <input type="file" name="foto" class="form-control" />
+        <br />
+        <button type="submit" class="btn-paw">Registrar mascota</button>
+    </form>
+    @if (ViewBag.Mensaje != null)
+    {
+        <p class="@ViewBag.MensajeClase">@ViewBag.Mensaje</p>
+    }
+</div>

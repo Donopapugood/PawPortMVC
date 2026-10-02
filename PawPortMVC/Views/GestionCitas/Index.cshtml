@@ -1,0 +1,52 @@
+﻿@model List<Cita>
+@{
+    ViewData["Title"] = "Gestión de citas";
+    Layout = "_AdminLayout";
+    string estado = ViewBag.Estado;
+}
+<section class="section">
+    <div class="container">
+        <h2 style="text-align:left">Gestión de Citas Médicas</h2>
+        <p class="muted">Confirma o cancela las citas solicitadas por los propietarios.</p>
+
+        <label>Filtrar por estado</label>
+        <form asp-controller="GestionCitas" asp-action="Index" method="get" style="max-width:260px">
+            <select name="estado" class="form-control" onchange="this.form.submit()">
+                <option selected="@(estado == "Todas")">Todas</option>
+                <option selected="@(estado == "Pendiente")">Pendiente</option>
+                <option selected="@(estado == "Confirmada")">Confirmada</option>
+                <option selected="@(estado == "En consulta")">En consulta</option>
+                <option selected="@(estado == "Cancelada")">Cancelada</option>
+            </select>
+        </form>
+        <br />
+
+        <div class="scroll">
+            <table class="tabla">
+                <tr><th>Hora</th><th>Paciente</th><th>Propietario</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr>
+                @foreach (Cita c in Model)
+                {
+                    <tr>
+                        <td>@c.Hora</td>
+                        <td>@c.Mascota</td>
+                        <td>@c.Propietario</td>
+                        <td>@c.Motivo</td>
+                        <td><span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span></td>
+                        <td>
+                            <form asp-controller="GestionCitas" asp-action="Confirmar" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@c.Id" />
+                                <input type="hidden" name="estado" value="@estado" />
+                                <button type="submit" class="btn-mini ok">Confirmar</button>
+                            </form>
+                            <form asp-controller="GestionCitas" asp-action="Cancelar" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@c.Id" />
+                                <input type="hidden" name="estado" value="@estado" />
+                                <button type="submit" class="btn-mini bad">Cancelar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</section>

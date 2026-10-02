@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Crear cuenta";
+}
+<div class="form-card">
+    <h2>Crea tu cuenta de dueño</h2>
+    <p class="muted">Un pasaporte unificado de salud para tu mascota 🐾</p>
+    <form asp-controller="Registro" asp-action="Index" method="post">
+        <label>Nombre completo</label>
+        <input type="text" name="nombre" class="form-control" />
+        <label>Correo electrónico</label>
+        <input type="email" name="correo" class="form-control" />
+        <label>Teléfono</label>
+        <input type="text" name="telefono" class="form-control" />
+        <label>Contraseña</label>
+        <input type="password" name="clave" class="form-control" />
+        <label>Confirmar contraseña</label>
+        <input type="password" name="clave2" class="form-control" />
+        <br />
+        <label style="display:inline"><input type="checkbox" name="terminos" value="true" /> Acepto los términos y condiciones</label>
+        <br /><br />
+        <button type="submit" class="btn-paw">Crear cuenta</button>
+    </form>
+    @if (ViewBag.Mensaje != null)
+    {
+        <p class="@ViewBag.MensajeClase">@ViewBag.Mensaje</p>
+    }
+    <p class="muted" style="margin-top:1rem">¿Ya tienes cuenta? <a asp-controller="Login" asp-action="Index">Inicia sesión</a></p>
+</div>

@@ -1,0 +1,33 @@
+﻿@model List<Clinica>
+@{
+    ViewData["Title"] = "Explorar clínicas";
+}
+<section class="banner">
+    <div class="container">
+        <h1>Encuentra la mejor atención veterinaria en el mundo</h1>
+        <form asp-controller="ExplorarClinicas" asp-action="Index" method="get" class="buscador">
+            <input type="text" name="buscar" value="@ViewBag.Buscar" class="form-control" placeholder="Busca por nombre o ciudad" />
+            <button type="submit" class="btn-paw">Buscar</button>
+        </form>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <p class="muted">@Model.Count clínicas encontradas</p>
+        <div class="grid">
+            @foreach (Clinica c in Model)
+            {
+                <article class="card-paw">
+                    <img class="card-img" src="@c.Imagen" alt="@c.Nombre" />
+                    <div class="card-body-paw">
+                        <h3>@c.Nombre</h3>
+                        <p class="muted">📍 @c.Ciudad</p>
+                        <span class="badge-paw info">@c.Especialidad</span>
+                        <p>⭐ @c.Calificacion</p>
+                        <a class="btn-line" asp-controller="AgendarCita" asp-action="Index" asp-route-clinica="@c.Nombre">Agendar cita</a>
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Agendar cita";
+    List<Mascota> mascotas = ViewBag.Mascotas;
+    List<Clinica> clinicas = ViewBag.Clinicas;
+}
+<div class="form-card">
+    <h2>Agendar una cita</h2>
+    <form asp-controller="AgendarCita" asp-action="Index" method="post">
+        <div class="paso"><span>1</span> Datos de la mascota</div>
+        <label>Mascota</label>
+        <select name="mascota" class="form-control">
+            @foreach (Mascota m in mascotas)
+            {
+                <option>@m.Nombre</option>
+            }
+        </select>
+
+        <div class="paso"><span>2</span> Clínica y especialidad</div>
+        <label>Clínica</label>
+        <select name="clinica" class="form-control">
+            @foreach (Clinica c in clinicas)
+            {
+                if (c.Nombre == (string)ViewBag.ClinicaElegida)
+                {
+                    <option selected="selected">@c.Nombre</option>
+                }
+                else
+                {
+                    <option>@c.Nombre</option>
+                }
+            }
+        </select>
+        <label>Especialidad</label>
+        <select name="especialidad" class="form-control">
+            <option>Medicina general</option>
+            <option>Cirugía</option>
+            <option>Dermatología</option>
+            <option>Cardiología</option>
+        </select>
+
+        <div class="paso"><span>3</span> Fecha y motivo</div>
+        <label>Fecha</label>
+        <input type="date" name="fecha" class="form-control" />
+        <label>Hora</label>
+        <select name="hora" class="form-control">
+            <option>09:00</option>
+            <option>10:30</option>
+            <option>14:00</option>
+            <option>16:00</option>
+        </select>
+        <label>Motivo de la consulta</label>
+        <textarea name="motivo" class="form-control" rows="3"></textarea>
+        <br />
+        <button type="submit" class="btn-paw">Confirmar cita</button>
+    </form>
+    @if (ViewBag.Resumen != null)
+    {
+        <p class="@ViewBag.ResumenClase">@ViewBag.Resumen</p>
+    }
+</div>
