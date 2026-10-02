@@ -13,7 +13,7 @@
             <a asp-controller="Registro" asp-action="Index" class="btn-paw">Registrarme</a>
             <a asp-controller="ExplorarClinicas" asp-action="Index" class="btn-line">Explorar clínicas</a>
         </div>
-        <img src="~/recursos/Img/veterinaria-perro.png" class="hero-img" alt="Veterinaria con mascota" />
+        <img src="/recursos/Img/veterinaria-perro.png" class="hero-img" alt="Veterinaria con mascota" />
     </div>
 </section>
 
@@ -41,21 +41,15 @@
             {
                 <article class="card-paw">
                     @{
-                        var imgSrc = c.Imagen;
-                        if (!string.IsNullOrEmpty(imgSrc) && imgSrc.StartsWith("http", System.StringComparison.OrdinalIgnoreCase))
+                        // Forzar uso de las tres imágenes específicas según la ciudad
+                        var imgSrc = Url.Content("~/recursos/Img/Ciudad_Mexico.png");
+                        if (c.Ciudad != null && c.Ciudad.Contains("Madrid", System.StringComparison.OrdinalIgnoreCase))
                         {
-                            switch (c.Nombre)
-                            {
-                                case "Clínica El Gato Feliz":
-                                    imgSrc = Url.Content("~/contents/Img/Buenos_Aires.png");
-                                    break;
-                                case "Clínica Mundo Animal":
-                                    imgSrc = Url.Content("~/contents/Img/Ciudad_Mexico.png");
-                                    break;
-                                case "Clínica Alfa":
-                                    imgSrc = Url.Content("~/contents/Img/Madrid.png");
-                                    break;
-                            }
+                            imgSrc = Url.Content("~/recursos/Img/Madrid.png");
+                        }
+                        else if (c.Ciudad != null && c.Ciudad.Contains("Buenos", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            imgSrc = Url.Content("~/recursos/Img/Buenos_Aires.png");
                         }
                     }
                     <img class="card-img" src="@imgSrc" alt="@c.Nombre" />

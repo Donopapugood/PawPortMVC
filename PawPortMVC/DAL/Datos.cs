@@ -8,17 +8,16 @@ namespace PawPortMVC.DAL
     {
         public static List<Clinica> Clinicas = new List<Clinica>
         {
-            new Clinica { Nombre = "Clínica Lomas", Ciudad = "Ciudad de México", Imagen = "/contents/Img/Ciudad_Mexico.png", Especialidad = "Medicina general", Calificacion = 4.8 },
-            new Clinica { Nombre = "Clínica Retiro", Ciudad = "Madrid", Imagen = "/contents/Img/Madrid.png", Especialidad = "Cirugía", Calificacion = 4.7 },
-            new Clinica { Nombre = "Clínica Palermo", Ciudad = "Buenos Aires", Imagen = "/contents/Img/Buenos_Aires.png", Especialidad = "Dermatología", Calificacion = 4.9 },
-            new Clinica { Nombre = "Veterinaria Escalón", Ciudad = "San Salvador", Imagen = "/recursos/img/clinica4.jpg", Especialidad = "Cardiología", Calificacion = 4.6 }
+            new Clinica { Nombre = "Clínica Lomas", Ciudad = "Ciudad de México", Imagen = "/recursos/Img/Ciudad_Mexico.png", Especialidad = "Medicina general", Calificacion = 4.8 },
+            new Clinica { Nombre = "Clínica Retiro", Ciudad = "Madrid", Imagen = "/recursos/Img/Madrid.png", Especialidad = "Cirugía", Calificacion = 4.7 },
+            new Clinica { Nombre = "Clínica Palermo", Ciudad = "Buenos Aires", Imagen = "/recursos/Img/Buenos_Aires.png", Especialidad = "Dermatología", Calificacion = 4.9 }
         };
 
         public static List<Mascota> Mascotas = new List<Mascota>
         {
-            new Mascota { Nombre = "Luna", Especie = "Perro", Raza = "Golden Retriever", Edad = 3, Imagen = "/recursos/img/luna.jpg", Vacunas = "Al día" },
-            new Mascota { Nombre = "Max", Especie = "Perro", Raza = "Beagle", Edad = 5, Imagen = "/recursos/img/max.jpg", Vacunas = "Pendiente" },
-            new Mascota { Nombre = "Kiwi", Especie = "Ave", Raza = "Cacatúa", Edad = 2, Imagen = "/recursos/img/kiwi.jpg", Vacunas = "Al día" }
+            new Mascota { Nombre = "Luna", Especie = "Perro", Raza = "Golden Retriever", Edad = 3, Imagen = "/recursos/Img/Luna.png", Vacunas = "Al día" },
+            new Mascota { Nombre = "Max", Especie = "Perro", Raza = "Beagle", Edad = 5, Imagen = "/recursos/Img/Max.png", Vacunas = "Pendiente" },
+            new Mascota { Nombre = "Kiwi", Especie = "Ave", Raza = "Cacatúa", Edad = 2, Imagen = "/recursos/Img/Kiwi.png", Vacunas = "Al día" }
         };
 
         public static List<Cita> Citas = new List<Cita>

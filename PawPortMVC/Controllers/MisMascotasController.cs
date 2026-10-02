@@ -32,7 +32,7 @@ namespace PawPortMVC.Controllers
                 return View("Index", Datos.Mascotas);
             }
 
-            string imagen = "/recursos/img/mascota.jpg";
+            string imagen = "/recursos/Img/mascota.jpg";
             if (foto != null && foto.Length > 0)
             {
                 string extension = Path.GetExtension(foto.FileName).ToLower();
@@ -49,7 +49,7 @@ namespace PawPortMVC.Controllers
                 {
                     foto.CopyTo(flujo);
                 }
-                imagen = "/recursos/img/" + archivo;
+                imagen = "/recursos/Img/" + archivo;
             }
 
             Datos.Mascotas.Add(new Mascota
