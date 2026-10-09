@@ -96,4 +96,8 @@
     <None Include="wwwroot\contents\Img\Madrid.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PawPortDB\" />
+  </ItemGroup>
+
 </Project>
