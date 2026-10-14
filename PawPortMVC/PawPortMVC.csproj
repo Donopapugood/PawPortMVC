@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="DAL\NewFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\recursos\Img\Administrador - copia.png" />
     <None Include="wwwroot\recursos\Img\Administrador.png" />
     <None Include="wwwroot\recursos\Img\agendar-cita - copia.png" />
