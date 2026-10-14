@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\contents\**" />
+    <Content Remove="wwwroot\contents\**" />
+    <EmbeddedResource Remove="wwwroot\contents\**" />
+    <None Remove="wwwroot\contents\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\recursos\Img\Administrador - copia.png" />
     <None Include="wwwroot\recursos\Img\Administrador.png" />
     <None Include="wwwroot\recursos\Img\agendar-cita - copia.png" />
@@ -91,9 +98,6 @@
     <None Include="wwwroot\recursos\Img\veterinaria-perro.png" />
     <None Include="wwwroot\recursos\Img\Veterinario - copia.png" />
     <None Include="wwwroot\recursos\Img\Veterinario.png" />
-    <None Include="wwwroot\contents\Img\Ciudad_Mexico.png" />
-    <None Include="wwwroot\contents\Img\Buenos_Aires.png" />
-    <None Include="wwwroot\contents\Img\Madrid.png" />
   </ItemGroup>
 
   <ItemGroup>
