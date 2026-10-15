@@ -14,6 +14,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Usuarios.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="DAL\NewFile.txt" />
+    <None Remove="Models\NewFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\recursos\Img\Administrador - copia.png" />
     <None Include="wwwroot\recursos\Img\Administrador.png" />
     <None Include="wwwroot\recursos\Img\agendar-cita - copia.png" />
@@ -102,6 +111,10 @@
 
   <ItemGroup>
     <Folder Include="PawPortDB\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
   </ItemGroup>
 
 </Project>
