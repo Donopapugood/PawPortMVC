@@ -1,0 +1,477 @@
+﻿:root {
+    --a2d2-teal: #00a8b5;
+    --a2d2 - dark: #006c75;
+    --a2d2 - coral: #ff7a59;
+    --a2d2 - ink: #183247;
+    --a2d2 - muted: #526b7b;
+    --a2d2 - line: rgba(35, 130, 148, .16);
+--a2d2 - soft: #eef7fa;
+}
+
+.a2d2,
+.a2d2 * {
+    box-sizing: border - box;
+}
+
+.a2d2 {
+    margin: 0;
+font - family: Arial, Helvetica, sans-serif;
+font - size: 16px;
+line - height: 1.65;
+color: var(--a2d2 - ink);
+background: #f5fafc;
+    min - height: 100vh;
+display: flex;
+flex - direction: column;
+}
+
+    .a2d2 main
+{
+    flex: 1;
+}
+
+    .a2d2 a
+{
+    color: var(--a2d2-dark);
+    text-decoration: none;
+}
+
+        .a2d2 a:hover {
+            color: #004d59;
+        }
+
+        .a2d2 a:focus - visible {
+outline: 3px solid #168e9e;
+            outline - offset: 5px;
+}
+
+    .a2d2 h1,
+    .a2d2 h2,
+    .a2d2 h3 {
+        line-height: 1.15;
+margin: 0 0 1rem;
+letter - spacing: -.035em;
+    }
+
+    .a2d2 h1
+{
+    font-size: clamp(2.3rem, 4.2vw, 3.9rem);
+}
+
+    .a2d2 h2
+{
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    max-width: 850px;
+}
+
+    .a2d2 h3
+{
+    font-size: 1.2rem;
+    letter-spacing: -.02em;
+}
+
+    .a2d2 p
+{
+    margin: 0 0 1rem;
+}
+
+.a2d2 - container {
+width: min(1180px, calc(100 % -48px));
+    margin - inline: auto;
+}
+
+.a2d2 - header {
+position: sticky;
+top: 0;
+    z - index: 30;
+}
+
+.a2d2 - nav {
+display: flex;
+    align - items: center;
+    justify - content: space - between;
+gap: 24px;
+    padding - block: 18px;
+}
+
+.a2d2.a2d2 - brand {
+color: var(--a2d2 - ink);
+    font - weight: 800;
+    font - size: 1.8rem;
+    letter - spacing: -.04em;
+    white - space: nowrap;
+margin: 0;
+}
+
+.a2d2 - brand span {
+    display: block;
+font - size: .62rem;
+letter - spacing: .2em;
+color: var(--a2d2 - dark);
+line - height: 1.1;
+}
+
+.a2d2 - links {
+display: flex;
+    align - items: center;
+    flex - wrap: wrap;
+gap: 8px 18px;
+}
+
+    .a2d2 - links > a {
+display: inline - flex;
+    align - items: center;
+    justify - content: center;
+    min - height: 44px;
+    font - size: .92rem;
+    font - weight: 600;
+}
+
+.a2d2.a2d2 - button {
+display: inline - flex;
+    align - items: center;
+    justify - content: center;
+gap: 14px;
+    min - height: 48px;
+padding: 12px 22px;
+color: #49261d;
+    background: linear - gradient(135deg, #ffb294, #ff886a);
+    border: 1px solid rgba(226, 109, 76, .32);
+    border - radius: 14px;
+    font - weight: 700;
+    text - decoration: none;
+    box - shadow: 0 8px 22px rgba(233, 116, 82, .20);
+transition: transform .2s ease, box-shadow .2s ease;
+}
+
+    .a2d2.a2d2 - button:hover {
+        transform: translateY(-2px);
+box - shadow: 0 12px 28px rgba(233, 116, 82, .28);
+    }
+
+.a2d2.a2d2 - outline {
+color: var(--a2d2 - dark);
+background: linear - gradient(135deg, rgba(221, 247, 248, .8), rgba(239, 248, 252, .6));
+    border - color: rgba(29, 143, 158, .28);
+    box - shadow: 0 8px 22px rgba(17, 117, 137, .08);
+}
+
+.a2d2 - hero {
+padding: 80px 0;
+}
+
+.a2d2 - hero - grid {
+display: grid;
+    grid - template - columns: 1.05fr 1fr;
+gap: clamp(32px, 5vw, 64px);
+    align - items: center;
+}
+
+    .a2d2 - hero - grid > * {
+    min - width: 0;
+}
+
+.a2d2 h1 span {
+    color: var(--a2d2 - dark);
+}
+
+.a2d2.a2d2 - eyebrow {
+color: var(--a2d2 - dark);
+    font - size: .75rem;
+    letter - spacing: .14em;
+    text - transform: uppercase;
+    font - weight: 700;
+    margin - bottom: 16px;
+}
+
+.a2d2 - lead {
+    font - size: 1.1rem;
+color: var(--a2d2 - muted);
+    max - width: 580px;
+}
+
+.a2d2 - actions {
+display: flex;
+    flex - wrap: wrap;
+gap: 12px;
+    margin - top: 28px;
+}
+
+.a2d2.a2d2 - caption {
+color: var(--a2d2 - muted);
+    font - size: .8rem;
+    margin - top: 22px;
+    margin - bottom: 0;
+}
+
+.a2d2 - identity {
+margin: 0;
+padding: 0;
+border: 0;
+    border - radius: 24px;
+background: #183247;
+    overflow: visible;
+}
+
+    .a2d2 - identity img {
+        display: block;
+width: 100 %;
+height: auto;
+border - radius: 24px 24px 0 0;
+    }
+
+    .a2d2 - identity figcaption {
+        padding: 18px 22px;
+font - size: .78rem;
+color: #d7edf3;
+        border - radius: 0 0 24px 24px;
+background: linear - gradient(120deg, #183247, #145266);
+    }
+
+.a2d2 - section {
+padding: 76px 0;
+    scroll - margin - top: 16px;
+}
+
+.a2d2 - soft {
+background: #edf7fa;
+}
+
+.a2d2 - intro {
+    max - width: 800px;
+color: var(--a2d2 - muted);
+}
+
+.a2d2 - grid {
+display: grid;
+gap: 30px;
+    margin - top: 32px;
+}
+
+.a2d2 - two {
+    grid - template - columns: repeat(2, minmax(0, 1fr));
+}
+
+.a2d2 - three {
+    grid - template - columns: repeat(3, minmax(0, 1fr));
+}
+
+.a2d2 - card {
+padding: 30px;
+border: 1px solid var(--a2d2 - line);
+background: rgba(242, 251, 253, .85);
+    border - radius: 22px;
+    box - shadow: 0 12px 32px rgba(23, 79, 100, .06);
+}
+
+    .a2d2 - card p {
+        color: var(--a2d2 - muted);
+    }
+
+    .a2d2 - card.a2d2 - number {
+color: var(--a2d2 - dark);
+    font - size: .8rem;
+    font - weight: 700;
+    letter - spacing: .04em;
+    margin - bottom: 24px;
+}
+
+    .a2d2 - card > a {
+display: inline - flex;
+    align - items: center;
+    min - height: 44px;
+    font - size: .9rem;
+    font - weight: 700;
+}
+
+.a2d2 - preview {
+margin: 0;
+padding: 0;
+border: 0;
+    border - radius: 22px;
+overflow: visible;
+background: linear - gradient(145deg, #e1f4f7, #edf2fb);
+}
+
+    .a2d2 - preview > a {
+display: block;
+    border - radius: 22px 22px 0 0;
+}
+
+.a2d2-preview img {
+    display: block;
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    object-position: top;
+    border: 0;
+    border-radius: 22px 22px 0 0;
+}
+
+    .a2d2 - preview figcaption {
+        padding: 24px;
+border - radius: 0 0 22px 22px;
+    }
+
+    .a2d2 - preview p {
+        font-size: .9rem;
+color: var(--a2d2 - muted);
+margin: 0;
+    }
+
+.a2d2 - team {
+    grid - template - columns: repeat(4, minmax(0, 1fr));
+    list - style: none;
+padding: 0;
+}
+
+    .a2d2 - team li {
+        padding-top: 20px;
+border - top: 2px solid rgba(0, 168, 181, .6);
+    }
+
+    .a2d2 - team span {
+        display: block;
+color: var(--a2d2 - muted);
+font - size: .8rem;
+margin - bottom: 12px;
+    }
+
+    .a2d2 - team h3 {
+        font-size: 1.08rem;
+line - height: 1.5;
+    }
+
+.a2d2 - footer {
+background: linear - gradient(125deg, #142c40, #104859);
+    color: #cbdfe8;
+    padding: 48px 0 20px;
+}
+
+.a2d2 - footer - grid {
+display: grid;
+    grid - template - columns: 1.3fr 1fr 1fr;
+gap: 56px;
+}
+
+.a2d2 - footer.a2d2 - brand {
+color: #fff;
+    margin - bottom: 20px;
+}
+
+    .a2d2 - footer.a2d2 - brand span {
+        color: #80e5ed;
+    }
+
+.a2d2 - footer h2 {
+    color: #fff;
+    font - size: 1rem;
+letter - spacing: 0;
+}
+
+.a2d2 - footer p {
+    font-size: .9rem;
+}
+
+.a2d2 - footer a {
+    display: flex;
+align - items: center;
+min - height: 44px;
+color: #cbdfe8;
+    font - size: .9rem;
+}
+
+    .a2d2 - footer a: hover {
+color: #91ebef;
+    }
+
+.a2d2 - copyright {
+    border - top: 1px solid rgba(174, 218, 232, .2);
+    margin - top: 30px;
+    padding - top: 20px;
+    font - size: .8rem;
+}
+
+.a2d2.a2d2 - skip {
+position: fixed;
+top: 8px;
+left: 8px;
+transform: translateY(-200 %);
+    z - index: 50;
+padding: 12px;
+background: #fff;
+}
+
+    .a2d2.a2d2 - skip:focus {
+        transform: none;
+    }
+
+@media(max - width: 950px) {
+    .a2d2 - nav {
+        align - items: flex - start;
+    }
+
+    .a2d2 - links {
+        justify - content: flex - end;
+    }
+
+    .a2d2 - hero - grid {
+        grid - template - columns: minmax(0, 1fr);
+    gap: 40px;
+    }
+
+    .a2d2 - identity {
+    width: 100 %;
+        max - width: 650px;
+        margin - inline: auto;
+    }
+
+    .a2d2 - three,
+    .a2d2 - team {
+        grid - template - columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media(max - width: 600px) {
+    .a2d2 - container {
+    width: calc(100 % -36px);
+    }
+
+    .a2d2 - header {
+    position: static;
+    }
+
+    .a2d2 - nav {
+        flex - direction: column;
+    gap: 18px;
+    }
+
+    .a2d2 - links {
+        justify - content: flex - start;
+    gap: 6px 10px;
+    }
+
+    .a2d2 - hero,
+    .a2d2 - section {
+    padding: 48px 0;
+    }
+
+    .a2d2 - two,
+    .a2d2 - three,
+    .a2d2 - team,
+    .a2d2 - footer - grid {
+        grid - template - columns: minmax(0, 1fr);
+    }
+
+    .a2d2 - card {
+    padding: 24px;
+    }
+
+    .a2d2 - footer - grid {
+    gap: 28px;
+    }
+
+    .a2d2 - actions > a {
+    width: 100 %;
+    }
+}

@@ -1,4 +1,65 @@
-﻿@page
-@model PawPortMVC.Views.Shared._A2D2LayoutModel
-@{
-}
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - A2D2 Engine · PawPort</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/a2d2.css" />
+    <link rel="stylesheet" href="~/css/mejoras-visuales.css" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+</head>
+<body class="a2d2">
+    <a class="a2d2-skip" href="#contenido">Saltar al contenido principal</a>
+
+    <header class="a2d2-header">
+        <div class="a2d2-container a2d2-nav">
+            <a class="a2d2-brand" asp-controller="Portafolio" asp-action="Index" aria-current="page">
+                A2D2 <span>ENGINE</span>
+            </a>
+            <nav class="a2d2-links" aria-label="Navegación de A2D2 Engine">
+                <a href="#empresa">Empresa</a>
+                <a href="#proyecto">Proyecto</a>
+                <a href="#portafolio">Portafolio</a>
+                <a href="#equipo">Equipo</a>
+                <a asp-controller="ExplorarClinicas" asp-action="Index">Clínicas</a>
+                <a asp-controller="Login" asp-action="Index">Iniciar sesión</a>
+                <a class="a2d2-button" asp-controller="Home" asp-action="Index">Ir a PawPort</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="contenido">
+        @RenderBody()
+    </main>
+
+    <footer class="a2d2-footer">
+        <div class="a2d2-container">
+            <div class="a2d2-footer-grid">
+                <div>
+                    <p class="a2d2-brand">A2D2 <span>ENGINE</span></p>
+                    <p>Empresa desarrolladora de PawPort, red internacional de clínicas veterinarias con pasaporte clínico unificado conectada a SQL Server (PawPortDB).</p>
+                </div>
+                <div>
+                    <h2>Secciones</h2>
+                    <a href="#empresa">Nuestra empresa (Misión y Visión)</a>
+                    <a href="#proyecto">Alcance del proyecto PawPort</a>
+                    <a href="#portafolio">Portafolio de pantallas</a>
+                    <a href="#equipo">Equipo desarrollador A2D2</a>
+                </div>
+                <div>
+                    <h2>Plataforma PawPort</h2>
+                    <a asp-controller="Home" asp-action="Index">Inicio de PawPort</a>
+                    <a asp-controller="ExplorarClinicas" asp-action="Index">Explorar Clínicas</a>
+                    <a asp-controller="MisMascotas" asp-action="Index">Mis Mascotas</a>
+                    <a asp-controller="AgendarCita" asp-action="Index">Agendar Cita</a>
+                    <a asp-controller="Login" asp-action="Index">Acceso Clínico y Administrativo</a>
+                </div>
+            </div>
+            <div class="a2d2-copyright">
+                © @DateTime.Now.Year A2D2 Engine · PawPort. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
