@@ -4,9 +4,9 @@
     Layout = "_AdminLayout";
     string estado = ViewBag.Estado;
     string clinicaFiltro = ViewBag.ClinicaFiltro;
-    List<Clinica> clinicas = ViewBag.Clinicas;
-    List<Mascota> mascotas = ViewBag.Mascotas;
-    List<Veterinario> veterinarios = ViewBag.Veterinarios;
+    List<Clinica> clinicas = ViewBag.Clinicas ?? Datos.Clinicas;
+    List<Mascota> mascotas = ViewBag.Mascotas ?? Datos.Mascotas;
+    List<Veterinario> veterinarios = ViewBag.Veterinarios ?? Datos.Veterinarios;
     Cita? seleccionada = ViewBag.CitaSeleccionada;
 }
 <section class="section">
@@ -38,6 +38,7 @@
             </div>
             <button type="submit" class="btn-paw">Buscar Citas</button>
         </form>
+
         <div class="grid" style="grid-template-columns:2fr 1fr;align-items:start">
             <div class="scroll">
                 <table class="tabla">

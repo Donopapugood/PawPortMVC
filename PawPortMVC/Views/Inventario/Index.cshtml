@@ -3,8 +3,8 @@
     ViewData["Title"] = "Inventario y Compras";
     Layout = "_AdminLayout";
     string categoria = ViewBag.Categoria;
-    List<Clinica> clinicas = ViewBag.Clinicas;
-    List<CompraInventario> compras = ViewBag.Compras;
+    List<Clinica> clinicas = ViewBag.Clinicas ?? Datos.Clinicas;
+    List<CompraInventario> compras = ViewBag.Compras ?? Datos.Compras;
 }
 <section class="section">
     <div class="container">

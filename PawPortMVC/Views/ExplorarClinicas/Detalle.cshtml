@@ -1,9 +1,9 @@
 ﻿@model Clinica
 @{
     ViewData["Title"] = Model.Nombre;
-    List<Veterinario> veterinarios = ViewBag.Veterinarios;
-    List<Reseña> reseñas = ViewBag.Reseñas;
-    List<string> especialidades = ViewBag.Especialidades;
+    List<Veterinario> veterinarios = ViewBag.Veterinarios ?? Datos.Veterinarios;
+    List<Reseña> reseñas = ViewBag.Reseñas ?? Datos.Reseñas;
+    List<string> especialidades = ViewBag.Especialidades ?? Datos.EspecialidadesRed;
 }
 <section class="banner" style="text-align:left">
     <div class="container">

@@ -2,8 +2,8 @@
 @{
     ViewData["Title"] = "Mis mascotas";
     Mascota? seleccionada = ViewBag.MascotaSeleccionada;
-    List<Expediente> expedientes = ViewBag.Expedientes;
-    List<Recordatorio> recordatorios = ViewBag.Recordatorios;
+    List<Expediente> expedientes = ViewBag.Expedientes ?? Datos.Expedientes;
+    List<Recordatorio> recordatorios = ViewBag.Recordatorios ?? Datos.Recordatorios;
 }
 <section class="section">
     <div class="container">

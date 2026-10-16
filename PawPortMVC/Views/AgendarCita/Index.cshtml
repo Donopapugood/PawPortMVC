@@ -1,9 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Agendar cita";
-    List<Mascota> mascotas = ViewBag.Mascotas;
-    List<Clinica> clinicas = ViewBag.Clinicas;
-    List<Veterinario> veterinarios = ViewBag.Veterinarios;
-    List<string> especialidades = ViewBag.Especialidades;
+    List<Mascota> mascotas = ViewBag.Mascotas ?? Datos.Mascotas;
+    List<Clinica> clinicas = ViewBag.Clinicas ?? Datos.Clinicas;
+    List<Veterinario> veterinarios = ViewBag.Veterinarios ?? Datos.Veterinarios;
+    List<string> especialidades = ViewBag.Especialidades ?? Datos.EspecialidadesRed;
 }
 <div class="form-card" style="max-width:740px">
     <h2>Agendar una Cita Veterinaria</h2>
@@ -56,6 +56,7 @@
                 <option value="@v.Nombre">@v.Nombre — @v.Especialidad (@v.Clinica)</option>
             }
         </select>
+
         <div class="paso"><span>3</span> Fecha, Horario y Motivo de Consulta</div>
         <div class="grid" style="grid-template-columns:1fr 1fr">
             <div>

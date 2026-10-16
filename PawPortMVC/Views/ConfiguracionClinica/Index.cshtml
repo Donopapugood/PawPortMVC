@@ -2,9 +2,9 @@
     ViewData["Title"] = "Configuración de Clínicas y Equipo";
     Layout = "_AdminLayout";
     Clinica? actual = ViewBag.ClinicaActual;
-    List<Clinica> clinicas = ViewBag.Clinicas;
-    List<string> especialidades = ViewBag.Especialidades;
-    List<Veterinario> veterinarios = ViewBag.Veterinarios;
+    List<Clinica> clinicas = ViewBag.Clinicas ?? Datos.Clinicas;
+    List<string> especialidades = ViewBag.Especialidades ?? Datos.EspecialidadesRed;
+    List<Veterinario> veterinarios = ViewBag.Veterinarios ?? Datos.Veterinarios;
 }
 <section class="section">
     <div class="container">

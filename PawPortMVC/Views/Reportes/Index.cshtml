@@ -2,7 +2,7 @@
     ViewData["Title"] = "Reportes y Estadísticas";
     Layout = "_AdminLayout";
     string clinicaFiltro = ViewBag.ClinicaFiltro;
-    List<Clinica> clinicas = ViewBag.Clinicas;
+    List<Clinica> clinicas = ViewBag.Clinicas ?? Datos.Clinicas;
 }
 <section class="section">
     <div class="container">

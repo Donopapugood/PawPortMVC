@@ -1,74 +1,211 @@
 ﻿@model List<Cita>
 @{
-    ViewData["Title"] = "Dashboard Clínico";
+
     Layout = "_AdminLayout";
-    List<Reseña> reseñas = ViewBag.Reseñas;
-    List<ProductoInventario> alertasStock = ViewBag.AlertasStock;
+    string rol = ViewBag.RolUsuario ?? Context.Session.GetString("Rol") ?? "AdminCentral";
+    string nombre = ViewBag.NombreUsuario ?? Context.Session.GetString("Nombre") ?? "Usuario";
+    ViewData["Title"] = rol == "Veterinario" ? "Consultorio Médico" : (rol == "AdministradorSucursal" ? "Panel de Sucursal" : "Dirección Central");
+    List<Reseña> reseñas = ViewBag.Reseñas ?? Datos.Reseñas;
+    List<ProductoInventario> alertasStock = ViewBag.AlertasStock ?? new List<ProductoInventario>();
+    List<Clinica> clinicas = ViewBag.Clinicas ?? Datos.Clinicas;
+    List<Expediente> expedientes = ViewBag.Expedientes ?? Datos.Expedientes;
+    List<Factura> facturas = ViewBag.Facturas ?? Datos.Facturas;
 }
 <section class="section">
     <div class="container">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
-            <div>
-                <h2 style="text-align:left;margin:0">Panel de Control Clínico</h2>
-                <p class="muted" style="margin:0">Bienvenido, @ViewBag.NombreUsuario (@ViewBag.RolUsuario). Resumen operativo en tiempo real.</p>
-            </div>
-            <div style="display:flex;gap:.6rem;flex-wrap:wrap">
-                <a asp-controller="Pacientes" asp-action="Index" class="btn-paw">Gestionar Expedientes</a>
-                <a asp-controller="Inventario" asp-action="Index" class="btn-line">Ver Inventario</a>
-            </div>
-        </div>
-
-        <div class="grid" style="margin-top:1.5rem">
-            <div class="card-paw pad stat-card"><b>@ViewBag.TotalCitasHoy</b>Citas programadas</div>
-            <div class="card-paw pad stat-card"><b>@ViewBag.TotalPacientes</b>Pacientes activos</div>
-            <div class="card-paw pad stat-card"><b>@ViewBag.CalificacionPromedio ★</b>Calificación promedio</div>
-            <div class="card-paw pad stat-card"><b>@ViewBag.TotalVeterinarios</b>Veterinarios en red</div>
-        </div>
-
-        <div class="grid" style="grid-template-columns:2fr 1fr;margin-top:2rem;align-items:start">
-            <div>
-                <h3 style="margin-bottom:1rem">Citas del Día</h3>
-                <div class="scroll">
-                    <table class="tabla">
-                        <tr><th>Fecha / Hora</th><th>Paciente</th><th>Propietario</th><th>Clínica</th><th>Motivo</th><th>Estado</th></tr>
-                        @foreach (Cita c in Model)
-                        {
-                            <tr>
-                                <td><b>@c.Hora</b><br /><small class="muted">@c.Fecha</small></td>
-                                <td>@c.Mascota</td>
-                                <td>@c.Propietario</td>
-                                <td>@c.Clinica</td>
-                                <td>@c.Motivo</td>
-                                <td><span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span></td>
-                            </tr>
-                        }
-                    </table>
+        @if (rol == "Veterinario")
+        {
+            <div class="banner" style="border-radius:18px;padding:1.8rem 2rem;text-align:left;margin-bottom:1.8rem;background:linear-gradient(90deg,#0E8F9B,#0F2E4A)">
+                <span class="badge-paw ok">🩺 MODO CLÍNICO — ESPECIALISTA EN TURNO</span>
+                <h2 style="color:#fff;text-align:left;margin:.5rem 0 .2rem">Consultorio Médico Veterinario — Dr(a). @nombre</h2>
+                <p style="margin:0;opacity:.9">Gestiona tu agenda de pacientes del día, registra diagnósticos, receta tratamientos y actualiza el esquema de vacunación.</p>
+                <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap">
+                    <a asp-controller="Pacientes" asp-action="Index" class="btn-paw">+ Registrar Diagnóstico / Consulta</a>
+                    <a asp-controller="GestionCitas" asp-action="Index" class="btn-line" style="background:#fff">Ver Agenda Completa</a>
                 </div>
             </div>
 
-            <div>
-                <h3>Alertas de Inventario</h3>
-                @foreach (ProductoInventario p in alertasStock)
-                {
-                    <div class="card-paw pad" style="margin-bottom:.8rem;border-left:4px solid #EF4444">
-                        <b>@p.Nombre</b>
-                        <p class="muted" style="margin:.2rem 0;font-size:.9rem">@p.Clinica · Stock actual: <b>@p.StockActual uds</b> (Mín: @p.StockMinimo)</p>
-                        <span class="badge-paw @Datos.ClaseEstado(p.EstadoStock)">@p.EstadoStock</span>
-                    </div>
-                }
-
-                <h3 style="margin-top:1.5rem">Últimas Reseñas</h3>
-                @foreach (Reseña r in reseñas)
-                {
-                    <div class="card-paw pad" style="margin-bottom:.8rem">
-                        <div style="display:flex;justify-content:space-between">
-                            <b>@r.Autor</b>
-                            <span style="color:#F59E0B">⭐ @r.Calificacion.0</span>
-                        </div>
-                        <p class="muted" style="margin:.3rem 0 0;font-size:.9rem">"@r.Comentario"</p>
-                    </div>
-                }
+            <div class="grid">
+                <div class="card-paw pad stat-card"><b>@Model.Count(c => c.Estado != "Cancelada")</b>Pacientes citados hoy</div>
+                <div class="card-paw pad stat-card"><b>@Datos.Mascotas.Count(m => m.Estado == "En Tratamiento")</b>En tratamiento activo</div>
+                <div class="card-paw pad stat-card"><b>@expedientes.Count</b>Historiales clínicos</div>
+                <div class="card-paw pad stat-card"><b>@Datos.Mascotas.Count(m => m.Vacunas == "Pendiente")</b>Vacunas pendientes</div>
             </div>
-        </div>
+
+            <div class="grid" style="grid-template-columns:1.4fr 1fr;margin-top:2rem;align-items:start">
+                <div class="card-paw pad">
+                    <h3 style="margin-bottom:.8rem">📋 Mis Pacientes en Agenda para Consulta</h3>
+                    <div class="scroll">
+                        <table class="tabla">
+                            <tr><th>Hora</th><th>Paciente</th><th>Motivo Clínico</th><th>Estado</th><th>Atención</th></tr>
+                            @foreach (Cita c in Model)
+                            {
+                                <tr>
+                                    <td><b>@c.Hora</b><br /><small class="muted">@c.Fecha</small></td>
+                                    <td><b>@c.Mascota</b><br /><small class="muted">@c.Propietario</small></td>
+                                    <td>@c.Motivo<br /><small class="muted">@c.Especialidad</small></td>
+                                    <td><span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span></td>
+                                    <td>
+                                        <a class="btn-mini info" asp-controller="Pacientes" asp-action="Index">Abrir Expediente</a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card-paw pad" style="margin-bottom:1.2rem">
+                        <h3>💊 Últimos Diagnósticos y Tratamientos</h3>
+                        @foreach (Expediente e in expedientes.Take(3))
+                        {
+                            <div class="card-paw pad" style="margin-bottom:.8rem;background:var(--soft)">
+                                <div style="display:flex;justify-content:space-between">
+                                    <b>🐾 @e.Mascota (@e.PesoRegistrado kg)</b>
+                                    <small class="muted">@e.Fecha</small>
+                                </div>
+                                <p style="margin:.3rem 0;font-size:.9rem"><b>Diagnóstico:</b> @e.Diagnostico</p>
+                                <p style="margin:0;font-size:.85rem" class="muted"><b>Receta:</b> @e.MedicamentoRecetado · <b>Vacuna:</b> @e.VacunaAplicada</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        else if (rol == "AdministradorSucursal")
+        {
+            <div class="banner" style="border-radius:18px;padding:1.8rem 2rem;text-align:left;margin-bottom:1.8rem;background:linear-gradient(90deg,#FF7A3D,#E8672A)">
+                <span class="badge-paw info">🏥 ADMINISTRACIÓN OPERATIVA DE SEDE</span>
+                <h2 style="color:#fff;text-align:left;margin:.5rem 0 .2rem">Sede: Veterinaria Escalón Central (San Salvador)</h2>
+                <p style="margin:0;opacity:.9">Responsable de sede: @nombre. Controla las citas locales, el abastecimiento de medicamentos, las compras y la facturación diaria.</p>
+                <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap">
+                    <a asp-controller="Inventario" asp-action="Index" class="btn-line" style="background:#fff">📦 Gestionar Inventario y Compras</a>
+                    <a asp-controller="Facturacion" asp-action="Index" class="btn-line" style="background:#fff">💳 Emitir Factura</a>
+                    <a asp-controller="ConfiguracionClinica" asp-action="Index" class="btn-line" style="background:#fff">👨‍⚕️ Equipo Médico de Sede</a>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card-paw pad stat-card"><b>@ViewBag.TotalCitasHoy</b>Citas en la sucursal</div>
+                <div class="card-paw pad stat-card"><b>@alertasStock.Count</b>Alertas de bajo stock</div>
+                <div class="card-paw pad stat-card"><b>$@facturas.Where(f => f.Estado == "Pagada").Sum(f => f.Monto).ToString("N2")</b>Caja cobrada (USD)</div>
+                <div class="card-paw pad stat-card"><b>@ViewBag.TotalVeterinarios</b>Médicos activos</div>
+            </div>
+
+            <div class="grid" style="grid-template-columns:1.4fr 1fr;margin-top:2rem;align-items:start">
+                <div>
+                    <h3>⚠️ Medicamentos e Insumos por Reabastecer</h3>
+                    @foreach (ProductoInventario p in alertasStock)
+                    {
+                        <div class="card-paw pad" style="margin-bottom:.8rem;border-left:4px solid #EF4444;display:flex;justify-content:space-between;align-items:center">
+                            <div>
+                                <b>@p.Nombre</b>
+                                <p class="muted" style="margin:.2rem 0;font-size:.9rem">Stock actual: <b>@p.StockActual uds</b> (Mínimo requerido: @p.StockMinimo)</p>
+                            </div>
+                            <a asp-controller="Inventario" asp-action="Index" class="btn-mini bad">Comprar</a>
+                        </div>
+                    }
+
+                    <h3 style="margin-top:1.5rem">Citas Programadas en Recepción</h3>
+                    <div class="scroll">
+                        <table class="tabla">
+                            <tr><th>Hora</th><th>Mascota</th><th>Propietario</th><th>Veterinario</th><th>Estado</th></tr>
+                            @foreach (Cita c in Model)
+                            {
+                                <tr>
+                                    <td><b>@c.Hora</b></td>
+                                    <td>@c.Mascota</td>
+                                    <td>@c.Propietario</td>
+                                    <td>@c.Veterinario</td>
+                                    <td><span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>💳 Últimas Facturas Emitidas</h3>
+                    @foreach (Factura f in facturas.Take(3))
+                    {
+                        <div class="card-paw pad" style="margin-bottom:.8rem">
+                            <div style="display:flex;justify-content:space-between">
+                                <b>@f.NumeroFactura — $@f.Monto.ToString("0.00")</b>
+                                <span class="badge-paw @Datos.ClaseEstado(f.Estado)">@f.Estado</span>
+                            </div>
+                            <p class="muted" style="margin:.3rem 0 0;font-size:.9rem">@f.Propietario (@f.Mascota) · @f.Concepto</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="banner" style="border-radius:18px;padding:1.8rem 2rem;text-align:left;margin-bottom:1.8rem;background:linear-gradient(90deg,#0F2E4A,#0E8F9B)">
+                <span class="badge-paw ok">🌎 DIRECCIÓN GENERAL CORPORATIVA — RED INTERNACIONAL</span>
+                <h2 style="color:#fff;text-align:left;margin:.5rem 0 .2rem">Centro de Control Global PawPort — @nombre</h2>
+                <p style="margin:0;opacity:.9">Supervisión ejecutiva de todas las clínicas veterinarias en México, España, Argentina y El Salvador.</p>
+                <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap">
+                    <a asp-controller="ConfiguracionClinica" asp-action="Index" class="btn-paw">+ Registrar Nueva Sucursal Internacional</a>
+                    <a asp-controller="Reportes" asp-action="Index" class="btn-line" style="background:#fff">📊 Ver Estadísticas Globales</a>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card-paw pad stat-card"><b>@clinicas.Count</b>Sucursales internacionales</div>
+                <div class="card-paw pad stat-card"><b>$@(ViewBag.IngresosRed != null ? ((decimal)ViewBag.IngresosRed).ToString("N2") : "97.00") USD</b>Facturación global</div>
+                <div class="card-paw pad stat-card"><b>@ViewBag.TotalPacientes</b>Pacientes en la red</div>
+                <div class="card-paw pad stat-card"><b>@ViewBag.CalificacionPromedio ★</b>Satisfacción global</div>
+            </div>
+
+            <h3 style="margin-top:2rem">🌎 Estado Operativo de Sucursales por País</h3>
+            <div class="scroll" style="margin-top:.8rem">
+                <table class="tabla">
+                    <tr><th>Sucursal</th><th>País / Ciudad</th><th>Especialidad Principal</th><th>Teléfono / Correo</th><th>Calificación</th><th>Gestión Central</th></tr>
+                    @foreach (Clinica cl in clinicas)
+                    {
+                        <tr>
+                            <td><b>@cl.Nombre</b></td>
+                            <td>📍 @cl.Ciudad, <b>@cl.Pais</b></td>
+                            <td><span class="badge-paw info">@cl.Especialidad</span></td>
+                            <td>@cl.Telefono<br /><small class="muted">@cl.Correo</small></td>
+                            <td>⭐ <b>@cl.Calificacion</b> (@cl.TotalReseñas reseñas)</td>
+                            <td>
+                                <a class="btn-mini info" asp-controller="ConfiguracionClinica" asp-action="Index" asp-route-idClinica="@cl.Id">Configurar Sede</a>
+                                <a class="btn-mini ok" asp-controller="Reportes" asp-action="Index" asp-route-clinica="@cl.Nombre">Ver Métricas</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+            <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:2rem;align-items:start">
+                <div class="card-paw pad">
+                    <h3>Alertas de Stock en Toda la Red</h3>
+                    @foreach (ProductoInventario p in alertasStock)
+                    {
+                        <div class="card-paw pad" style="margin-bottom:.8rem;border-left:4px solid #EF4444">
+                            <b>@p.Nombre</b>
+                            <p class="muted" style="margin:.2rem 0;font-size:.9rem">🏥 @p.Clinica · Stock: <b>@p.StockActual uds</b></p>
+                            <span class="badge-paw @Datos.ClaseEstado(p.EstadoStock)">@p.EstadoStock</span>
+                        </div>
+                    }
+                </div>
+
+                <div class="card-paw pad">
+                    <h3>Últimas Reseñas Internacionales</h3>
+                    @foreach (Reseña r in reseñas)
+                    {
+                        <div class="card-paw pad" style="margin-bottom:.8rem">
+                            <div style="display:flex;justify-content:space-between">
+                                <b>@r.Autor (@r.Pais)</b>
+                                <span style="color:#F59E0B">⭐ @r.Calificacion.0</span>
+                            </div>
+                            <p class="muted" style="margin:.3rem 0 0;font-size:.9rem">"@r.Comentario" — <b>@r.Clinica</b></p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
     </div>
 </section>

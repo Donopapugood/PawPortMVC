@@ -6,7 +6,7 @@ using PawPortMVC.Models;
 
 namespace PawPortMVC.Controllers
 {
-    public class ReseñasController : Controller
+    public class ResenasController : Controller
     {
         public IActionResult Index(string pais)
         {

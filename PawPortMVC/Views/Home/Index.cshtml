@@ -3,8 +3,8 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Inicio";
-    List<Clinica> clinicas = ViewBag.Clinicas;
-    List<Reseña> reseñas = ViewBag.Reseñas;
+    List<Clinica> clinicas = ViewBag.Clinicas ?? Datos.Clinicas;
+    List<Reseña> reseñas = ViewBag.Reseñas ?? Datos.Reseñas;
 }
 <section class="hero">
     <div class="container hero-grid">

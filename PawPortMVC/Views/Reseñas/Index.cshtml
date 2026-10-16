@@ -1,7 +1,7 @@
 ﻿@model List<Reseña>
 @{
     ViewData["Title"] = "Reseñas de Usuarios";
-    List<Clinica> clinicas = ViewBag.Clinicas;
+    List<Clinica> clinicas = ViewBag.Clinicas ?? Datos.Clinicas;
 }
 <section class="section">
     <div class="container">
@@ -10,7 +10,7 @@
                 <h2 style="text-align:left;margin:0">Reseñas y Calificaciones de Usuarios</h2>
                 <p class="muted" style="margin:0">Opiniones verificadas de propietarios de mascotas en toda nuestra red internacional.</p>
             </div>
-            <a href="#formReseña" class="btn-paw">Escribir una Reseña</a>
+            <a href="#formResena" class="btn-paw">Escribir una Reseña</a>
         </div>
 
         <div class="card-paw pad" style="margin:1.5rem 0;display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center">
@@ -28,10 +28,10 @@
         </div>
 
         <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.2rem">
-            <a class="@((string)ViewBag.Pais == "Todos" ? "btn-paw" : "btn-line")" asp-controller="Reseñas" asp-action="Index" asp-route-pais="Todos">Todas las internacionales</a>
-            <a class="@((string)ViewBag.Pais == "El Salvador" ? "btn-paw" : "btn-line")" asp-controller="Reseñas" asp-action="Index" asp-route-pais="El Salvador">En tu país (El Salvador)</a>
-            <a class="@((string)ViewBag.Pais == "México" ? "btn-paw" : "btn-line")" asp-controller="Reseñas" asp-action="Index" asp-route-pais="México">México</a>
-            <a class="@((string)ViewBag.Pais == "España" ? "btn-paw" : "btn-line")" asp-controller="Reseñas" asp-action="Index" asp-route-pais="España">España</a>
+            <a class="@((string)ViewBag.Pais == "Todos" ? "btn-paw" : "btn-line")" asp-controller="Resenas" asp-action="Index" asp-route-pais="Todos">Todas las internacionales</a>
+            <a class="@((string)ViewBag.Pais == "El Salvador" ? "btn-paw" : "btn-line")" asp-controller="Resenas" asp-action="Index" asp-route-pais="El Salvador">En tu país (El Salvador)</a>
+            <a class="@((string)ViewBag.Pais == "México" ? "btn-paw" : "btn-line")" asp-controller="Resenas" asp-action="Index" asp-route-pais="México">México</a>
+            <a class="@((string)ViewBag.Pais == "España" ? "btn-paw" : "btn-line")" asp-controller="Resenas" asp-action="Index" asp-route-pais="España">España</a>
         </div>
 
         <div class="grid">
@@ -48,7 +48,7 @@
                     <p style="margin:.8rem 0">"@r.Comentario"</p>
                     <div style="display:flex;justify-content:space-between;align-items:center">
                         <span class="badge-paw info">📍 @r.Clinica</span>
-                        <form asp-controller="Reseñas" asp-action="Eliminar" method="post">
+                        <form asp-controller="Resenas" asp-action="Eliminar" method="post">
                             <input type="hidden" name="id" value="@r.Id" />
                             <button type="submit" class="btn-mini bad">Eliminar</button>
                         </form>
@@ -57,9 +57,9 @@
             }
         </div>
 
-        <div class="form-card" id="formReseña">
+        <div class="form-card" id="formResena">
             <h3>Publicar una Reseña</h3>
-            <form asp-controller="Reseñas" asp-action="Publicar" method="post">
+            <form asp-controller="Resenas" asp-action="Publicar" method="post">
                 <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
                     <div>
                         <label>Tu nombre *</label>

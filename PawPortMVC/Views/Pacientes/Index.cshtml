@@ -3,10 +3,10 @@
     ViewData["Title"] = "Gestión de Pacientes y Expedientes";
     Layout = "_AdminLayout";
     Mascota? seleccionada = ViewBag.MascotaSeleccionada;
-    List<Expediente> expedientes = ViewBag.ExpedientesMascota;
-    List<Clinica> clinicas = ViewBag.Clinicas;
-    List<Veterinario> veterinarios = ViewBag.Veterinarios;
-    List<ProductoInventario> medicamentos = ViewBag.Medicamentos;
+    List<Expediente> expedientes = ViewBag.ExpedientesMascota ?? Datos.Expedientes;
+    List<Clinica> clinicas = ViewBag.Clinicas ?? Datos.Clinicas;
+    List<Veterinario> veterinarios = ViewBag.Veterinarios ?? Datos.Veterinarios;
+    List<ProductoInventario> medicamentos = ViewBag.Medicamentos ?? Datos.Inventario;
 }
 <section class="section">
     <div class="container">

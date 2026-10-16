@@ -1,9 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Panel del Propietario";
-    List<Clinica> clinicas = ViewBag.Clinicas;
-    List<Mascota> mascotas = ViewBag.Mascotas;
-    List<Cita> citas = ViewBag.Citas;
-    List<Recordatorio> recordatorios = ViewBag.Recordatorios;
+    List<Clinica> clinicas = ViewBag.Clinicas ?? Datos.Clinicas;
+    List<Mascota> mascotas = ViewBag.Mascotas ?? Datos.Mascotas;
+    List<Cita> citas = ViewBag.Citas ?? Datos.Citas;
+    List<Recordatorio> recordatorios = ViewBag.Recordatorios ?? Datos.Recordatorios;
 }
 <section class="section">
     <div class="container">
