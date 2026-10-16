@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using PawPortMVC.DAL;
 using PawPortMVC.Models;
 
@@ -22,85 +24,65 @@ namespace PawPortMVC.Controllers
         [HttpPost]
         public IActionResult Index(string correo, string clave)
         {
-            if (string.IsNullOrWhiteSpace(correo) ||
-                string.IsNullOrWhiteSpace(clave))
+            if (string.IsNullOrWhiteSpace(correo) || string.IsNullOrWhiteSpace(clave))
             {
-                ViewBag.Error =
-                    "Ingresa tu correo y contraseña.";
-
+                ViewBag.Error = "Ingresa tu correo y contraseña.";
                 return View();
             }
 
-            Usuario? usuario =
-                _usuarioDatos.ValidarLogin(correo, clave);
+            Usuario? usuario = null;
+            try
+            {
+                usuario = _usuarioDatos.ValidarLogin(correo, clave);
+            }
+            catch (Exception)
+            {
+                usuario = null;
+            }
 
             if (usuario == null)
             {
-                ViewBag.Error =
-                    "Correo o contraseña incorrectos.";
+                usuario = Datos.ValidarRespaldo(correo, clave);
+            }
 
+            if (usuario == null)
+            {
+                ViewBag.Error = "Correo o contraseña incorrectos.";
                 return View();
             }
 
-            HttpContext.Session.SetInt32(
-                "IdUsuario",
-                usuario.IdUsuario
-            );
-
-            HttpContext.Session.SetString(
-                "Nombre",
-                usuario.Nombre
-            );
-
-            HttpContext.Session.SetString(
-                "Apellido",
-                usuario.Apellido
-            );
-
-            HttpContext.Session.SetString(
-                "Rol",
-                usuario.Rol
-            );
+            HttpContext.Session.SetInt32("IdUsuario", usuario.IdUsuario);
+            HttpContext.Session.SetString("Nombre", usuario.Nombre);
+            HttpContext.Session.SetString("Apellido", usuario.Apellido);
+            HttpContext.Session.SetString("Correo", usuario.CorreoElectronico);
+            HttpContext.Session.SetString("Rol", usuario.Rol);
 
             if (usuario.IdSucursal.HasValue)
             {
-                HttpContext.Session.SetInt32(
-                    "IdSucursal",
-                    usuario.IdSucursal.Value
-                );
+                HttpContext.Session.SetInt32("IdSucursal", usuario.IdSucursal.Value);
             }
 
             if (usuario.Rol == "Propietario")
             {
-                return RedirectToAction(
-                    "Index",
-                    "MisMascotas"
-                );
+                return RedirectToAction("Index", "DashboardUsuario");
             }
 
             if (usuario.Rol == "Veterinario" ||
                 usuario.Rol == "AdministradorSucursal" ||
                 usuario.Rol == "AdminCentral")
             {
-                return RedirectToAction(
-                    "Index",
-                    "Dashboard"
-                );
+                return RedirectToAction("Index", "Dashboard");
             }
 
             HttpContext.Session.Clear();
-
-            ViewBag.Error =
-                "El usuario no tiene un rol válido.";
-
+            ViewBag.Error = "El usuario no tiene un rol válido.";
             return View();
         }
 
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Login");
         }
     }
 }

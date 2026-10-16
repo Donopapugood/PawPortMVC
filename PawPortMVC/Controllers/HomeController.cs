@@ -8,6 +8,7 @@ namespace PawPortMVC.Controllers
         public IActionResult Index()
         {
             ViewBag.Clinicas = Datos.Clinicas;
+            ViewBag.Resenas = Datos.Resenas;
             return View();
         }
 
@@ -15,16 +16,17 @@ namespace PawPortMVC.Controllers
         public IActionResult Contacto(string nombre, string correo, string mensaje)
         {
             ViewBag.Clinicas = Datos.Clinicas;
+            ViewBag.Resenas = Datos.Resenas;
 
             if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(correo) || string.IsNullOrWhiteSpace(mensaje))
             {
                 ViewBag.MensajeClase = "msg-error";
-                ViewBag.Mensaje = "Completa todos los campos.";
+                ViewBag.Mensaje = "Completa todos los campos del formulario de contacto.";
                 return View("Index");
             }
 
             ViewBag.MensajeClase = "msg-ok";
-            ViewBag.Mensaje = "¡Gracias " + nombre + "! Te responderemos pronto.";
+            ViewBag.Mensaje = "¡Gracias " + nombre + "! Hemos recibido tu consulta y te responderemos pronto.";
             return View("Index");
         }
     }
