@@ -1,57 +1,26 @@
 ﻿@{
-    ViewData["Title"] = "Crear cuenta";
+    ViewData["Title"] = "Portafolio";
 }
-<div class="form-card">
-    <h2>Crea tu cuenta en PawPort</h2>
-    <p class="muted">Un pasaporte unificado de salud para tu mascota en toda nuestra red internacional 🐾</p>
-    <form asp-controller="Registro" asp-action="Index" method="post">
-        <div class="grid" style="grid-template-columns:1fr 1fr">
-            <div>
-                <label>Nombre *</label>
-                <input type="text" name="nombre" class="form-control" required />
-            </div>
-            <div>
-                <label>Apellido *</label>
-                <input type="text" name="apellido" class="form-control" required />
-            </div>
+<section class="banner">
+    <div class="container">
+        <h1>Nuestro portafolio de diseño</h1>
+        <p>Prototipo interactivo y sistema de diseño de PawPort creado en Figma por el equipo A2D2.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container" style="text-align:center">
+        <h2>Prototipo oficial en Figma</h2>
+        <p class="sub">Explora todas las pantallas diseñadas: landing, login, registros, dashboards, expedientes, inventario, reportes y clínicas.</p>
+        <a href="https://www.figma.com/design/AZY7ISSEsifnJim3oF81tS/A2D2--Copy-?t=QybP9cV9oR6l8JUq-1" target="_blank" class="btn-paw btn-big">Ver prototipo en Figma</a>
+    </div>
+    <div class="container galeria" style="margin-top:2.5rem">
+        <div class="grid">
+            <div><img src="/recursos/Img/pawport-landing-page.png" alt="Landing" /><p class="muted">Landing page</p></div>
+            <div><img src="/recursos/Img/dashboard-usuario.png" alt="Dashboard Usuario" /><p class="muted">Panel del Propietario</p></div>
+            <div><img src="/recursos/Img/pacientes-expedientes.png" alt="Expedientes" /><p class="muted">Gestión de Pacientes y Expedientes</p></div>
+            <div><img src="/recursos/Img/inventario-clinica.png" alt="Inventario" /><p class="muted">Inventario de Medicamentos</p></div>
+            <div><img src="/recursos/Img/reportes-clinica.png" alt="Reportes" /><p class="muted">Reportes y Estadísticas</p></div>
+            <div><img src="/recursos/Img/configuracion-clinica.png" alt="Configuración" /><p class="muted">Configuración de Sucursal y Equipo</p></div>
         </div>
-
-        <label>Correo electrónico *</label>
-        <input type="email" name="correo" class="form-control" required />
-
-        <div class="grid" style="grid-template-columns:1fr 1fr">
-            <div>
-                <label>Teléfono *</label>
-                <input type="text" name="telefono" class="form-control" placeholder="+503 7000 0000" required />
-            </div>
-            <div>
-                <label>Tipo de cuenta (Rol)</label>
-                <select name="rol" class="form-control">
-                    <option value="Propietario">Propietario de Mascota</option>
-                    <option value="Veterinario">Veterinario</option>
-                    <option value="AdministradorSucursal">Administrador de Sucursal</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="grid" style="grid-template-columns:1fr 1fr">
-            <div>
-                <label>Contraseña *</label>
-                <input type="password" name="clave" class="form-control" minlength="4" required />
-            </div>
-            <div>
-                <label>Confirmar contraseña *</label>
-                <input type="password" name="clave2" class="form-control" minlength="4" required />
-            </div>
-        </div>
-        <br />
-        <label style="display:inline"><input type="checkbox" name="terminos" value="true" required /> Acepto los términos y condiciones de la red PawPort</label>
-        <br /><br />
-        <button type="submit" class="btn-paw" style="width:100%">Crear cuenta</button>
-    </form>
-    @if (ViewBag.Mensaje != null)
-    {
-        <p class="@ViewBag.MensajeClase" style="margin-top:1rem">@ViewBag.Mensaje</p>
-    }
-    <p class="muted" style="margin-top:1rem">¿Ya tienes cuenta? <a asp-controller="Login" asp-action="Index">Inicia sesión</a></p>
-</div>
+    </div>
+</section>

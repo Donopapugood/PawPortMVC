@@ -9,7 +9,7 @@
     <div class="container">
         <span class="badge-paw ok">SEDE VERIFICADA PAWPORT</span>
         <h1 style="margin-top:.5rem">@Model.Nombre</h1>
-        <p style="margin:0">📍 @Model.Ciudad, @Model.Pais · ⭐ @Model.Calificacion (@Model.TotalReseñas reseñas) · 📞 @Model.Telefono</p>
+        <p style="margin:0">@Model.Ciudad, @Model.Pais · ⭐ @Model.Calificacion (@Model.TotalReseñas reseñas) · Tel: @Model.Telefono</p>
     </div>
 </section>
 
@@ -29,7 +29,7 @@
                     <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem">
                         @foreach (string esp in especialidades)
                         {
-                            <span class="badge-paw @(esp == Model.Especialidad ? "ok" : "info")">✓ @esp</span>
+                            <span class="badge-paw @(esp == Model.Especialidad ? "ok" : "info")">@esp</span>
                         }
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                                 <div class="card-paw pad">
                                     <h4>@v.Nombre</h4>
                                     <span class="badge-paw info">@v.Especialidad</span>
-                                    <p class="muted" style="margin-top:.4rem;font-size:.9rem">🕒 @v.Horario<br />✉️ @v.Correo</p>
+                                    <p class="muted" style="margin-top:.4rem;font-size:.9rem">Horario: @v.Horario<br />Correo: @v.Correo</p>
                                 </div>
                             }
                         </div>
@@ -71,9 +71,9 @@
                 <p class="muted">Solicita una cita en esta sucursal de manera directa y digital.</p>
                 <a class="btn-paw" style="width:100%;text-align:center" asp-controller="AgendarCita" asp-action="Index" asp-route-clinica="@Model.Nombre">Agendar Cita en Línea</a>
                 <hr />
-                <p style="margin:.3rem 0">📞 <b>@Model.Telefono</b></p>
-                <p style="margin:.3rem 0">✉️ <b>@Model.Correo</b></p>
-                <a class="btn-line" style="width:100%;text-align:center;margin-top:.8rem" asp-controller="ExplorarClinicas" asp-action="Index">← Volver a clínicas</a>
+                <p style="margin:.3rem 0">Tel: <b>@Model.Telefono</b></p>
+                <p style="margin:.3rem 0">Correo: <b>@Model.Correo</b></p>
+                <a class="btn-line" style="width:100%;text-align:center;margin-top:.8rem" asp-controller="ExplorarClinicas" asp-action="Index">Volver a clínicas</a>
             </div>
         </div>
 

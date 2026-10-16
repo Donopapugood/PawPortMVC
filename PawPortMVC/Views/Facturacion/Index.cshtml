@@ -37,7 +37,7 @@
                         <tr>
                             <td><b>@f.NumeroFactura</b><br /><small class="muted">@f.MetodoPago</small></td>
                             <td>@f.Fecha</td>
-                            <td>@f.Propietario<br /><small class="muted">🐾 @f.Mascota</small></td>
+                            <td>@f.Propietario<br /><small class="muted">Mascota: @f.Mascota</small></td>
                             <td>@f.Clinica</td>
                             <td>@f.Concepto</td>
                             <td><b>$@f.Monto.ToString("0.00")</b></td>
@@ -55,7 +55,7 @@
                                 </form>
                                 <form asp-controller="Facturacion" asp-action="Eliminar" method="post" style="display:inline">
                                     <input type="hidden" name="id" value="@f.Id" />
-                                    <button type="submit" class="btn-mini bad">🗑️</button>
+                                    <button type="submit" class="btn-mini bad">Eliminar</button>
                                 </form>
                             </td>
                         </tr>

@@ -1,0 +1,271 @@
+﻿﻿:root {
+    --halo-teal: rgba(0, 186, 190, .38);
+    --halo-blue: rgba(74, 122, 227, .25);
+    --halo-coral: rgba(255, 124, 99, .28);
+    --nav-active: #075e70;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--alto-cabecera, 7rem);
+}
+
+body,
+body.a2d2 {
+    background: radial-gradient( ellipse at 0% 5%, rgba(0, 183, 187, .10), transparent 45% ), radial-gradient( ellipse at 100% 35%, rgba(109, 136, 226, .08), transparent 48% ), #f3f9fc;
+}
+
+/* Cristal en las cabeceras. */
+.nav-paw,
+.a2d2-header {
+    background: rgba(240, 249, 252, .96);
+    border-bottom: 1px solid rgba(35, 141, 159, .15);
+    box-shadow: 0 8px 28px rgba(24, 72, 94, .06);
+}
+
+@supports (
+    (backdrop-filter: blur(20px)) or
+    (-webkit-backdrop-filter: blur(20px))
+) {
+    .nav-paw,
+    .a2d2-header {
+        background: rgba(236, 248, 252, .76);
+        -webkit-backdrop-filter: blur(20px) saturate(150%);
+        backdrop-filter: blur(20px) saturate(150%);
+    }
+
+    .login-form,
+    .form-card,
+    .a2d2-card {
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+    }
+}
+
+/* Fondo que acompaña el halo de las imágenes. */
+.hero,
+.a2d2-hero {
+    background: radial-gradient( ellipse at 84% 40%, rgba(0, 183, 187, .19), transparent 48% ), radial-gradient( ellipse at 95% 75%, rgba(255, 138, 110, .13), transparent 42% ), linear-gradient(125deg, #edf8fb, #f4f8fc 58%, #eaf4f8);
+}
+
+.a2d2 .a2d2-soft {
+    background: radial-gradient( ellipse at 8% 40%, rgba(0, 183, 187, .09), transparent 55% ), linear-gradient(130deg, #edf7fa, #edf1fa);
+}
+
+/*
+   Halo exterior en tres tonos.
+   Sin borde blanco, anillo blanco ni fondo añadido a la imagen.
+*/
+body main img {
+    display: block;
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: -12px 0 30px -8px var(--halo-teal), 12px 4px 32px -10px var(--halo-coral), 0 18px 38px -14px var(--halo-blue);
+}
+
+/* Fotografías independientes: contorno de luz más visible. */
+body main .hero-img,
+body main .login-img,
+body main .galeria img {
+    border: 0;
+    border-radius: 26px;
+    box-shadow: -16px -5px 36px -9px rgba(0, 183, 187, .44), 16px 7px 38px -11px rgba(255, 124, 99, .34), 0 22px 48px -18px rgba(58, 112, 183, .32);
+}
+
+/* Eliminar por completo los marcos interiores anteriores. */
+.a2d2-identity,
+.a2d2-preview,
+.card-paw:has(> .card-img) {
+    padding: 0;
+    border: 0;
+    overflow: visible;
+    isolation: isolate;
+}
+
+/* Degradado difuso alrededor de toda la tarjeta. */
+.a2d2-identity,
+.a2d2-preview,
+.card-paw:has(> .card-img) {
+    position: relative;
+}
+
+    .a2d2-identity::before,
+    .a2d2-preview::before,
+    .card-paw:has(> .card-img)::before {
+        content: "";
+        position: absolute;
+        inset: 4px;
+        z-index: -1;
+        pointer-events: none;
+        border-radius: inherit;
+        background: linear-gradient( 125deg, rgba(0, 190, 194, .65), rgba(86, 141, 227, .32) 52%, rgba(255, 132, 104, .55) );
+        filter: blur(22px);
+        opacity: .65;
+        transform: translateY(8px) scale(1.02);
+    }
+
+/* Fotografías unidas a la tarjeta, sin separación blanca. */
+body main .card-paw > .card-img,
+body.a2d2 main .a2d2-preview img,
+body.a2d2 main .a2d2-identity img {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 22px 22px 0 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Las capturas mantienen su proporción: sin franjas de relleno. */
+body.a2d2 main .a2d2-preview img,
+body.a2d2 main .a2d2-identity img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+}
+
+.card-paw:has(> .card-img) .card-body-paw {
+    padding: 24px;
+}
+
+/* Menú: texto limpio y una línea luminosa como indicador. */
+.menu > a,
+.a2d2-links > a {
+    position: relative;
+    padding: 10px 12px;
+    min-height: 44px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: color .2s ease, background-color .2s ease, transform .2s ease;
+}
+
+    /* Solo enlaces de navegación, sin alterar los botones. */
+    .menu > a:not(.btn-paw):not(.btn-line),
+    .a2d2-links > a:not(.a2d2-button) {
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+    }
+
+        .menu > a:not(.btn-paw):not(.btn-line)::after,
+        .a2d2-links > a:not(.a2d2-button)::after {
+            content: "";
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 2px;
+            height: 3px;
+            border-radius: 99px;
+            pointer-events: none;
+            background: linear-gradient( 90deg, #00aeb8, #428fd0 58%, #f18b78 );
+            box-shadow: 0 3px 10px rgba(0, 163, 184, .30);
+            opacity: 0;
+            transform: scaleX(.3);
+            transform-origin: center;
+            transition: transform .25s ease, opacity .25s ease;
+        }
+
+        .menu > a:not(.btn-paw):not(.btn-line):hover,
+        .a2d2-links > a:not(.a2d2-button):hover {
+            color: #087b8b;
+            background: rgba(12, 151, 170, .045);
+            text-decoration: none;
+        }
+
+            .menu > a:not(.btn-paw):not(.btn-line):hover::after,
+            .a2d2-links > a:not(.a2d2-button):hover::after {
+                opacity: .45;
+                transform: scaleX(.65);
+            }
+
+    /* Página o sección actual: sin recuadro ni sombra interior. */
+    .menu > a[aria-current="page"]:not(.btn-paw):not(.btn-line),
+    .a2d2-links > a[aria-current="location"]:not(.a2d2-button) {
+        color: var(--nav-active);
+        font-weight: 700;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        text-decoration: none;
+    }
+
+        .menu > a[aria-current="page"]:not(.btn-paw):not(.btn-line)::after,
+        .a2d2-links > a[aria-current="location"]:not(.a2d2-button)::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+/* Indicador para páginas cuyo acceso es un botón. */
+.menu > .btn-paw[aria-current="page"],
+.menu > .btn-line[aria-current="page"] {
+    outline: 2px solid #087d90;
+    outline-offset: 4px;
+}
+
+.menu > .btn-paw,
+.menu > .btn-paw:hover {
+    color: #fff;
+}
+
+/* La marca identifica A2D2 sin un subrayado adicional. */
+.a2d2 .a2d2-brand[aria-current="page"] {
+    color: #12394d;
+    text-decoration: none;
+}
+
+.a2d2-brand[aria-current="page"] span {
+    color: #008b9a;
+}
+
+.menu a:focus-visible,
+.a2d2-links a:focus-visible {
+    outline: 3px solid #168e9e;
+    outline-offset: 5px;
+}
+
+/* El halo disminuye en móviles para no saturar los bordes. */
+@media (max-width: 768px) {
+    .menu > a,
+    .a2d2-links > a {
+        padding: 9px 10px;
+    }
+
+    .a2d2-identity::before,
+    .a2d2-preview::before,
+    .card-paw:has(> .card-img)::before {
+        filter: blur(14px);
+        opacity: .48;
+        transform: translateY(5px);
+    }
+
+    body main .hero-img,
+    body main .login-img,
+    body main .galeria img {
+        box-shadow: -8px 0 22px -8px var(--halo-teal), 8px 5px 24px -9px var(--halo-coral), 0 14px 28px -12px var(--halo-blue);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .menu > a,
+    .a2d2-links > a,
+    .menu > a::after,
+    .a2d2-links > a::after,
+    .btn-paw,
+    .btn-line,
+    .a2d2 .a2d2-button {
+        transition: none;
+    }
+
+        .btn-paw:hover,
+        .a2d2 .a2d2-button:hover {
+            transform: none;
+        }
+}

@@ -1,43 +1,153 @@
 ﻿@{
-    ViewData["Title"] = "Iniciar sesión";
+    ViewData["Title"] = "Empresa y portafolio";
+    Layout = "_A2D2Layout";
 }
-<div class="login-grid">
-
-    <img src="/recursos/Img/Inicio de sesión.png" class="login-img" alt="Mascota PawPort" />
-    <div class="login-form">
-
-        <div class="form-card" style="width:100%">
-            <h2>¡Hola de nuevo! 👋</h2>
-            <p class="muted">Ingresa a tu cuenta de la red internacional PawPort.</p>
-
-            <form asp-controller="Login" asp-action="Index" method="post">
-                <label>Correo electrónico</label>
-                <input type="email" name="correo" class="form-control" placeholder="ejemplo@pawport.com" required />
-
-                <label>Contraseña</label>
-                <input type="password" name="clave" class="form-control" placeholder="••••••••" required />
-                <br />
-                <button type="submit" class="btn-paw" style="width:100%">Iniciar sesión</button>
-            </form>
-
-            @if (ViewBag.Error != null)
-            {
-                <p class="msg-error" style="margin-top:1rem">@ViewBag.Error</p>
-            }
-
-            <div class="card-paw pad" style="margin-top:1.2rem;background:var(--soft);font-size:.9rem">
-                <strong>Cuentas de demostración por rol (Clave: 1234):</strong>
-                <ul style="margin:.4rem 0 0;padding-left:1.2rem">
-                    <li><b>Propietario:</b> propietario@pawport.com</li>
-                    <li><b>Veterinario:</b> veterinario@pawport.com</li>
-                    <li><b>Admin Sucursal:</b> sucursal@pawport.com</li>
-                    <li><b>Admin Central:</b> admin@pawport.com</li>
-                </ul>
+<section class="a2d2-hero" aria-labelledby="titulo">
+    <div class="a2d2-container a2d2-hero-grid">
+        <div>
+            <p class="a2d2-eyebrow">Tecnología para la salud veterinaria</p>
+            <h1 id="titulo">Una red conectada.<br /><span>Un cuidado compartido.</span></h1>
+            <p class="a2d2-lead">Somos A2D2, la empresa desarrolladora de PawPort. Nuestra propuesta conecta clínicas, especialistas y propietarios mediante una plataforma web centralizada conectada a SQL Server (PawPortDB).</p>
+            <div class="a2d2-actions">
+                <a class="a2d2-button" asp-controller="Home" asp-action="Index">Conocer PawPort</a>
+                <a class="a2d2-button a2d2-outline" href="#empresa">Nuestra empresa</a>
+                <a class="a2d2-button a2d2-outline" href="https://www.figma.com/design/AZY7ISSEsifnJim3oF81tS/A2D2--Copy-?t=QybP9cV9oR6l8JUq-1" target="_blank">Prototipo en Figma</a>
             </div>
+            <p class="a2d2-caption">PawPort · El pasaporte médico unificado para mascotas</p>
+        </div>
+        <figure class="a2d2-identity">
+            <img src="~/recursos/Img/a2d2-engine.jpg" alt="Identidad de A2D2 Engine con engranaje y rayo en tonos violeta y magenta" width="1408" height="768" />
+        </figure>
+    </div>
+</section>
 
-            <p class="muted" style="margin-top:1rem">
-                ¿No tienes cuenta? <a asp-controller="Registro" asp-action="Index">Regístrate aquí</a>
-            </p>
+<section id="empresa" class="a2d2-section" aria-labelledby="empresa-titulo">
+    <div class="a2d2-container">
+        <p class="a2d2-eyebrow">Nuestra empresa</p>
+        <h2 id="empresa-titulo">La información al servicio del bienestar animal</h2>
+        <p class="a2d2-intro">A2D2 propone una solución tecnológica para la fragmentación de los historiales médicos y la gestión aislada de las clínicas. PawPort se plantea bajo un modelo de asociatividad cooperativa, donde las sucursales comparten información e infraestructura.</p>
+        <div class="a2d2-grid a2d2-two">
+            <article class="a2d2-card">
+                <p class="a2d2-number">01</p>
+                <h3>Misión</h3>
+                <p>Proveer una plataforma tecnológica que centralice y optimice la gestión médica y administrativa de las clínicas veterinarias asociadas, garantizando el bienestar animal y la tranquilidad de sus propietarios mediante un acceso eficiente a la información.</p>
+            </article>
+            <article class="a2d2-card">
+                <p class="a2d2-number">02</p>
+                <h3>Visión</h3>
+                <p>Ser la red tecnológica líder a nivel internacional en la estandarización y modernización de servicios de salud veterinaria, conectando sucursales, especialistas y dueños de mascotas en un ecosistema digital único.</p>
+            </article>
         </div>
     </div>
-</div>
+</section>
+
+<section id="proyecto" class="a2d2-section a2d2-soft" aria-labelledby="proyecto-titulo">
+    <div class="a2d2-container">
+        <p class="a2d2-eyebrow">Nuestro proyecto</p>
+        <h2 id="proyecto-titulo">PawPort</h2>
+        <p class="a2d2-intro">Uniendo continentes para cuidar de ellos. La plataforma reúne atención médica veterinaria, autogestión del propietario y administración integral de la red sobre la base de datos relacional PawPortDB.</p>
+        <div class="a2d2-grid a2d2-three">
+            <article class="a2d2-card">
+                <p class="a2d2-number">01 / Atención</p>
+                <h3>Gestión médica veterinaria</h3>
+                <p>Incluye expedientes clínicos unificados, registro de mascotas, diagnósticos, control de peso, vacunas aplicadas y tratamientos sincronizados entre sucursales.</p>
+                <a asp-controller="MisMascotas" asp-action="Index">Ver Mis Mascotas →</a>
+            </article>
+            <article class="a2d2-card">
+                <p class="a2d2-number">02 / Autogestión</p>
+                <h3>Portal de propietarios</h3>
+                <p>Permite explorar clínicas por ciudad o especialidad, solicitar citas en línea, consultar el pasaporte clínico, recibir recordatorios y publicar reseñas.</p>
+                <a asp-controller="AgendarCita" asp-action="Index">Solicitar una cita →</a>
+            </article>
+            <article class="a2d2-card">
+                <p class="a2d2-number">03 / Administración</p>
+                <h3>Gestión de la red</h3>
+                <p>Incorpora paneles diferenciados por rol (Veterinario, Administrador de Sucursal y Admin Central), inventarios por sede, compras, facturación y reportes CSV.</p>
+                <a asp-controller="Login" asp-action="Index">Acceder a la plataforma →</a>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="portafolio" class="a2d2-section" aria-labelledby="portafolio-titulo">
+    <div class="a2d2-container">
+        <p class="a2d2-eyebrow">Portafolio visual</p>
+        <h2 id="portafolio-titulo">Así está diseñado e implementado PawPort</h2>
+        <p class="a2d2-intro">Pantallas del prototipo oficial en Figma conectadas con los módulos funcionales desarrollados en ASP.NET Core MVC.</p>
+        <div class="a2d2-grid a2d2-three">
+            <figure class="a2d2-preview">
+                <a asp-controller="Home" asp-action="Index">
+                    <img src="~/recursos/Img/pawport-landing-page.png" alt="Prototipo de la página de inicio de PawPort" loading="lazy" />
+                </a>
+                <figcaption>
+                    <h3>Inicio de la plataforma</h3>
+                    <p>Presentación de la propuesta, servicios y acceso a la red internacional.</p>
+                </figcaption>
+            </figure>
+
+            <figure class="a2d2-preview">
+                <a asp-controller="DashboardUsuario" asp-action="Index">
+                    <img src="~/recursos/Img/dashboard-usuario.png" alt="Prototipo del panel del propietario de mascotas" loading="lazy" />
+                </a>
+                <figcaption>
+                    <h3>Panel del propietario</h3>
+                    <p>Organización de mascotas, próximas citas y recordatorios activos de salud.</p>
+                </figcaption>
+            </figure>
+
+            <figure class="a2d2-preview">
+                <a asp-controller="GestionCitas" asp-action="Index">
+                    <img src="~/recursos/Img/gestion-citas-vet.png" alt="Prototipo de la agenda y gestión de citas veterinarias" loading="lazy" />
+                </a>
+                <figcaption>
+                    <h3>Gestión de citas</h3>
+                    <p>Seguimiento de solicitudes, confirmación, reprogramación y agenda médica.</p>
+                </figcaption>
+            </figure>
+
+            <figure class="a2d2-preview">
+                <a asp-controller="Pacientes" asp-action="Index">
+                    <img src="~/recursos/Img/pacientes-expedientes.png" alt="Prototipo de pacientes y expedientes médicos" loading="lazy" />
+                </a>
+                <figcaption>
+                    <h3>Pacientes y expedientes</h3>
+                    <p>Registro de diagnósticos, tratamientos, recetas y vacunas en PawPortDB.</p>
+                </figcaption>
+            </figure>
+
+            <figure class="a2d2-preview">
+                <a asp-controller="Inventario" asp-action="Index">
+                    <img src="~/recursos/Img/inventario-clinica.png" alt="Prototipo de inventario de medicamentos" loading="lazy" />
+                </a>
+                <figcaption>
+                    <h3>Inventario y compras</h3>
+                    <p>Control de existencias por sucursal, alertas de stock mínimo y reabastecimiento.</p>
+                </figcaption>
+            </figure>
+
+            <figure class="a2d2-preview">
+                <a asp-controller="Reportes" asp-action="Index">
+                    <img src="~/recursos/Img/reportes-clinica.png" alt="Prototipo de reportes y estadísticas" loading="lazy" />
+                </a>
+                <figcaption>
+                    <h3>Reportes y configuración</h3>
+                    <p>Indicadores operativos de la red, sedes internacionales y exportación CSV.</p>
+                </figcaption>
+            </figure>
+        </div>
+    </div>
+</section>
+
+<section id="equipo" class="a2d2-section a2d2-soft" aria-labelledby="equipo-titulo">
+    <div class="a2d2-container">
+        <p class="a2d2-eyebrow">A2D2 Engine</p>
+        <h2 id="equipo-titulo">Equipo del proyecto</h2>
+        <p class="a2d2-intro">Integrantes registrados en la documentación técnica del módulo 2.7 y 2.8.</p>
+        <ul class="a2d2-grid a2d2-team">
+            <li><span>#14</span><h3>Ángel Isaías Pérez Palacios</h3></li>
+            <li><span>#11</span><h3>Josué Armando Martínez Rodas</h3></li>
+            <li><span>#17</span><h3>Diego Alessandro Rustrián Panameño</h3></li>
+            <li><span>#20</span><h3>Donovan Guillermo Vela Lopez</h3></li>
+        </ul>
+    </div>
+</section>

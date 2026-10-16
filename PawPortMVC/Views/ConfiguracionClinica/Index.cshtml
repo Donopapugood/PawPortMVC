@@ -14,7 +14,7 @@
         <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem">
             @foreach (Clinica c in clinicas)
             {
-                <a class="@(actual != null && actual.Id == c.Id ? "btn-paw" : "btn-line")" asp-controller="ConfiguracionClinica" asp-action="Index" asp-route-idClinica="@c.Id">📍 @c.Nombre (@c.Pais)</a>
+                <a class="@(actual != null && actual.Id == c.Id ? "btn-paw" : "btn-line")" asp-controller="ConfiguracionClinica" asp-action="Index" asp-route-idClinica="@c.Id">@c.Nombre (@c.Pais)</a>
             }
         </div>
 
@@ -124,7 +124,7 @@
             <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0">
                 @foreach (string esp in especialidades)
                 {
-                    <span class="badge-paw ok">✓ @esp</span>
+                    <span class="badge-paw ok">@esp</span>
                 }
             </div>
             <form asp-controller="ConfiguracionClinica" asp-action="AgregarEspecialidad" method="post" style="display:flex;gap:.6rem;max-width:460px">
@@ -141,7 +141,7 @@
                     <div class="card-paw pad" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem">
                         <div>
                             <b>@v.Nombre</b> <span class="badge-paw info">@v.Especialidad</span>
-                            <p class="muted" style="margin:.2rem 0 0;font-size:.9rem">🏥 @v.Clinica · 🕒 @v.Horario · ✉️ @v.Correo</p>
+                            <p class="muted" style="margin:.2rem 0 0;font-size:.9rem">@v.Clinica · @v.Horario · @v.Correo</p>
                         </div>
                         <div>
                             <details style="display:inline-block">

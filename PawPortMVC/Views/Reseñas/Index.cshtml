@@ -47,7 +47,7 @@
                     </div>
                     <p style="margin:.8rem 0">"@r.Comentario"</p>
                     <div style="display:flex;justify-content:space-between;align-items:center">
-                        <span class="badge-paw info">📍 @r.Clinica</span>
+                        <span class="badge-paw info">@r.Clinica</span>
                         <form asp-controller="Resenas" asp-action="Eliminar" method="post">
                             <input type="hidden" name="id" value="@r.Id" />
                             <button type="submit" class="btn-mini bad">Eliminar</button>

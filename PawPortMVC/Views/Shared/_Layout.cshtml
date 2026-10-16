@@ -12,25 +12,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/pawport.css" />
+    <link rel="stylesheet" href="~/css/a2d2.css" />
+    <link rel="stylesheet" href="~/css/mejoras-visuales.css" />
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
 </head>
 <body>
     <div class="a11y-bar" role="region" aria-label="Herramientas de accesibilidad">
         <div class="container a11y-inner">
-            <span>♿ Accesibilidad:</span>
+            <span>Accesibilidad:</span>
             <button type="button" class="a11y-btn" onclick="cambiarFuente(-1)" title="Disminuir tamaño de letra">A-</button>
             <button type="button" class="a11y-btn" onclick="cambiarFuente(1)" title="Aumentar tamaño de letra">A+</button>
-            <button type="button" class="a11y-btn" onclick="alternarModoOscuro()" id="btnModoOscuro">🌙 Modo oscuro</button>
-            <button type="button" class="a11y-btn" onclick="alternarAltoContraste()" id="btnContraste">👁️ Alto contraste</button>
-            <button type="button" class="a11y-btn" onclick="restablecerAccesibilidad()">↺ Restablecer</button>
+            <button type="button" class="a11y-btn" onclick="alternarModoOscuro()" id="btnModoOscuro">Modo oscuro</button>
+            <button type="button" class="a11y-btn" onclick="alternarAltoContraste()" id="btnContraste">Alto contraste</button>
+            <button type="button" class="a11y-btn" onclick="restablecerAccesibilidad()">Restablecer</button>
         </div>
     </div>
 
     <header class="nav-paw">
         <div class="container nav-inner">
             <a class="brand" asp-controller="Home" asp-action="Index">
-                <img src="/recursos/Img/Logo.png" alt="Logo PawPort" style="height:34px;border-radius:8px;margin-right:6px;vertical-align:middle" />
-                PawPort
+                <img src="/recursos/Img/Logo.png" alt="Logo PawPort" style="height:38px;border-radius:8px;vertical-align:middle" />
             </a>
             <nav class="menu">
                 <a asp-controller="Home" asp-action="Index">Inicio</a>
@@ -70,7 +71,7 @@
         <div class="container">
             <div class="grid">
                 <div>
-                    <h4>🐾 PawPort</h4>
+                    <h4>PawPort</h4>
                     <p>Red internacional de clínicas veterinarias dedicada a brindar cuidado médico de calidad y pasaporte clínico unificado. Proyecto de A2D2.</p>
                 </div>
                 <div>

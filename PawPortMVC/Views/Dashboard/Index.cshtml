@@ -16,7 +16,7 @@
         @if (rol == "Veterinario")
         {
             <div class="banner" style="border-radius:18px;padding:1.8rem 2rem;text-align:left;margin-bottom:1.8rem;background:linear-gradient(90deg,#0E8F9B,#0F2E4A)">
-                <span class="badge-paw ok">🩺 MODO CLÍNICO — ESPECIALISTA EN TURNO</span>
+                <span class="badge-paw ok">MODO CLÍNICO — ESPECIALISTA EN TURNO</span>
                 <h2 style="color:#fff;text-align:left;margin:.5rem 0 .2rem">Consultorio Médico Veterinario — Dr(a). @nombre</h2>
                 <p style="margin:0;opacity:.9">Gestiona tu agenda de pacientes del día, registra diagnósticos, receta tratamientos y actualiza el esquema de vacunación.</p>
                 <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap">
@@ -34,7 +34,7 @@
 
             <div class="grid" style="grid-template-columns:1.4fr 1fr;margin-top:2rem;align-items:start">
                 <div class="card-paw pad">
-                    <h3 style="margin-bottom:.8rem">📋 Mis Pacientes en Agenda para Consulta</h3>
+                    <h3 style="margin-bottom:.8rem">Mis Pacientes en Agenda para Consulta</h3>
                     <div class="scroll">
                         <table class="tabla">
                             <tr><th>Hora</th><th>Paciente</th><th>Motivo Clínico</th><th>Estado</th><th>Atención</th></tr>
@@ -56,12 +56,12 @@
 
                 <div>
                     <div class="card-paw pad" style="margin-bottom:1.2rem">
-                        <h3>💊 Últimos Diagnósticos y Tratamientos</h3>
+                        <h3>Últimos Diagnósticos y Tratamientos</h3>
                         @foreach (Expediente e in expedientes.Take(3))
                         {
                             <div class="card-paw pad" style="margin-bottom:.8rem;background:var(--soft)">
                                 <div style="display:flex;justify-content:space-between">
-                                    <b>🐾 @e.Mascota (@e.PesoRegistrado kg)</b>
+                                    <b>@e.Mascota (@e.PesoRegistrado kg)</b>
                                     <small class="muted">@e.Fecha</small>
                                 </div>
                                 <p style="margin:.3rem 0;font-size:.9rem"><b>Diagnóstico:</b> @e.Diagnostico</p>
@@ -75,13 +75,13 @@
         else if (rol == "AdministradorSucursal")
         {
             <div class="banner" style="border-radius:18px;padding:1.8rem 2rem;text-align:left;margin-bottom:1.8rem;background:linear-gradient(90deg,#FF7A3D,#E8672A)">
-                <span class="badge-paw info">🏥 ADMINISTRACIÓN OPERATIVA DE SEDE</span>
+                <span class="badge-paw info">ADMINISTRACIÓN OPERATIVA DE SEDE</span>
                 <h2 style="color:#fff;text-align:left;margin:.5rem 0 .2rem">Sede: Veterinaria Escalón Central (San Salvador)</h2>
                 <p style="margin:0;opacity:.9">Responsable de sede: @nombre. Controla las citas locales, el abastecimiento de medicamentos, las compras y la facturación diaria.</p>
                 <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap">
-                    <a asp-controller="Inventario" asp-action="Index" class="btn-line" style="background:#fff">📦 Gestionar Inventario y Compras</a>
-                    <a asp-controller="Facturacion" asp-action="Index" class="btn-line" style="background:#fff">💳 Emitir Factura</a>
-                    <a asp-controller="ConfiguracionClinica" asp-action="Index" class="btn-line" style="background:#fff">👨‍⚕️ Equipo Médico de Sede</a>
+                    <a asp-controller="Inventario" asp-action="Index" class="btn-line" style="background:#fff">Gestionar Inventario y Compras</a>
+                    <a asp-controller="Facturacion" asp-action="Index" class="btn-line" style="background:#fff">Emitir Factura</a>
+                    <a asp-controller="ConfiguracionClinica" asp-action="Index" class="btn-line" style="background:#fff">Equipo Médico de Sede</a>
                 </div>
             </div>
 
@@ -94,7 +94,7 @@
 
             <div class="grid" style="grid-template-columns:1.4fr 1fr;margin-top:2rem;align-items:start">
                 <div>
-                    <h3>⚠️ Medicamentos e Insumos por Reabastecer</h3>
+                    <h3>Medicamentos e Insumos por Reabastecer</h3>
                     @foreach (ProductoInventario p in alertasStock)
                     {
                         <div class="card-paw pad" style="margin-bottom:.8rem;border-left:4px solid #EF4444;display:flex;justify-content:space-between;align-items:center">
@@ -125,7 +125,7 @@
                 </div>
 
                 <div>
-                    <h3>💳 Últimas Facturas Emitidas</h3>
+                    <h3>Últimas Facturas Emitidas</h3>
                     @foreach (Factura f in facturas.Take(3))
                     {
                         <div class="card-paw pad" style="margin-bottom:.8rem">
@@ -142,12 +142,12 @@
         else
         {
             <div class="banner" style="border-radius:18px;padding:1.8rem 2rem;text-align:left;margin-bottom:1.8rem;background:linear-gradient(90deg,#0F2E4A,#0E8F9B)">
-                <span class="badge-paw ok">🌎 DIRECCIÓN GENERAL CORPORATIVA — RED INTERNACIONAL</span>
+                <span class="badge-paw ok">DIRECCIÓN GENERAL CORPORATIVA — RED INTERNACIONAL</span>
                 <h2 style="color:#fff;text-align:left;margin:.5rem 0 .2rem">Centro de Control Global PawPort — @nombre</h2>
                 <p style="margin:0;opacity:.9">Supervisión ejecutiva de todas las clínicas veterinarias en México, España, Argentina y El Salvador.</p>
                 <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap">
                     <a asp-controller="ConfiguracionClinica" asp-action="Index" class="btn-paw">+ Registrar Nueva Sucursal Internacional</a>
-                    <a asp-controller="Reportes" asp-action="Index" class="btn-line" style="background:#fff">📊 Ver Estadísticas Globales</a>
+                    <a asp-controller="Reportes" asp-action="Index" class="btn-line" style="background:#fff">Ver Estadísticas Globales</a>
                 </div>
             </div>
 
@@ -158,7 +158,7 @@
                 <div class="card-paw pad stat-card"><b>@ViewBag.CalificacionPromedio ★</b>Satisfacción global</div>
             </div>
 
-            <h3 style="margin-top:2rem">🌎 Estado Operativo de Sucursales por País</h3>
+            <h3 style="margin-top:2rem">Estado Operativo de Sucursales por País</h3>
             <div class="scroll" style="margin-top:.8rem">
                 <table class="tabla">
                     <tr><th>Sucursal</th><th>País / Ciudad</th><th>Especialidad Principal</th><th>Teléfono / Correo</th><th>Calificación</th><th>Gestión Central</th></tr>
@@ -166,7 +166,7 @@
                     {
                         <tr>
                             <td><b>@cl.Nombre</b></td>
-                            <td>📍 @cl.Ciudad, <b>@cl.Pais</b></td>
+                            <td>@cl.Ciudad, <b>@cl.Pais</b></td>
                             <td><span class="badge-paw info">@cl.Especialidad</span></td>
                             <td>@cl.Telefono<br /><small class="muted">@cl.Correo</small></td>
                             <td>⭐ <b>@cl.Calificacion</b> (@cl.TotalReseñas reseñas)</td>
@@ -186,7 +186,7 @@
                     {
                         <div class="card-paw pad" style="margin-bottom:.8rem;border-left:4px solid #EF4444">
                             <b>@p.Nombre</b>
-                            <p class="muted" style="margin:.2rem 0;font-size:.9rem">🏥 @p.Clinica · Stock: <b>@p.StockActual uds</b></p>
+                            <p class="muted" style="margin:.2rem 0;font-size:.9rem">@p.Clinica · Stock: <b>@p.StockActual uds</b></p>
                             <span class="badge-paw @Datos.ClaseEstado(p.EstadoStock)">@p.EstadoStock</span>
                         </div>
                     }
