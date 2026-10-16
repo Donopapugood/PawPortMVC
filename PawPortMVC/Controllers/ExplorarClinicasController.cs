@@ -49,7 +49,7 @@ namespace PawPortMVC.Controllers
             }
 
             ViewBag.Veterinarios = Datos.Veterinarios.Where(v => v.Clinica == clinica.Nombre).ToList();
-            ViewBag.Resenas = Datos.Resenas.Where(r => r.Clinica == clinica.Nombre).ToList();
+            ViewBag.Reseñas = Datos.Reseñas.Where(r => r.Clinica == clinica.Nombre).ToList();
             ViewBag.Especialidades = Datos.EspecialidadesRed;
             return View(clinica);
         }

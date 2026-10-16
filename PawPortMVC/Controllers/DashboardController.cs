@@ -15,7 +15,7 @@ namespace PawPortMVC.Controllers
             ViewBag.TotalPacientes = Datos.Mascotas.Count;
             ViewBag.CalificacionPromedio = Datos.Clinicas.Count > 0 ? Datos.Clinicas.Average(c => c.Calificacion).ToString("0.0") : "4.8";
             ViewBag.TotalVeterinarios = Datos.Veterinarios.Count;
-            ViewBag.Resenas = Datos.Resenas.Take(3).ToList();
+            ViewBag.Reseñas = Datos.Reseñas.Take(3).ToList();
             ViewBag.AlertasStock = Datos.Inventario.Where(p => p.StockActual <= p.StockMinimo).ToList();
             return View(Datos.Citas);
         }

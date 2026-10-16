@@ -12,13 +12,13 @@ namespace PawPortMVC.Controllers
         {
             string filtroPais = string.IsNullOrWhiteSpace(pais) ? "Todos" : pais;
             var lista = filtroPais == "Todos"
-                ? Datos.Resenas
-                : Datos.Resenas.Where(r => r.Pais == filtroPais).ToList();
+                ? Datos.Reseñas
+                : Datos.Reseñas.Where(r => r.Pais == filtroPais).ToList();
 
             ViewBag.Pais = filtroPais;
             ViewBag.Clinicas = Datos.Clinicas;
-            ViewBag.Promedio = Datos.Resenas.Count > 0 ? Datos.Resenas.Average(r => r.Calificacion).ToString("0.0") : "4.8";
-            ViewBag.Total = Datos.Resenas.Count;
+            ViewBag.Promedio = Datos.Reseñas.Count > 0 ? Datos.Reseñas.Average(r => r.Calificacion).ToString("0.0") : "4.8";
+            ViewBag.Total = Datos.Reseñas.Count;
             return View(lista);
         }
 
@@ -27,12 +27,12 @@ namespace PawPortMVC.Controllers
         {
             if (!string.IsNullOrWhiteSpace(comentario))
             {
-                int nuevoId = Datos.Resenas.Count > 0 ? Datos.Resenas.Max(r => r.Id) + 1 : 1;
+                int nuevoId = Datos.Reseñas.Count > 0 ? Datos.Reseñas.Max(r => r.Id) + 1 : 1;
                 string nombreAutor = !string.IsNullOrWhiteSpace(autor)
                     ? autor.Trim()
                     : (HttpContext.Session.GetString("Nombre") ?? "Propietario Verificado");
 
-                Datos.Resenas.Insert(0, new Reseña
+                Datos.Reseñas.Insert(0, new Reseña
                 {
                     Id = nuevoId,
                     Autor = nombreAutor,
@@ -49,10 +49,10 @@ namespace PawPortMVC.Controllers
         [HttpPost]
         public IActionResult Eliminar(int id)
         {
-            Reseña? r = Datos.Resenas.FirstOrDefault(x => x.Id == id);
+            Reseña? r = Datos.Reseñas.FirstOrDefault(x => x.Id == id);
             if (r != null)
             {
-                Datos.Resenas.Remove(r);
+                Datos.Reseñas.Remove(r);
             }
             return RedirectToAction("Index");
         }

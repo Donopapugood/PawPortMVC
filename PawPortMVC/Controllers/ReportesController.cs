@@ -58,7 +58,7 @@ namespace PawPortMVC.Controllers
             else
             {
                 nombreArchivo = "reporte_general_clinicas.csv";
-                sb.AppendLine("ID,Clinica,Pais,Ciudad,Especialidad,Calificacion,Resenas");
+                sb.AppendLine("ID,Clinica,Pais,Ciudad,Especialidad,Calificacion,Reseñas");
                 foreach (var c in Datos.Clinicas)
                 {
                     sb.AppendLine($"{c.Id},\"{c.Nombre}\",\"{c.Pais}\",\"{c.Ciudad}\",\"{c.Especialidad}\",{c.Calificacion},{c.TotalReseñas}");
