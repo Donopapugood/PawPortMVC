@@ -16,7 +16,7 @@ namespace PawPortMVC.Controllers
         public IActionResult Contacto(string nombre, string correo, string mensaje)
         {
             ViewBag.Clinicas = Datos.Clinicas;
-            ViewBag.Resenas = Datos.Reseñas;
+            ViewBag.Reseñas = Datos.Reseñas;
 
             if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(correo) || string.IsNullOrWhiteSpace(mensaje))
             {

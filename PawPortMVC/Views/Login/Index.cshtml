@@ -10,13 +10,13 @@
         <div class="form-card" style="width:100%">
 
             <h2>¡Hola de nuevo!</h2>
-            <p class="muted">Ingresa a tu cuenta de la red internacional PawPort.</p>
+            <p class="muted">Ingresa a tu cuenta conectada a SQL Server (PawPortDB).</p>
 
             <form asp-controller="Login" asp-action="Index" method="post">
                 <label>Correo electrónico</label>
-                <input type="email" name="correo" class="form-control" placeholder="ejemplo@pawport.com" required />
+                <input type="email" name="correo" class="form-control" placeholder="admin@pawport.example" required />
                 <label>Contraseña</label>
-                <input type="password" name="clave" class="form-control" placeholder="••••••••" required />
+                <input type="password" name="clave" class="form-control" placeholder="PawPort123*" required />
                 <br />
                 <button type="submit" class="btn-paw" style="width:100%">Iniciar sesión</button>
             </form>
@@ -26,13 +26,13 @@
                 <p class="msg-error" style="margin-top:1rem">@ViewBag.Error</p>
             }
 
-            <div class="card-paw pad" style="margin-top:1.2rem;background:var(--soft);font-size:.9rem">
-                <strong>Cuentas de demostración por rol (Clave: 1234):</strong>
+            <div class="card-paw pad" style="margin-top:1.2rem;background:var(--soft);font-size:.88rem">
+                <strong>Cuentas SQL Server en PawPortDB (Clave: <code>PawPort123*</code>):</strong>
                 <ul style="margin:.4rem 0 0;padding-left:1.2rem">
-                    <li><b>Propietario:</b> propietario@pawport.com</li>
-                    <li><b>Veterinario:</b> veterinario@pawport.com</li>
-                    <li><b>Admin Sucursal:</b> sucursal@pawport.com</li>
-                    <li><b>Admin Central:</b> admin@pawport.com</li>
+                    <li><b>Admin Central:</b> admin@pawport.example</li>
+                    <li><b>Admin Sucursal:</b> gabriela.torres@pawport.example</li>
+                    <li><b>Veterinario:</b> ana.lopez@pawport.example</li>
+                    <li><b>Propietario:</b> maria.hernandez@correo.example</li>
                 </ul>
             </div>
 
