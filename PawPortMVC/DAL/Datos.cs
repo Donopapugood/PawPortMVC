@@ -467,7 +467,7 @@ namespace PawPortMVC.DAL
             }
         };
 
-        public static List<Reseña> Resenas = new List<Reseña>
+        public static List<Reseña> Reseñas = new List<Reseña>
         {
             new Reseña
             {

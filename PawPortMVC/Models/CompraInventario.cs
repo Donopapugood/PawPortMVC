@@ -11,3 +11,4 @@
         public decimal CostoUnitario { get; set; }
         public decimal Total => Cantidad * CostoUnitario;
     }
+}

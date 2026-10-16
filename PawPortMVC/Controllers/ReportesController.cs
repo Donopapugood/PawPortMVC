@@ -61,7 +61,7 @@ namespace PawPortMVC.Controllers
                 sb.AppendLine("ID,Clinica,Pais,Ciudad,Especialidad,Calificacion,Resenas");
                 foreach (var c in Datos.Clinicas)
                 {
-                    sb.AppendLine($"{c.Id},\"{c.Nombre}\",\"{c.Pais}\",\"{c.Ciudad}\",\"{c.Especialidad}\",{c.Calificacion},{c.TotalResenas}");
+                    sb.AppendLine($"{c.Id},\"{c.Nombre}\",\"{c.Pais}\",\"{c.Ciudad}\",\"{c.Especialidad}\",{c.Calificacion},{c.TotalReseñas}");
                 }
             }
 

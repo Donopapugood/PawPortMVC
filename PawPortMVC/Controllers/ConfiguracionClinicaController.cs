@@ -58,7 +58,7 @@ namespace PawPortMVC.Controllers
                     Especialidad = string.IsNullOrWhiteSpace(especialidad) ? "Medicina general" : especialidad,
                     Descripcion = string.IsNullOrWhiteSpace(descripcion) ? "Nueva sucursal integrada a la red internacional PawPort." : descripcion.Trim(),
                     Calificacion = 5.0,
-                    TotalResenas = 1
+                    TotalReseñas = 1
                 });
                 return RedirectToAction("Index", new { idClinica = nuevoId });
             }
