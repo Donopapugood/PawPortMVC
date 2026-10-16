@@ -1,30 +1,53 @@
 ﻿@model List<Clinica>
 @{
     ViewData["Title"] = "Explorar clínicas";
+    List<string> paises = ViewBag.Paises;
+    List<string> especialidades = ViewBag.Especialidades;
 }
 <section class="banner">
     <div class="container">
         <h1>Encuentra la mejor atención veterinaria en el mundo</h1>
-        <form asp-controller="ExplorarClinicas" asp-action="Index" method="get" class="buscador">
-            <input type="text" name="buscar" value="@ViewBag.Buscar" class="form-control" placeholder="Busca por nombre o ciudad" />
+        <p>Explora las sedes internacionales conectadas al expediente clínico unificado de PawPort.</p>
+        <form asp-controller="ExplorarClinicas" asp-action="Index" method="get" class="buscador" style="max-width:820px;flex-wrap:wrap">
+            <input type="text" name="buscar" value="@ViewBag.Buscar" class="form-control" style="flex:2;min-width:200px" placeholder="Busca por nombre, ciudad o especialidad..." />
+            <select name="pais" class="form-control" style="flex:1;min-width:140px">
+                <option value="Todos" selected="@((string)ViewBag.Pais == "Todos")">País: Todos</option>
+                @foreach (string p in paises)
+                {
+                    <option value="@p" selected="@((string)ViewBag.Pais == p)">@p</option>
+                }
+            </select>
+            <select name="especialidad" class="form-control" style="flex:1;min-width:160px">
+                <option value="Todas" selected="@((string)ViewBag.Especialidad == "Todas")">Especialidad: Todas</option>
+                @foreach (string esp in especialidades)
+                {
+                    <option value="@esp" selected="@((string)ViewBag.Especialidad == esp)">@esp</option>
+                }
+            </select>
             <button type="submit" class="btn-paw">Buscar</button>
         </form>
     </div>
 </section>
+
 <section class="section">
     <div class="container">
-        <p class="muted">@Model.Count clínicas encontradas</p>
+        <p class="muted">Mostrando @Model.Count clínicas registradas en la red</p>
         <div class="grid">
             @foreach (Clinica c in Model)
             {
                 <article class="card-paw">
                     <img class="card-img" src="@c.Imagen" alt="@c.Nombre" />
                     <div class="card-body-paw">
-                        <h3>@c.Nombre</h3>
-                        <p class="muted">📍 @c.Ciudad</p>
+
                         <span class="badge-paw info">@c.Especialidad</span>
-                        <p>⭐ @c.Calificacion</p>
-                        <a class="btn-line" asp-controller="AgendarCita" asp-action="Index" asp-route-clinica="@c.Nombre">Agendar cita</a>
+                        <h3 style="margin-top:.5rem">@c.Nombre</h3>
+                        <p class="muted">📍 @c.Ciudad, @c.Pais</p>
+                        <p style="font-size:.9rem" class="muted">@c.Direccion</p>
+                        <p>⭐ <b>@c.Calificacion</b> (@c.TotalReseñas reseñas)</p>
+                        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                            <a class="btn-line" asp-controller="ExplorarClinicas" asp-action="Detalle" asp-route-id="@c.Id">Ver Detalles</a>
+                            <a class="btn-paw" asp-controller="AgendarCita" asp-action="Index" asp-route-clinica="@c.Nombre">Agendar Cita</a>
+                        </div>
                     </div>
                 </article>
             }

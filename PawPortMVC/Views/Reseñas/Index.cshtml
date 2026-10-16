@@ -1,0 +1,101 @@
+﻿@model List<Reseña>
+@{
+    ViewData["Title"] = "Reseñas de Usuarios";
+    List<Clinica> clinicas = ViewBag.Clinicas;
+}
+<section class="section">
+    <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h2 style="text-align:left;margin:0">Reseñas y Calificaciones de Usuarios</h2>
+                <p class="muted" style="margin:0">Opiniones verificadas de propietarios de mascotas en toda nuestra red internacional.</p>
+            </div>
+            <a href="#formResena" class="btn-paw">Escribir una Reseña</a>
+        </div>
+
+        <div class="card-paw pad" style="margin:1.5rem 0;display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:center">
+            <div style="text-align:center;border-right:1px solid var(--line);padding-right:1rem">
+                <h1 style="font-size:3.2rem;color:var(--teal);margin:0">@ViewBag.Promedio</h1>
+                <p style="color:#F59E0B;margin:.2rem 0">⭐⭐⭐⭐⭐</p>
+                <small class="muted">@ViewBag.Total calificaciones verificadas</small>
+            </div>
+            <div>
+                <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.4rem"><span style="width:70px">5 estrellas</span><div style="flex:1;height:10px;background:var(--line);border-radius:8px;overflow:hidden"><div style="width:78%;height:100%;background:var(--teal)"></div></div><span>78%</span></div>
+                <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.4rem"><span style="width:70px">4 estrellas</span><div style="flex:1;height:10px;background:var(--line);border-radius:8px;overflow:hidden"><div style="width:16%;height:100%;background:var(--teal)"></div></div><span>16%</span></div>
+                <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.4rem"><span style="width:70px">3 estrellas</span><div style="flex:1;height:10px;background:var(--line);border-radius:8px;overflow:hidden"><div style="width:4%;height:100%;background:var(--teal)"></div></div><span>4%</span></div>
+                <div style="display:flex;align-items:center;gap:.8rem"><span style="width:70px">1-2 estrellas</span><div style="flex:1;height:10px;background:var(--line);border-radius:8px;overflow:hidden"><div style="width:2%;height:100%;background:var(--orange)"></div></div><span>2%</span></div>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.2rem">
+            <a class="@((string)ViewBag.Pais == "Todos" ? "btn-paw" : "btn-line")" asp-controller="Resenas" asp-action="Index" asp-route-pais="Todos">Todas las internacionales</a>
+            <a class="@((string)ViewBag.Pais == "El Salvador" ? "btn-paw" : "btn-line")" asp-controller="Resenas" asp-action="Index" asp-route-pais="El Salvador">En tu país (El Salvador)</a>
+            <a class="@((string)ViewBag.Pais == "México" ? "btn-paw" : "btn-line")" asp-controller="Resenas" asp-action="Index" asp-route-pais="México">México</a>
+            <a class="@((string)ViewBag.Pais == "España" ? "btn-paw" : "btn-line")" asp-controller="Resenas" asp-action="Index" asp-route-pais="España">España</a>
+        </div>
+
+        <div class="grid">
+            @foreach (Reseña r in Model)
+            {
+                <div class="card-paw pad">
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <div>
+                            <b>@r.Autor</b>
+                            <p class="muted" style="margin:0;font-size:.85rem">@r.Pais · @r.Fecha</p>
+                        </div>
+                        <span style="color:#F59E0B;font-weight:700">⭐ @r.Calificacion.0</span>
+                    </div>
+                    <p style="margin:.8rem 0">"@r.Comentario"</p>
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <span class="badge-paw info">📍 @r.Clinica</span>
+                        <form asp-controller="Resenas" asp-action="Eliminar" method="post">
+                            <input type="hidden" name="id" value="@r.Id" />
+                            <button type="submit" class="btn-mini bad">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="form-card" id="formResena">
+            <h3>Publicar una Reseña</h3>
+            <form asp-controller="Resenas" asp-action="Publicar" method="post">
+                <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                    <div>
+                        <label>Tu nombre *</label>
+                        <input type="text" name="autor" class="form-control" required />
+                    </div>
+                    <div>
+                        <label>País *</label>
+                        <input type="text" name="pais" value="El Salvador" class="form-control" required />
+                    </div>
+                </div>
+                <div class="grid" style="grid-template-columns:2fr 1fr;gap:.5rem">
+                    <div>
+                        <label>Clínica visitada *</label>
+                        <select name="clinica" class="form-control">
+                            @foreach (Clinica c in clinicas)
+                            {
+                                <option value="@c.Nombre">@c.Nombre (@c.Pais)</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label>Calificación *</label>
+                        <select name="calificacion" class="form-control">
+                            <option value="5">5 estrellas ⭐⭐⭐⭐⭐</option>
+                            <option value="4">4 estrellas ⭐⭐⭐⭐</option>
+                            <option value="3">3 estrellas ⭐⭐⭐</option>
+                            <option value="2">2 estrellas ⭐⭐</option>
+                            <option value="1">1 estrella ⭐</option>
+                        </select>
+                    </div>
+                </div>
+                <label>Tu comentario *</label>
+                <textarea name="comentario" class="form-control" rows="3" required></textarea>
+                <br />
+                <button type="submit" class="btn-paw" style="width:100%">Publicar Reseña</button>
+            </form>
+        </div>
+    </div>
+</section>

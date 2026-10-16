@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@{
+    string nombreSesion = Context.Session.GetString("Nombre") ?? "Administrador";
+    string rolSesion = Context.Session.GetString("Rol") ?? "AdminCentral";
+}
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -10,13 +15,34 @@
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
 </head>
 <body>
+    <div class="a11y-bar" role="region" aria-label="Herramientas de accesibilidad">
+        <div class="container a11y-inner">
+            <span>♿ Accesibilidad:</span>
+            <button type="button" class="a11y-btn" onclick="cambiarFuente(-1)">A-</button>
+            <button type="button" class="a11y-btn" onclick="cambiarFuente(1)">A+</button>
+            <button type="button" class="a11y-btn" onclick="alternarModoOscuro()" id="btnModoOscuro">🌙 Modo oscuro</button>
+            <button type="button" class="a11y-btn" onclick="alternarAltoContraste()" id="btnContraste">👁️ Alto contraste</button>
+            <button type="button" class="a11y-btn" onclick="restablecerAccesibilidad()">↺ Restablecer</button>
+        </div>
+    </div>
+
     <header class="nav-paw">
         <div class="container nav-inner">
-            <a class="brand" asp-controller="Dashboard" asp-action="Index">🐾 PawPort Clínica</a>
+            <a class="brand" asp-controller="Dashboard" asp-action="Index">
+                <img src="/recursos/Img/Logo.png" alt="Logo PawPort" style="height:34px;border-radius:8px;margin-right:6px;vertical-align:middle" />
+                PawPort Clínica
+            </a>
             <nav class="menu">
                 <a asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                 <a asp-controller="GestionCitas" asp-action="Index">Citas</a>
-                <a asp-controller="Home" asp-action="Index" class="btn-line">Cerrar sesión</a>
+                <a asp-controller="Pacientes" asp-action="Index">Pacientes y Expedientes</a>
+                <a asp-controller="Inventario" asp-action="Index">Inventario y Compras</a>
+                <a asp-controller="Facturacion" asp-action="Index">Facturación</a>
+                <a asp-controller="Reportes" asp-action="Index">Reportes</a>
+                <a asp-controller="ConfiguracionClinica" asp-action="Index">Configuración</a>
+                <span class="badge-paw ok">@nombreSesion (@rolSesion)</span>
+                <a asp-controller="Home" asp-action="Index">Vista Pública</a>
+                <a asp-controller="Login" asp-action="Logout" class="btn-line">Cerrar sesión</a>
             </nav>
         </div>
     </header>
@@ -27,8 +53,10 @@
 
     <footer class="footer-paw">
         <div class="container footer-bottom" style="border:0;margin:0">
-            © @DateTime.Now.Year PawPort - Panel de la clínica
+            © @DateTime.Now.Year PawPort - Panel Administrativo y Clínico de la Red Internacional
         </div>
     </footer>
+
+    <script src="~/js/site.js"></script>
 </body>
 </html>

@@ -1,33 +1,74 @@
 ﻿@model List<Cita>
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Dashboard Clínico";
     Layout = "_AdminLayout";
+    List<Reseña> reseñas = ViewBag.Resenas;
+    List<ProductoInventario> alertasStock = ViewBag.AlertasStock;
 }
 <section class="section">
     <div class="container">
-        <h2 style="text-align:left">Panel de Control Clínico</h2>
-        <p class="muted">Resumen de la operación de tu clínica.</p>
-        <div class="grid">
-            <div class="card-paw pad stat-card"><b>8</b>Citas de hoy</div>
-            <div class="card-paw pad stat-card"><b>156</b>Pacientes activos</div>
-            <div class="card-paw pad stat-card"><b>4.8</b>Calificación</div>
-            <div class="card-paw pad stat-card"><b>12</b>Veterinarios</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h2 style="text-align:left;margin:0">Panel de Control Clínico</h2>
+                <p class="muted" style="margin:0">Bienvenido, @ViewBag.NombreUsuario (@ViewBag.RolUsuario). Resumen operativo en tiempo real.</p>
+            </div>
+            <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+                <a asp-controller="Pacientes" asp-action="Index" class="btn-paw">Gestionar Expedientes</a>
+                <a asp-controller="Inventario" asp-action="Index" class="btn-line">Ver Inventario</a>
+            </div>
         </div>
-        <h3 style="margin-top:2rem">Citas del día</h3>
-        <div class="scroll">
-            <table class="tabla">
-                <tr><th>Hora</th><th>Paciente</th><th>Propietario</th><th>Motivo</th><th>Estado</th></tr>
-                @foreach (Cita c in Model)
+
+        <div class="grid" style="margin-top:1.5rem">
+            <div class="card-paw pad stat-card"><b>@ViewBag.TotalCitasHoy</b>Citas programadas</div>
+            <div class="card-paw pad stat-card"><b>@ViewBag.TotalPacientes</b>Pacientes activos</div>
+            <div class="card-paw pad stat-card"><b>@ViewBag.CalificacionPromedio ★</b>Calificación promedio</div>
+            <div class="card-paw pad stat-card"><b>@ViewBag.TotalVeterinarios</b>Veterinarios en red</div>
+        </div>
+
+        <div class="grid" style="grid-template-columns:2fr 1fr;margin-top:2rem;align-items:start">
+            <div>
+                <h3 style="margin-bottom:1rem">Citas del Día</h3>
+                <div class="scroll">
+                    <table class="tabla">
+                        <tr><th>Fecha / Hora</th><th>Paciente</th><th>Propietario</th><th>Clínica</th><th>Motivo</th><th>Estado</th></tr>
+                        @foreach (Cita c in Model)
+                        {
+                            <tr>
+                                <td><b>@c.Hora</b><br /><small class="muted">@c.Fecha</small></td>
+                                <td>@c.Mascota</td>
+                                <td>@c.Propietario</td>
+                                <td>@c.Clinica</td>
+                                <td>@c.Motivo</td>
+                                <td><span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+
+            <div>
+                <h3>Alertas de Inventario</h3>
+                @foreach (ProductoInventario p in alertasStock)
                 {
-                    <tr>
-                        <td>@c.Hora</td>
-                        <td>@c.Mascota</td>
-                        <td>@c.Propietario</td>
-                        <td>@c.Motivo</td>
-                        <td><span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span></td>
-                    </tr>
+                    <div class="card-paw pad" style="margin-bottom:.8rem;border-left:4px solid #EF4444">
+                        <b>@p.Nombre</b>
+                        <p class="muted" style="margin:.2rem 0;font-size:.9rem">@p.Clinica · Stock actual: <b>@p.StockActual uds</b> (Mín: @p.StockMinimo)</p>
+                        <span class="badge-paw @Datos.ClaseEstado(p.EstadoStock)">@p.EstadoStock</span>
+                    </div>
                 }
-            </table>
+
+                <h3 style="margin-top:1.5rem">Últimas Reseñas</h3>
+                @foreach (Reseña r in reseñas)
+                {
+                    <div class="card-paw pad" style="margin-bottom:.8rem">
+                        <div style="display:flex;justify-content:space-between">
+                            <b>@r.Autor</b>
+                            <span style="color:#F59E0B">⭐ @r.Calificacion.0</span>
+                        </div>
+                        <p class="muted" style="margin:.3rem 0 0;font-size:.9rem">"@r.Comentario"</p>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </section>

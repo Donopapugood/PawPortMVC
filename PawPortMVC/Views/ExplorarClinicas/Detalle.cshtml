@@ -1,0 +1,92 @@
+﻿@model Clinica
+@{
+    ViewData["Title"] = Model.Nombre;
+    List<Veterinario> veterinarios = ViewBag.Veterinarios;
+    List<Reseña> reseñas = ViewBag.Resenas;
+    List<string> especialidades = ViewBag.Especialidades;
+}
+<section class="banner" style="text-align:left">
+    <div class="container">
+        <span class="badge-paw ok">SEDE VERIFICADA PAWPORT</span>
+        <h1 style="margin-top:.5rem">@Model.Nombre</h1>
+        <p style="margin:0">📍 @Model.Ciudad, @Model.Pais · ⭐ @Model.Calificacion (@Model.TotalReseñas reseñas) · 📞 @Model.Telefono</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="grid" style="grid-template-columns:2fr 1fr;align-items:start">
+            <div>
+                <div class="card-paw pad" style="margin-bottom:1.5rem">
+                    <h3>Sobre la Clínica</h3>
+                    <p class="muted">@Model.Descripcion</p>
+                    <p><b>Dirección:</b> @Model.Direccion</p>
+                    <p><b>Correo electrónico:</b> @Model.Correo</p>
+                </div>
+
+                <div class="card-paw pad" style="margin-bottom:1.5rem">
+                    <h3>Servicios y Especialidades Disponibles</h3>
+                    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem">
+                        @foreach (string esp in especialidades)
+                        {
+                            <span class="badge-paw @(esp == Model.Especialidad ? "ok" : "info")">✓ @esp</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="card-paw pad" style="margin-bottom:1.5rem">
+                    <h3>Horarios de Atención</h3>
+                    <table class="tabla" style="margin-top:.6rem">
+                        <tr><td><b>Lunes - Viernes</b></td><td>@Model.HorarioLunesViernes</td></tr>
+                        <tr><td><b>Sábado</b></td><td>@Model.HorarioSabado</td></tr>
+                        <tr><td><b>Domingo</b></td><td>@Model.HorarioDomingo</td></tr>
+                    </table>
+                </div>
+
+                <div class="card-paw pad">
+                    <h3>Equipo Veterinario de la Sede</h3>
+                    @if (veterinarios.Count == 0)
+                    {
+                        <p class="muted">Equipo médico general disponible en turno completo.</p>
+                    }
+                    else
+                    {
+                        <div class="grid" style="margin-top:.8rem">
+                            @foreach (Veterinario v in veterinarios)
+                            {
+                                <div class="card-paw pad">
+                                    <h4>@v.Nombre</h4>
+                                    <span class="badge-paw info">@v.Especialidad</span>
+                                    <p class="muted" style="margin-top:.4rem;font-size:.9rem">🕒 @v.Horario<br />✉️ @v.Correo</p>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card-paw pad">
+                <img src="@Model.Imagen" alt="@Model.Nombre" class="card-img" style="border-radius:12px;margin-bottom:1rem" />
+                <h3>¿Listo para agendar?</h3>
+                <p class="muted">Solicita una cita en esta sucursal de manera directa y digital.</p>
+                <a class="btn-paw" style="width:100%;text-align:center" asp-controller="AgendarCita" asp-action="Index" asp-route-clinica="@Model.Nombre">Agendar Cita en Línea</a>
+                <hr />
+                <p style="margin:.3rem 0">📞 <b>@Model.Telefono</b></p>
+                <p style="margin:.3rem 0">✉️ <b>@Model.Correo</b></p>
+                <a class="btn-line" style="width:100%;text-align:center;margin-top:.8rem" asp-controller="ExplorarClinicas" asp-action="Index">← Volver a clínicas</a>
+            </div>
+        </div>
+
+        <h3 style="margin-top:2.5rem">Reseñas de Usuarios en esta Sede</h3>
+        <div class="grid" style="margin-top:1rem">
+            @foreach (Reseña r in reseñas)
+            {
+                <div class="card-paw pad">
+                    <p style="color:#F59E0B;font-weight:700;margin:0">⭐⭐⭐⭐⭐ (@r.Calificacion.0)</p>
+                    <p style="margin:.5rem 0">"@r.Comentario"</p>
+                    <p class="muted" style="margin:0;font-size:.9rem"><b>@r.Autor</b> · @r.Fecha</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>

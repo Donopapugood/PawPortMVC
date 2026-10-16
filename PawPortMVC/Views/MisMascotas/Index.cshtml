@@ -1,50 +1,186 @@
 ﻿@model List<Mascota>
 @{
     ViewData["Title"] = "Mis mascotas";
+    Mascota? seleccionada = ViewBag.MascotaSeleccionada;
+    List<Expediente> expedientes = ViewBag.Expedientes;
+    List<Recordatorio> recordatorios = ViewBag.Recordatorios;
 }
 <section class="section">
     <div class="container">
-        <h2 style="text-align:left">Mis Mascotas</h2>
-        <p class="muted">Aquí está la información de tus mascotas.</p>
-        <div class="grid">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h2 style="text-align:left;margin:0">Mis Mascotas</h2>
+                <p class="muted" style="margin:0">Administra el perfil de tus mascotas, edita sus datos y consulta sus expedientes globales.</p>
+            </div>
+            <a href="#formRegistroMascota" class="btn-paw">+ Registrar Mascota</a>
+        </div>
+
+        @if (ViewBag.Mensaje != null)
+        {
+            <div class="card-paw pad" style="margin-top:1rem">
+                <p class="@ViewBag.MensajeClase" style="margin:0">@ViewBag.Mensaje</p>
+            </div>
+        }
+
+        <div class="grid" style="margin-top:1.5rem">
             @foreach (Mascota m in Model)
             {
                 <article class="card-paw">
                     <img class="card-img" src="@m.Imagen" alt="@m.Nombre" />
                     <div class="card-body-paw">
-                        <h3>@m.Nombre</h3>
-                        <p class="muted">@m.Especie · @m.Raza · @m.Edad años</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <h3 style="margin:0">@m.Nombre</h3>
+                            <span class="badge-paw info">@m.Especie</span>
+                        </div>
+                        <p class="muted" style="margin:.4rem 0">@m.Raza · @m.Edad años · @m.Peso kg · @m.Sexo</p>
+                        <p style="font-size:.9rem;margin:.3rem 0"><b>Propietario:</b> @m.Propietario</p>
                         <span class="badge-paw @(m.Vacunas == "Al día" ? "ok" : "wait")">Vacunas: @m.Vacunas</span>
+
+                        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem">
+                            <a class="btn-line" asp-controller="MisMascotas" asp-action="Index" asp-route-idMascota="@m.Id">Ver Expediente</a>
+                            <form asp-controller="MisMascotas" asp-action="Eliminar" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@m.Id" />
+                                <button type="submit" class="btn-mini bad">Eliminar</button>
+                            </form>
+                        </div>
+
+                        <details style="margin-top:.8rem">
+                            <summary style="cursor:pointer;font-weight:600;color:var(--teal)">✏️ Editar perfil de @m.Nombre</summary>
+                            <form asp-controller="MisMascotas" asp-action="Editar" method="post" style="margin-top:.6rem">
+                                <input type="hidden" name="id" value="@m.Id" />
+                                <label>Nombre</label>
+                                <input type="text" name="nombre" value="@m.Nombre" class="form-control" required />
+                                <label>Especie</label>
+                                <select name="especie" class="form-control">
+                                    <option selected="@(m.Especie == "Perro")">Perro</option>
+                                    <option selected="@(m.Especie == "Gato")">Gato</option>
+                                    <option selected="@(m.Especie == "Ave")">Ave</option>
+                                    <option selected="@(m.Especie == "Otro")">Otro</option>
+                                </select>
+                                <label>Raza</label>
+                                <input type="text" name="raza" value="@m.Raza" class="form-control" required />
+                                <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                                    <div>
+                                        <label>Edad (años)</label>
+                                        <input type="number" name="edad" value="@m.Edad" min="0" class="form-control" required />
+                                    </div>
+                                    <div>
+                                        <label>Peso (kg)</label>
+                                        <input type="number" step="0.1" name="peso" value="@m.Peso" min="0.1" class="form-control" required />
+                                    </div>
+                                </div>
+                                <label>Estado de Vacunas</label>
+                                <select name="vacunas" class="form-control">
+                                    <option selected="@(m.Vacunas == "Al día")">Al día</option>
+                                    <option selected="@(m.Vacunas == "Pendiente")">Pendiente</option>
+                                </select>
+                                <label>Alergias / Notas</label>
+                                <input type="text" name="alergias" value="@m.Alergias" class="form-control" />
+                                <button type="submit" class="btn-paw" style="margin-top:.6rem;width:100%">Guardar cambios</button>
+                            </form>
+                        </details>
                     </div>
                 </article>
             }
         </div>
+
+        @if (seleccionada != null)
+        {
+            <div class="card-paw pad" style="margin-top:2rem">
+                <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+                    <img src="@seleccionada.Imagen" alt="@seleccionada.Nombre" style="width:76px;height:76px;border-radius:14px;object-fit:cover" />
+                    <div>
+                        <h3 style="margin:0">@seleccionada.Nombre — Pasaporte Clínico Unificado</h3>
+                        <p class="muted" style="margin:.2rem 0">@seleccionada.Raza · @seleccionada.Edad años · @seleccionada.Peso kg · Sexo: @seleccionada.Sexo</p>
+                        <span class="badge-paw warn">Alergias / Recomendaciones: @seleccionada.Alergias</span>
+                    </div>
+                </div>
+                <hr />
+                <div class="grid" style="grid-template-columns:1fr 1fr">
+                    <div>
+                        <h4>Historial de Consultas, Diagnósticos y Vacunas</h4>
+                        @foreach (Expediente e in expedientes)
+                        {
+                            <div class="card-paw pad" style="margin-bottom:.8rem">
+                                <div style="display:flex;justify-content:space-between">
+                                    <b>@e.Clinica (@e.Veterinario)</b>
+                                    <span class="badge-paw info">@e.Fecha</span>
+                                </div>
+                                <p style="margin:.4rem 0"><b>Diagnóstico:</b> @e.Diagnostico</p>
+                                <p style="margin:.2rem 0"><b>Tratamiento:</b> @e.Tratamiento</p>
+                                <p style="margin:.2rem 0"><b>Medicamento:</b> @e.MedicamentoRecetado · <b>Vacuna:</b> @e.VacunaAplicada</p>
+                            </div>
+                        }
+                    </div>
+                    <div>
+                        <h4>Recordatorios Activos de Salud</h4>
+                        @foreach (Recordatorio r in recordatorios)
+                        {
+                            <div class="card-paw pad" style="margin-bottom:.8rem;border-left:4px solid var(--orange)">
+                                <span class="badge-paw wait">@r.Tipo</span>
+                                <b style="margin-left:.4rem">@r.Mascota</b>
+                                <p style="margin:.4rem 0">@r.Mensaje</p>
+                                <small class="muted">Fecha límite: @r.FechaLimite</small>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </section>
 
-<div class="form-card">
-    <h3>Registrar mascota</h3>
+<div class="form-card" id="formRegistroMascota">
+    <h3>Registrar nueva mascota</h3>
     <form asp-controller="MisMascotas" asp-action="Registrar" method="post" enctype="multipart/form-data">
-        <label>Nombre</label>
-        <input type="text" name="nombre" class="form-control" />
-        <label>Especie</label>
-        <select name="especie" class="form-control">
-            <option>Perro</option>
-            <option>Gato</option>
-            <option>Ave</option>
-            <option>Otro</option>
-        </select>
-        <label>Raza</label>
-        <input type="text" name="raza" class="form-control" />
-        <label>Edad (años)</label>
-        <input type="number" name="edad" class="form-control" min="0" />
-        <label>Foto</label>
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div>
+                <label>Nombre de la mascota *</label>
+                <input type="text" name="nombre" class="form-control" required />
+            </div>
+            <div>
+                <label>Propietario *</label>
+                <input type="text" name="propietario" value="Alejandra Gómez" class="form-control" required />
+            </div>
+        </div>
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div>
+                <label>Especie *</label>
+                <select name="especie" class="form-control">
+                    <option>Perro</option>
+                    <option>Gato</option>
+                    <option>Ave</option>
+                    <option>Otro</option>
+                </select>
+            </div>
+            <div>
+                <label>Raza *</label>
+                <input type="text" name="raza" class="form-control" required />
+            </div>
+        </div>
+        <div class="grid" style="grid-template-columns:1fr 1fr 1fr">
+            <div>
+                <label>Edad (años) *</label>
+                <input type="number" name="edad" class="form-control" min="0" value="1" required />
+            </div>
+            <div>
+                <label>Peso (kg) *</label>
+                <input type="number" step="0.1" name="peso" class="form-control" min="0.1" value="5.0" required />
+            </div>
+            <div>
+                <label>Sexo *</label>
+                <select name="sexo" class="form-control">
+                    <option>Hembra</option>
+                    <option>Macho</option>
+                </select>
+            </div>
+        </div>
+        <label>Alergias o condiciones médicas</label>
+        <input type="text" name="alergias" class="form-control" placeholder="Ej. Ninguna registrada" />
+        <label>Fotografía (.jpg o .png)</label>
         <input type="file" name="foto" class="form-control" />
         <br />
-        <button type="submit" class="btn-paw">Registrar mascota</button>
+        <button type="submit" class="btn-paw" style="width:100%">Registrar mascota</button>
     </form>
-    @if (ViewBag.Mensaje != null)
-    {
-        <p class="@ViewBag.MensajeClase">@ViewBag.Mensaje</p>
-    }
+
 </div>

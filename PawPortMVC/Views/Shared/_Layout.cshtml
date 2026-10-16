@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@{
+    string? nombreSesion = Context.Session.GetString("Nombre");
+    string? rolSesion = Context.Session.GetString("Rol");
+}
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -10,17 +15,49 @@
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
 </head>
 <body>
+    <div class="a11y-bar" role="region" aria-label="Herramientas de accesibilidad">
+        <div class="container a11y-inner">
+            <span>♿ Accesibilidad:</span>
+            <button type="button" class="a11y-btn" onclick="cambiarFuente(-1)" title="Disminuir tamaño de letra">A-</button>
+            <button type="button" class="a11y-btn" onclick="cambiarFuente(1)" title="Aumentar tamaño de letra">A+</button>
+            <button type="button" class="a11y-btn" onclick="alternarModoOscuro()" id="btnModoOscuro">🌙 Modo oscuro</button>
+            <button type="button" class="a11y-btn" onclick="alternarAltoContraste()" id="btnContraste">👁️ Alto contraste</button>
+            <button type="button" class="a11y-btn" onclick="restablecerAccesibilidad()">↺ Restablecer</button>
+        </div>
+    </div>
+
     <header class="nav-paw">
         <div class="container nav-inner">
-            <a class="brand" asp-controller="Home" asp-action="Index">🐾 PawPort</a>
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                <img src="/recursos/Img/Logo.png" alt="Logo PawPort" style="height:34px;border-radius:8px;margin-right:6px;vertical-align:middle" />
+                PawPort
+            </a>
             <nav class="menu">
                 <a asp-controller="Home" asp-action="Index">Inicio</a>
-                <a asp-controller="Portafolio" asp-action="Index">Portafolio</a>
                 <a asp-controller="ExplorarClinicas" asp-action="Index">Explorar Clínicas</a>
                 <a asp-controller="MisMascotas" asp-action="Index">Mis Mascotas</a>
                 <a asp-controller="AgendarCita" asp-action="Index">Agendar Cita</a>
-                <a asp-controller="Login" asp-action="Index">Iniciar sesión</a>
-                <a asp-controller="Registro" asp-action="Index" class="btn-paw">Registrarse</a>
+                <a asp-controller="Facturacion" asp-action="Index">Facturación</a>
+                <a asp-controller="Reseñas" asp-action="Index">Reseñas</a>
+                <a asp-controller="Portafolio" asp-action="Index">Portafolio</a>
+
+                @if (!string.IsNullOrEmpty(nombreSesion))
+                {
+                    if (rolSesion == "Propietario")
+                    {
+                        <a asp-controller="DashboardUsuario" asp-action="Index" class="badge-paw info">Mi Panel (@nombreSesion)</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Dashboard" asp-action="Index" class="badge-paw info">Panel Clínico (@nombreSesion)</a>
+                    }
+                    <a asp-controller="Login" asp-action="Logout" class="btn-line">Cerrar sesión</a>
+                }
+                else
+                {
+                    <a asp-controller="Login" asp-action="Index">Iniciar sesión</a>
+                    <a asp-controller="Registro" asp-action="Index" class="btn-paw">Registrarse</a>
+                }
             </nav>
         </div>
     </header>
@@ -34,20 +71,25 @@
             <div class="grid">
                 <div>
                     <h4>🐾 PawPort</h4>
-                    <p>El pasaporte médico unificado para tu mascota. Proyecto de A2D2.</p>
+                    <p>Red internacional de clínicas veterinarias dedicada a brindar cuidado médico de calidad y pasaporte clínico unificado. Proyecto de A2D2.</p>
                 </div>
                 <div>
                     <h4>Plataforma</h4>
-                    <a asp-controller="ExplorarClinicas" asp-action="Index">Clínicas</a>
-                    <a asp-controller="Portafolio" asp-action="Index">Portafolio</a>
+                    <a asp-controller="ExplorarClinicas" asp-action="Index">Clínicas y Sucursales</a>
+                    <a asp-controller="MisMascotas" asp-action="Index">Mis Mascotas y Expedientes</a>
+                    <a asp-controller="AgendarCita" asp-action="Index">Agendar Cita</a>
+                    <a asp-controller="Resenas" asp-action="Index">Reseñas Globales</a>
+                    <a asp-controller="Portafolio" asp-action="Index">Portafolio Figma</a>
                 </div>
                 <div>
-                    <h4>Contacto</h4>
-                    <p>contacto@pawport.com<br />+503 2222 0000<br />San Salvador, El Salvador</p>
+                    <h4>Contacto Central</h4>
+                    <p>contacto@pawport.com<br />+503 2222 0000<br />San Salvador · CDMX · Madrid · Buenos Aires</p>
                 </div>
             </div>
             <div class="footer-bottom">© @DateTime.Now.Year PawPort - A2D2. Todos los derechos reservados.</div>
         </div>
     </footer>
+
+    <script src="~/js/site.js"></script>
 </body>
 </html>

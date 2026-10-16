@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Reportes y Estadísticas";
+    Layout = "_AdminLayout";
+    string clinicaFiltro = ViewBag.ClinicaFiltro;
+    List<Clinica> clinicas = ViewBag.Clinicas;
+}
+<section class="section">
+    <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h2 style="text-align:left;margin:0">Reportes y Estadísticas de la Red</h2>
+                <p class="muted" style="margin:0">Analiza el rendimiento financiero, la afluencia de pacientes y las métricas operativas por clínica y globales.</p>
+            </div>
+            <form asp-controller="Reportes" asp-action="Index" method="get" style="display:flex;gap:.5rem">
+                <select name="clinica" class="form-control" onchange="this.form.submit()">
+                    <option value="Todas" selected="@(clinicaFiltro == "Todas")">🌎 Global (Toda la Red)</option>
+                    @foreach (Clinica c in clinicas)
+                    {
+                        <option value="@c.Nombre" selected="@(clinicaFiltro == c.Nombre)">@c.Nombre (@c.Pais)</option>
+                    }
+                </select>
+            </form>
+        </div>
+
+        <div class="grid" style="margin-top:1.5rem">
+            <div class="card-paw pad stat-card"><b>$@ViewBag.IngresosTotales.ToString("N2") USD</b>Ingresos facturados</div>
+            <div class="card-paw pad stat-card"><b>@ViewBag.ConsultasRealizadas</b>Citas registradas</div>
+            <div class="card-paw pad stat-card"><b>@ViewBag.TotalMascotas</b>Pacientes en padrón</div>
+            <div class="card-paw pad stat-card"><b>@ViewBag.TotalExpedientes</b>Expedientes clínicos</div>
+        </div>
+
+        <div class="grid" style="grid-template-columns:1.5fr 1fr;margin-top:2rem">
+            <div class="card-paw pad">
+                <h3>Consultas por Mes (Últimos 6 meses)</h3>
+                <div style="display:flex;align-items:flex-end;justify-content:space-around;height:210px;padding:1.5rem 1rem .5rem;border-bottom:1px solid var(--line)">
+                    <div style="text-align:center"><div style="width:38px;height:95px;background:var(--teal);border-radius:8px 8px 0 0"></div><small class="muted">May</small></div>
+                    <div style="text-align:center"><div style="width:38px;height:120px;background:var(--teal);border-radius:8px 8px 0 0"></div><small class="muted">Jun</small></div>
+                    <div style="text-align:center"><div style="width:38px;height:140px;background:var(--teal);border-radius:8px 8px 0 0"></div><small class="muted">Jul</small></div>
+                    <div style="text-align:center"><div style="width:38px;height:130px;background:var(--teal);border-radius:8px 8px 0 0"></div><small class="muted">Ago</small></div>
+                    <div style="text-align:center"><div style="width:38px;height:160px;background:var(--teal);border-radius:8px 8px 0 0"></div><small class="muted">Sep</small></div>
+                    <div style="text-align:center"><div style="width:38px;height:175px;background:var(--orange);border-radius:8px 8px 0 0"></div><small class="muted">Oct</small></div>
+                </div>
+            </div>
+
+            <div class="card-paw pad">
+                <h3>Distribución de Pacientes por Especie</h3>
+                <p class="muted">Proporción actual en el registro clínico internacional.</p>
+                <div style="margin-top:1rem">
+                    <p style="margin:.4rem 0">🐶 <b>Perros:</b> @ViewBag.TotalPerros registrados (65%)</p>
+                    <div style="background:var(--line);height:14px;border-radius:10px;overflow:hidden"><div style="width:65%;height:100%;background:var(--teal)"></div></div>
+
+                    <p style="margin:1rem 0 .4rem">🐱 <b>Gatos:</b> @ViewBag.TotalGatos registrados (25%)</p>
+                    <div style="background:var(--line);height:14px;border-radius:10px;overflow:hidden"><div style="width:25%;height:100%;background:var(--orange)"></div></div>
+
+                    <p style="margin:1rem 0 .4rem">🦜 <b>Aves y Exóticos:</b> @ViewBag.TotalOtros registrados (10%)</p>
+                    <div style="background:var(--line);height:14px;border-radius:10px;overflow:hidden"><div style="width:10%;height:100%;background:#F59E0B"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin-top:2rem">Rendimiento por Sucursal Internacional</h3>
+        <div class="scroll" style="margin-top:.8rem">
+            <table class="tabla">
+                <tr><th>Clínica</th><th>País / Ciudad</th><th>Especialidad Clave</th><th>Calificación</th><th>Reseñas</th><th>Estado</th></tr>
+                @foreach (Clinica c in clinicas)
+                {
+                    <tr>
+                        <td><b>@c.Nombre</b></td>
+                        <td>@c.Ciudad, @c.Pais</td>
+                        <td><span class="badge-paw info">@c.Especialidad</span></td>
+                        <td>⭐ @c.Calificacion</td>
+                        <td>@c.TotalReseñas opiniones</td>
+                        <td><span class="badge-paw ok">Operativa</span></td>
+                    </tr>
+                }
+            </table>
+        </div>
+
+        <h3 style="margin-top:2rem">Descarga de Reportes Oficiales (CSV / Excel)</h3>
+        <div class="grid" style="margin-top:1rem">
+            <div class="card-paw pad">
+                <h4>📄 Reporte General de Clínicas</h4>
+                <p class="muted">Listado consolidado de sucursales internacionales, calificaciones y especialidades.</p>
+                <a class="btn-paw" asp-controller="Reportes" asp-action="ExportarCsv" asp-route-tipo="general">⬇ Descargar CSV</a>
+            </div>
+            <div class="card-paw pad">
+                <h4>📦 Reporte de Inventario y Stock</h4>
+                <p class="muted">Existencias actuales, alertas de bajo stock y valorización por medicamento.</p>
+                <a class="btn-paw" asp-controller="Reportes" asp-action="ExportarCsv" asp-route-tipo="inventario">⬇ Descargar CSV</a>
+            </div>
+            <div class="card-paw pad">
+                <h4>💳 Reporte Financiero y Facturación</h4>
+                <p class="muted">Detalle de facturas emitidas, pagos recibidos y cuentas por cobrar.</p>
+                <a class="btn-paw" asp-controller="Reportes" asp-action="ExportarCsv" asp-route-tipo="financiero">⬇ Descargar CSV</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,207 @@
+﻿@{
+    ViewData["Title"] = "Configuración de Clínicas y Equipo";
+    Layout = "_AdminLayout";
+    Clinica? actual = ViewBag.ClinicaActual;
+    List<Clinica> clinicas = ViewBag.Clinicas;
+    List<string> especialidades = ViewBag.Especialidades;
+    List<Veterinario> veterinarios = ViewBag.Veterinarios;
+}
+<section class="section">
+    <div class="container">
+        <h2 style="text-align:left">Configuración de Clínicas, Especialidades y Veterinarios</h2>
+        <p class="muted">Administra la información de cada sucursal, agrega nuevas clínicas a la red y gestiona el equipo médico.</p>
+
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem">
+            @foreach (Clinica c in clinicas)
+            {
+                <a class="@(actual != null && actual.Id == c.Id ? "btn-paw" : "btn-line")" asp-controller="ConfiguracionClinica" asp-action="Index" asp-route-idClinica="@c.Id">📍 @c.Nombre (@c.Pais)</a>
+            }
+        </div>
+
+        <div class="grid" style="grid-template-columns:1fr 1fr;align-items:start">
+            @if (actual != null)
+            {
+                <div class="card-paw pad">
+                    <h3>Información General de la Sede Seleccionada</h3>
+                    <form asp-controller="ConfiguracionClinica" asp-action="ActualizarClinica" method="post">
+                        <input type="hidden" name="id" value="@actual.Id" />
+                        <label>Nombre de la Clínica *</label>
+                        <input type="text" name="nombre" value="@actual.Nombre" class="form-control" required />
+                        <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                            <div>
+                                <label>País *</label>
+                                <input type="text" name="pais" value="@actual.Pais" class="form-control" required />
+                            </div>
+                            <div>
+                                <label>Ciudad *</label>
+                                <input type="text" name="ciudad" value="@actual.Ciudad" class="form-control" required />
+                            </div>
+                        </div>
+                        <label>Dirección completa</label>
+                        <input type="text" name="direccion" value="@actual.Direccion" class="form-control" required />
+                        <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                            <div>
+                                <label>Teléfono de contacto</label>
+                                <input type="text" name="telefono" value="@actual.Telefono" class="form-control" required />
+                            </div>
+                            <div>
+                                <label>Correo público</label>
+                                <input type="email" name="correo" value="@actual.Correo" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                            <div>
+                                <label>Especialidad principal</label>
+                                <select name="especialidad" class="form-control">
+                                    @foreach (string esp in especialidades)
+                                    {
+                                        <option value="@esp" selected="@(esp == actual.Especialidad)">@esp</option>
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label>Horario Lunes - Viernes</label>
+                                <input type="text" name="horarioLunesViernes" value="@actual.HorarioLunesViernes" class="form-control" />
+                            </div>
+                        </div>
+                        <label>Descripción de la sede</label>
+                        <textarea name="descripcion" class="form-control" rows="2">@actual.Descripcion</textarea>
+                        <button type="submit" class="btn-paw" style="margin-top:.8rem;width:100%">Guardar Cambios de Sede</button>
+                    </form>
+                    @if (clinicas.Count > 1)
+                    {
+                        <form asp-controller="ConfiguracionClinica" asp-action="EliminarSucursal" method="post" style="margin-top:.6rem">
+                            <input type="hidden" name="id" value="@actual.Id" />
+                            <button type="submit" class="btn-mini bad" style="width:100%;padding:.5rem">Eliminar esta sucursal de la red</button>
+                        </form>
+                    }
+                </div>
+            }
+
+            <div class="card-paw pad">
+                <h3>Registrar Nueva Sucursal en la Red Internacional</h3>
+                <form asp-controller="ConfiguracionClinica" asp-action="RegistrarSucursal" method="post">
+                    <label>Nombre de la nueva clínica *</label>
+                    <input type="text" name="nombre" placeholder="Ej. Clínica San Francisco" class="form-control" required />
+                    <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                        <div>
+                            <label>País *</label>
+                            <input type="text" name="pais" placeholder="Ej. Colombia" class="form-control" required />
+                        </div>
+                        <div>
+                            <label>Ciudad *</label>
+                            <input type="text" name="ciudad" placeholder="Ej. Bogotá" class="form-control" required />
+                        </div>
+                    </div>
+                    <label>Dirección completa *</label>
+                    <input type="text" name="direccion" placeholder="Av. Principal #100" class="form-control" required />
+                    <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                        <div>
+                            <label>Teléfono *</label>
+                            <input type="text" name="telefono" placeholder="+57 1 234 5678" class="form-control" required />
+                        </div>
+                        <div>
+                            <label>Correo electrónico *</label>
+                            <input type="email" name="correo" placeholder="bogota@pawport.com" class="form-control" required />
+                        </div>
+                    </div>
+                    <label>Especialidad destacada</label>
+                    <select name="especialidad" class="form-control">
+                        @foreach (string esp in especialidades)
+                        {
+                            <option value="@esp">@esp</option>
+                        }
+                    </select>
+                    <label>Descripción</label>
+                    <textarea name="descripcion" class="form-control" rows="2" placeholder="Describe la infraestructura y enfoque médico..."></textarea>
+                    <button type="submit" class="btn-paw" style="margin-top:.8rem;width:100%">Registrar Clínica Veterinaria</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card-paw pad" style="margin-top:2rem">
+            <h3>Especialidades Médicas Ofrecidas en la Red</h3>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0">
+                @foreach (string esp in especialidades)
+                {
+                    <span class="badge-paw ok">✓ @esp</span>
+                }
+            </div>
+            <form asp-controller="ConfiguracionClinica" asp-action="AgregarEspecialidad" method="post" style="display:flex;gap:.6rem;max-width:460px">
+                <input type="text" name="nuevaEspecialidad" class="form-control" placeholder="Nueva especialidad (ej. Neurología)" required />
+                <button type="submit" class="btn-line">Agregar</button>
+            </form>
+        </div>
+
+        <div class="grid" style="grid-template-columns:1.5fr 1fr;margin-top:2rem;align-items:start">
+            <div class="card-paw pad">
+                <h3>Equipo Veterinario de la Organización</h3>
+                @foreach (Veterinario v in veterinarios)
+                {
+                    <div class="card-paw pad" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem">
+                        <div>
+                            <b>@v.Nombre</b> <span class="badge-paw info">@v.Especialidad</span>
+                            <p class="muted" style="margin:.2rem 0 0;font-size:.9rem">🏥 @v.Clinica · 🕒 @v.Horario · ✉️ @v.Correo</p>
+                        </div>
+                        <div>
+                            <details style="display:inline-block">
+                                <summary class="btn-mini info" style="list-style:none">Editar</summary>
+                                <form asp-controller="ConfiguracionClinica" asp-action="EditarVeterinario" method="post" class="card-paw pad" style="margin-top:.4rem">
+                                    <input type="hidden" name="id" value="@v.Id" />
+                                    <input type="text" name="nombre" value="@v.Nombre" class="form-control" required />
+                                    <select name="especialidad" class="form-control" style="margin-top:.3rem">
+                                        @foreach (string esp in especialidades)
+                                        {
+                                            <option value="@esp" selected="@(esp == v.Especialidad)">@esp</option>
+                                        }
+                                    </select>
+                                    <select name="clinica" class="form-control" style="margin-top:.3rem">
+                                        @foreach (Clinica c in clinicas)
+                                        {
+                                            <option value="@c.Nombre" selected="@(c.Nombre == v.Clinica)">@c.Nombre</option>
+                                        }
+                                    </select>
+                                    <input type="text" name="horario" value="@v.Horario" class="form-control" style="margin-top:.3rem" />
+                                    <button type="submit" class="btn-mini ok" style="margin-top:.4rem;width:100%">Guardar</button>
+                                </form>
+                            </details>
+                            <form asp-controller="ConfiguracionClinica" asp-action="EliminarVeterinario" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@v.Id" />
+                                <button type="submit" class="btn-mini bad">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="card-paw pad">
+                <h3>+ Agregar Médico Veterinario</h3>
+                <form asp-controller="ConfiguracionClinica" asp-action="AgregarVeterinario" method="post">
+                    <label>Nombre completo del especialista *</label>
+                    <input type="text" name="nombre" placeholder="Ej. Dra. Sofía Méndez" class="form-control" required />
+                    <label>Especialidad *</label>
+                    <select name="especialidad" class="form-control">
+                        @foreach (string esp in especialidades)
+                        {
+                            <option value="@esp">@esp</option>
+                        }
+                    </select>
+                    <label>Sucursal asignada *</label>
+                    <select name="clinica" class="form-control">
+                        @foreach (Clinica c in clinicas)
+                        {
+                            <option value="@c.Nombre">@c.Nombre</option>
+                        }
+                    </select>
+                    <label>Correo electrónico *</label>
+                    <input type="email" name="correo" placeholder="smendez@pawport.com" class="form-control" required />
+                    <label>Teléfono *</label>
+                    <input type="text" name="telefono" placeholder="+503 7000 0000" class="form-control" required />
+                    <label>Horario de atención</label>
+                    <input type="text" name="horario" value="Lunes a Viernes 08:00 - 16:00" class="form-control" required />
+                    <button type="submit" class="btn-paw" style="margin-top:.8rem;width:100%">Registrar Veterinario</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

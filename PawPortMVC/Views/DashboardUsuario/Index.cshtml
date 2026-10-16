@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "Panel del Propietario";
+    List<Clinica> clinicas = ViewBag.Clinicas;
+    List<Mascota> mascotas = ViewBag.Mascotas;
+    List<Cita> citas = ViewBag.Citas;
+    List<Recordatorio> recordatorios = ViewBag.Recordatorios;
+}
+<section class="section">
+    <div class="container">
+        <div class="banner" style="border-radius:20px;padding:2.2rem;text-align:left;margin-bottom:2rem">
+            <h1>¡Hola, @ViewBag.NombreUsuario! 👋</h1>
+            <p style="margin:.4rem 0 1.2rem">Tienes @recordatorios.Count recordatorios médicos activos. Revisa el expediente global de tus mascotas o agenda un control en línea.</p>
+            <a asp-controller="MisMascotas" asp-action="Index" class="btn-paw">Ver Expedientes</a>
+            <a asp-controller="AgendarCita" asp-action="Index" class="btn-line" style="background:#fff;margin-left:.6rem">Agendar Control</a>
+        </div>
+
+        <div class="grid" style="grid-template-columns:1fr 1fr;align-items:start">
+            <div class="card-paw pad">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <h3 style="margin:0">Próximas Citas</h3>
+                    <a asp-controller="AgendarCita" asp-action="Index">+ Nueva Cita</a>
+                </div>
+                <div style="margin-top:1rem">
+                    @foreach (Cita c in citas)
+                    {
+                        <div class="card-paw pad" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+                            <div>
+                                <b>@c.Motivo — @c.Mascota</b>
+                                <p class="muted" style="margin:.2rem 0;font-size:.9rem">📅 @c.Fecha a las @c.Hora · @c.Veterinario · @c.Clinica</p>
+                            </div>
+                            <span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card-paw pad">
+                <h3>🔔 Recordatorios de Vacunas y Citas</h3>
+                @foreach (Recordatorio r in recordatorios)
+                {
+                    <div class="card-paw pad" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center;gap:.8rem">
+                        <div>
+                            <span class="badge-paw wait">@r.Tipo</span>
+                            <b style="margin-left:.4rem">@r.Mascota</b>
+                            <p style="margin:.3rem 0;font-size:.92rem">@r.Mensaje</p>
+                            <small class="muted">Fecha límite: @r.FechaLimite</small>
+                        </div>
+                        <form asp-controller="DashboardUsuario" asp-action="CompletarRecordatorio" method="post">
+                            <input type="hidden" name="id" value="@r.Id" />
+                            <button type="submit" class="btn-mini ok">✓ Completar</button>
+                        </form>
+                    </div>
+                }
+
+                <details style="margin-top:1rem">
+                    <summary style="cursor:pointer;font-weight:600;color:var(--teal)">+ Agregar nuevo recordatorio personal</summary>
+                    <form asp-controller="DashboardUsuario" asp-action="AgregarRecordatorio" method="post" style="margin-top:.6rem">
+                        <label>Mascota</label>
+                        <select name="mascota" class="form-control">
+                            @foreach (Mascota m in mascotas)
+                            {
+                                <option>@m.Nombre</option>
+                            }
+                        </select>
+                        <label>Tipo</label>
+                        <select name="tipo" class="form-control">
+                            <option>Vacuna</option>
+                            <option>Desparasitación</option>
+                            <option>Cita</option>
+                            <option>Medicamento</option>
+                        </select>
+                        <label>Mensaje del recordatorio</label>
+                        <input type="text" name="mensaje" class="form-control" required />
+                        <label>Fecha límite</label>
+                        <input type="date" name="fechaLimite" class="form-control" value="@DateTime.Today.AddDays(7).ToString("yyyy-MM-dd")" required />
+                        <button type="submit" class="btn-paw" style="margin-top:.6rem;width:100%">Guardar recordatorio</button>
+                    </form>
+                </details>
+            </div>
+        </div>
+
+        <h3 style="margin-top:2rem">Clínicas de la Red cerca de ti</h3>
+        <div class="grid" style="margin-top:1rem">
+            @foreach (Clinica c in clinicas)
+            {
+                <article class="card-paw">
+                    <img class="card-img" src="@c.Imagen" alt="@c.Nombre" />
+                    <div class="card-body-paw">
+                        <h3>@c.Nombre</h3>
+                        <p class="muted">📍 @c.Ciudad, @c.Pais · ⭐ @c.Calificacion</p>
+                        <a class="btn-line" asp-controller="ExplorarClinicas" asp-action="Detalle" asp-route-id="@c.Id">Ver Detalles</a>
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>

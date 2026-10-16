@@ -1,0 +1,170 @@
+﻿@model List<ProductoInventario>
+@{
+    ViewData["Title"] = "Inventario y Compras";
+    Layout = "_AdminLayout";
+    string categoria = ViewBag.Categoria;
+    List<Clinica> clinicas = ViewBag.Clinicas;
+    List<CompraInventario> compras = ViewBag.Compras;
+}
+<section class="section">
+    <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h2 style="text-align:left;margin:0">Inventario de la Clínica y Compras</h2>
+                <p class="muted" style="margin:0">Controla el stock, fechas de caducidad, precios de medicamentos y compras a proveedores.</p>
+            </div>
+            <a href="#formNuevoProducto" class="btn-paw">+ Agregar Producto</a>
+        </div>
+
+        <div class="grid" style="margin-top:1.5rem">
+            <div class="card-paw pad stat-card"><b>@ViewBag.TotalProductos</b>Unidades totales en stock</div>
+            <div class="card-paw pad stat-card"><b>@ViewBag.ProductosBajoStock</b>Productos bajo stock</div>
+            <div class="card-paw pad stat-card"><b>$@ViewBag.ValorInventario.ToString("N2") USD</b>Valor del inventario</div>
+            <div class="card-paw pad stat-card"><b>@ViewBag.ProductosAgotados</b>Productos agotados</div>
+        </div>
+
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:1.5rem 0">
+            @foreach (string cat in new[] { "Todos", "Medicamentos", "Vacunas", "Insumos", "Alimentos" })
+            {
+                <a class="@(categoria == cat ? "btn-paw" : "btn-line")" asp-controller="Inventario" asp-action="Index" asp-route-categoria="@cat">@cat</a>
+            }
+        </div>
+
+        <div class="scroll">
+            <table class="tabla">
+                <tr><th>Producto</th><th>Categoría</th><th>Clínica</th><th>Stock Actual</th><th>Stock Mínimo</th><th>Precio</th><th>Caducidad</th><th>Estado</th><th>Acciones</th></tr>
+                @foreach (ProductoInventario p in Model)
+                {
+                    <tr>
+                        <td><b>@p.Nombre</b><br /><small class="muted">Proveedor: @p.Proveedor</small></td>
+                        <td>@p.Categoria</td>
+                        <td>@p.Clinica</td>
+                        <td><b>@p.StockActual uds</b></td>
+                        <td>@p.StockMinimo uds</td>
+                        <td>$@p.Precio.ToString("0.00")</td>
+                        <td>@p.FechaCaducidad</td>
+                        <td><span class="badge-paw @Datos.ClaseEstado(p.EstadoStock)">@p.EstadoStock</span></td>
+                        <td>
+                            <details style="display:inline-block">
+                                <summary class="btn-mini info" style="list-style:none">Editar</summary>
+                                <form asp-controller="Inventario" asp-action="Editar" method="post" class="card-paw pad" style="margin-top:.4rem;min-width:220px">
+                                    <input type="hidden" name="id" value="@p.Id" />
+                                    <input type="text" name="nombre" value="@p.Nombre" class="form-control" required />
+                                    <select name="categoria" class="form-control" style="margin-top:.3rem">
+                                        <option selected="@(p.Categoria == "Medicamentos")">Medicamentos</option>
+                                        <option selected="@(p.Categoria == "Vacunas")">Vacunas</option>
+                                        <option selected="@(p.Categoria == "Insumos")">Insumos</option>
+                                        <option selected="@(p.Categoria == "Alimentos")">Alimentos</option>
+                                    </select>
+                                    <input type="number" name="stockActual" value="@p.StockActual" min="0" class="form-control" style="margin-top:.3rem" required />
+                                    <input type="number" name="stockMinimo" value="@p.StockMinimo" min="0" class="form-control" style="margin-top:.3rem" required />
+                                    <input type="number" step="0.01" name="precio" value="@p.Precio" min="0.01" class="form-control" style="margin-top:.3rem" required />
+                                    <button type="submit" class="btn-mini ok" style="margin-top:.4rem;width:100%">Guardar</button>
+                                </form>
+                            </details>
+                            <form asp-controller="Inventario" asp-action="Eliminar" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@p.Id" />
+                                <button type="submit" class="btn-mini bad">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+
+        <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:2rem;align-items:start" id="formNuevoProducto">
+            <div class="card-paw pad">
+                <h3>Agregar Nuevo Producto al Inventario</h3>
+                <form asp-controller="Inventario" asp-action="Agregar" method="post">
+                    <label>Nombre del medicamento o insumo *</label>
+                    <input type="text" name="nombre" class="form-control" required />
+                    <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                        <div>
+                            <label>Categoría</label>
+                            <select name="categoria" class="form-control">
+                                <option>Medicamentos</option>
+                                <option>Vacunas</option>
+                                <option>Insumos</option>
+                                <option>Alimentos</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Clínica</label>
+                            <select name="clinica" class="form-control">
+                                @foreach (Clinica c in clinicas)
+                                {
+                                    <option value="@c.Nombre">@c.Nombre</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid" style="grid-template-columns:1fr 1fr 1fr;gap:.5rem">
+                        <div>
+                            <label>Stock Inicial *</label>
+                            <input type="number" name="stockActual" value="20" min="0" class="form-control" required />
+                        </div>
+                        <div>
+                            <label>Stock Mínimo *</label>
+                            <input type="number" name="stockMinimo" value="10" min="1" class="form-control" required />
+                        </div>
+                        <div>
+                            <label>Precio USD *</label>
+                            <input type="number" step="0.01" name="precio" value="15.00" min="0.01" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                        <div>
+                            <label>Proveedor</label>
+                            <input type="text" name="proveedor" value="VetPharma Internacional" class="form-control" required />
+                        </div>
+                        <div>
+                            <label>Fecha de Caducidad</label>
+                            <input type="date" name="fechaCaducidad" value="2027-12-31" class="form-control" required />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-paw" style="margin-top:.8rem;width:100%">Guardar Producto</button>
+                </form>
+            </div>
+
+            <div class="card-paw pad">
+                <h3>Registrar Compra a Proveedor (Reabastecimiento)</h3>
+                <form asp-controller="Inventario" asp-action="RegistrarCompra" method="post">
+                    <label>Producto a reabastecer *</label>
+                    <select name="idProducto" class="form-control">
+                        @foreach (ProductoInventario p in Datos.Inventario)
+                        {
+                            <option value="@p.Id">@p.Nombre (Stock actual: @p.StockActual)</option>
+                        }
+                    </select>
+                    <label>Proveedor *</label>
+                    <input type="text" name="proveedor" value="BioVet Labs" class="form-control" required />
+                    <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                        <div>
+                            <label>Cantidad comprada *</label>
+                            <input type="number" name="cantidad" value="25" min="1" class="form-control" required />
+                        </div>
+                        <div>
+                            <label>Costo unitario (USD) *</label>
+                            <input type="number" step="0.01" name="costoUnitario" value="10.00" min="0.01" class="form-control" required />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-paw" style="margin-top:.8rem;width:100%">Registrar Compra y Sumar Stock</button>
+                </form>
+
+                <h4 style="margin-top:1.2rem">Historial Reciente de Compras</h4>
+                <table class="tabla" style="font-size:.9rem">
+                    <tr><th>Fecha</th><th>Producto</th><th>Cant.</th><th>Total</th></tr>
+                    @foreach (CompraInventario comp in compras)
+                    {
+                        <tr>
+                            <td>@comp.Fecha</td>
+                            <td>@comp.Producto</td>
+                            <td>+@comp.Cantidad</td>
+                            <td><b>$@comp.Total.ToString("0.00")</b></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

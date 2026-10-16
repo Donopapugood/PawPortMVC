@@ -3,50 +3,154 @@
     ViewData["Title"] = "Gestión de citas";
     Layout = "_AdminLayout";
     string estado = ViewBag.Estado;
+    string clinicaFiltro = ViewBag.ClinicaFiltro;
+    List<Clinica> clinicas = ViewBag.Clinicas;
+    List<Mascota> mascotas = ViewBag.Mascotas;
+    List<Veterinario> veterinarios = ViewBag.Veterinarios;
+    Cita? seleccionada = ViewBag.CitaSeleccionada;
 }
 <section class="section">
     <div class="container">
         <h2 style="text-align:left">Gestión de Citas Médicas</h2>
-        <p class="muted">Confirma o cancela las citas solicitadas por los propietarios.</p>
+        <p class="muted">Monitorea, aprueba, reprograma o registra consultas médicas en tu clínica.</p>
 
-        <label>Filtrar por estado</label>
-        <form asp-controller="GestionCitas" asp-action="Index" method="get" style="max-width:260px">
-            <select name="estado" class="form-control" onchange="this.form.submit()">
-                <option selected="@(estado == "Todas")">Todas</option>
-                <option selected="@(estado == "Pendiente")">Pendiente</option>
-                <option selected="@(estado == "Confirmada")">Confirmada</option>
-                <option selected="@(estado == "En consulta")">En consulta</option>
-                <option selected="@(estado == "Cancelada")">Cancelada</option>
-            </select>
+        <form asp-controller="GestionCitas" asp-action="Index" method="get" class="card-paw pad" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:end;margin-bottom:1.5rem">
+            <div style="flex:1;min-width:180px">
+                <label>Filtrar por estado</label>
+                <select name="estado" class="form-control">
+                    <option selected="@(estado == "Todas")">Todas</option>
+                    <option selected="@(estado == "Pendiente")">Pendiente</option>
+                    <option selected="@(estado == "Confirmada")">Confirmada</option>
+                    <option selected="@(estado == "En consulta")">En consulta</option>
+                    <option selected="@(estado == "Completada")">Completada</option>
+                    <option selected="@(estado == "Cancelada")">Cancelada</option>
+                </select>
+            </div>
+            <div style="flex:1;min-width:200px">
+                <label>Filtrar por sucursal</label>
+                <select name="clinica" class="form-control">
+                    <option value="Todas" selected="@(clinicaFiltro == "Todas")">Todas las clínicas</option>
+                    @foreach (Clinica cl in clinicas)
+                    {
+                        <option value="@cl.Nombre" selected="@(clinicaFiltro == cl.Nombre)">@cl.Nombre</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn-paw">Buscar Citas</button>
         </form>
-        <br />
+        <div class="grid" style="grid-template-columns:2fr 1fr;align-items:start">
+            <div class="scroll">
+                <table class="tabla">
+                    <tr><th>Fecha / Hora</th><th>Paciente</th><th>Propietario</th><th>Clínica / Médico</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr>
+                    @foreach (Cita c in Model)
+                    {
+                        <tr>
+                            <td><b>@c.Hora</b><br /><small class="muted">@c.Fecha</small></td>
+                            <td>@c.Mascota</td>
+                            <td>@c.Propietario</td>
+                            <td>@c.Clinica<br /><small class="muted">@c.Veterinario</small></td>
+                            <td>@c.Motivo</td>
+                            <td><span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span></td>
+                            <td>
+                                <a class="btn-mini info" asp-controller="GestionCitas" asp-action="Index" asp-route-estado="@estado" asp-route-idSeleccionada="@c.Id">Detalle</a>
+                                <form asp-controller="GestionCitas" asp-action="CambiarEstado" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@c.Id" />
+                                    <input type="hidden" name="nuevoEstado" value="Confirmada" />
+                                    <input type="hidden" name="estado" value="@estado" />
+                                    <button type="submit" class="btn-mini ok">Confirmar</button>
+                                </form>
+                                <form asp-controller="GestionCitas" asp-action="CambiarEstado" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@c.Id" />
+                                    <input type="hidden" name="nuevoEstado" value="En consulta" />
+                                    <input type="hidden" name="estado" value="@estado" />
+                                    <button type="submit" class="btn-mini wait">Consulta</button>
+                                </form>
+                                <form asp-controller="GestionCitas" asp-action="CambiarEstado" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@c.Id" />
+                                    <input type="hidden" name="nuevoEstado" value="Cancelada" />
+                                    <input type="hidden" name="estado" value="@estado" />
+                                    <button type="submit" class="btn-mini bad">Cancelar</button>
+                                </form>
+                                <form asp-controller="GestionCitas" asp-action="Eliminar" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@c.Id" />
+                                    <input type="hidden" name="estado" value="@estado" />
+                                    <button type="submit" class="btn-mini bad">🗑️</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
 
-        <div class="scroll">
-            <table class="tabla">
-                <tr><th>Hora</th><th>Paciente</th><th>Propietario</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr>
-                @foreach (Cita c in Model)
+            <div>
+                @if (seleccionada != null)
                 {
-                    <tr>
-                        <td>@c.Hora</td>
-                        <td>@c.Mascota</td>
-                        <td>@c.Propietario</td>
-                        <td>@c.Motivo</td>
-                        <td><span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span></td>
-                        <td>
-                            <form asp-controller="GestionCitas" asp-action="Confirmar" method="post" style="display:inline">
-                                <input type="hidden" name="id" value="@c.Id" />
-                                <input type="hidden" name="estado" value="@estado" />
-                                <button type="submit" class="btn-mini ok">Confirmar</button>
-                            </form>
-                            <form asp-controller="GestionCitas" asp-action="Cancelar" method="post" style="display:inline">
-                                <input type="hidden" name="id" value="@c.Id" />
-                                <input type="hidden" name="estado" value="@estado" />
-                                <button type="submit" class="btn-mini bad">Cancelar</button>
-                            </form>
-                        </td>
-                    </tr>
+                    <div class="card-paw pad" style="margin-bottom:1.2rem">
+                        <h3>Detalle y Reprogramación</h3>
+                        <p class="muted">Cita #@seleccionada.Id — @seleccionada.Mascota (@seleccionada.Propietario)</p>
+                        <form asp-controller="GestionCitas" asp-action="Editar" method="post">
+                            <input type="hidden" name="id" value="@seleccionada.Id" />
+                            <input type="hidden" name="estado" value="@estado" />
+                            <label>Fecha</label>
+                            <input type="date" name="fecha" value="@seleccionada.Fecha" class="form-control" required />
+                            <label>Hora</label>
+                            <input type="text" name="hora" value="@seleccionada.Hora" class="form-control" required />
+                            <label>Veterinario asignado</label>
+                            <select name="veterinario" class="form-control">
+                                @foreach (Veterinario v in veterinarios)
+                                {
+                                    <option value="@v.Nombre" selected="@(v.Nombre == seleccionada.Veterinario)">@v.Nombre</option>
+                                }
+                            </select>
+                            <label>Motivo</label>
+                            <input type="text" name="motivo" value="@seleccionada.Motivo" class="form-control" required />
+                            <button type="submit" class="btn-paw" style="margin-top:.8rem;width:100%">Guardar Reprogramación</button>
+                        </form>
+                    </div>
                 }
-            </table>
+
+                <div class="card-paw pad">
+                    <h3>Registrar Cita en Recepción</h3>
+                    <form asp-controller="GestionCitas" asp-action="Crear" method="post">
+                        <label>Mascota</label>
+                        <select name="mascota" class="form-control">
+                            @foreach (Mascota m in mascotas)
+                            {
+                                <option value="@m.Nombre">@m.Nombre (@m.Propietario)</option>
+                            }
+                        </select>
+                        <label>Propietario</label>
+                        <input type="text" name="propietario" value="Alejandra Gómez" class="form-control" required />
+                        <label>Clínica</label>
+                        <select name="clinica" class="form-control">
+                            @foreach (Clinica cl in clinicas)
+                            {
+                                <option value="@cl.Nombre">@cl.Nombre</option>
+                            }
+                        </select>
+                        <label>Veterinario</label>
+                        <select name="veterinario" class="form-control">
+                            @foreach (Veterinario v in veterinarios)
+                            {
+                                <option value="@v.Nombre">@v.Nombre</option>
+                            }
+                        </select>
+                        <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                            <div>
+                                <label>Fecha</label>
+                                <input type="date" name="fecha" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" required />
+                            </div>
+                            <div>
+                                <label>Hora</label>
+                                <input type="text" name="hora" value="10:00" class="form-control" required />
+                            </div>
+                        </div>
+                        <label>Motivo</label>
+                        <input type="text" name="motivo" class="form-control" required />
+                        <button type="submit" class="btn-paw" style="margin-top:.8rem;width:100%">Crear Cita</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </section>

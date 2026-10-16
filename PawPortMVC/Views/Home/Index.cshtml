@@ -4,14 +4,19 @@
 @{
     ViewData["Title"] = "Inicio";
     List<Clinica> clinicas = ViewBag.Clinicas;
+    List<Reseña> reseñas = ViewBag.Reseñas;
 }
 <section class="hero">
     <div class="container hero-grid">
         <div>
+            <span class="badge-paw info" style="margin-bottom:1rem">Red Veterinaria Global 🐾</span>
             <h1>Cuidamos a quienes más amas 🐾</h1>
-            <p class="muted">PawPort, de A2D2, es una red internacional de clínicas veterinarias. Registra a tu mascota, consulta su historial médico y agenda citas desde un solo lugar.</p>
-            <a asp-controller="Registro" asp-action="Index" class="btn-paw">Registrarme</a>
-            <a asp-controller="ExplorarClinicas" asp-action="Index" class="btn-line">Explorar clínicas</a>
+            <p class="muted">PawPort, de A2D2, es una red internacional de clínicas veterinarias. Registra a tu mascota, consulta su expediente médico unificado, recibe recordatorios y agenda citas en cualquier sucursal del mundo.</p>
+            <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+                <a asp-controller="AgendarCita" asp-action="Index" class="btn-paw">Agendar Cita</a>
+                <a asp-controller="ExplorarClinicas" asp-action="Index" class="btn-line">Explorar Clínicas</a>
+                <a asp-controller="Registro" asp-action="Index" class="btn-line">Registrarme</a>
+            </div>
         </div>
         <img src="/recursos/Img/veterinaria-perro.png" class="hero-img" alt="Veterinaria con mascota" />
     </div>
@@ -20,46 +25,115 @@
 <section class="section">
     <div class="container">
         <h2>Todo lo que necesitas en un solo lugar</h2>
-        <p class="sub">Servicios pensados para dueños, veterinarios y administradores.</p>
+        <p class="sub">Herramientas integrales para propietarios, veterinarios y administradores de clínicas.</p>
         <div class="grid">
-            <div class="card-paw pad"><div class="icono"></div><h3>Registro de mascotas</h3><p class="muted">Crea el perfil de cada mascota con su información básica.</p></div>
-            <div class="card-paw pad"><div class="icono"></div><h3>Citas en línea</h3><p class="muted">Solicita, reprograma o cancela citas sin llamadas.</p></div>
-            <div class="card-paw pad"><div class="icono"></div><h3>Expediente médico</h3><p class="muted">Diagnósticos, tratamientos y vacunas siempre disponibles.</p></div>
-            <div class="card-paw pad"><div class="icono"></div><h3>Múltiples clínicas</h3><p class="muted">Tu historial te acompaña en cualquier sucursal de la red.</p></div>
-            <div class="card-paw pad"><div class="icono"></div><h3>Recordatorios</h3><p class="muted">Avisos de citas y vacunas pendientes.</p></div>
-            <div class="card-paw pad"><div class="icono"></div><h3>Facturación</h3><p class="muted">Cobros claros de consultas, tratamientos y medicamentos.</p></div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/Registro Mascotas.png" alt="Registro" style="height:44px;margin-bottom:.8rem" />
+                <h3>Registro de mascotas</h3>
+                <p class="muted">Crea el perfil de cada mascota con su raza, peso, alergias y fotografía.</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/Citas en Línea.png" alt="Citas" style="height:44px;margin-bottom:.8rem" />
+                <h3>Citas en línea</h3>
+                <p class="muted">Solicita, confirma, reprograma o cancela citas con especialistas sin llamadas.</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/Expediente Médico.png" alt="Expediente" style="height:44px;margin-bottom:.8rem" />
+                <h3>Expediente médico</h3>
+                <p class="muted">Diagnósticos, tratamientos, recetas y vacunas sincronizados al instante.</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/Multiples sucursale.png" alt="Sucursales" style="height:44px;margin-bottom:.8rem" />
+                <h3>Múltiples clínicas</h3>
+                <p class="muted">Tu historial clínico te acompaña en cualquier ciudad o país de la red.</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/Recordatorios.png" alt="Recordatorios" style="height:44px;margin-bottom:.8rem" />
+                <h3>Recordatorios</h3>
+                <p class="muted">Alertas automáticas de próximas vacunas, desparasitaciones y controles.</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/Facturación.png" alt="Facturación" style="height:44px;margin-bottom:.8rem" />
+                <h3>Inventario y Facturación</h3>
+                <p class="muted">Control de stock de medicamentos, compras y cobros transparentes.</p>
+            </div>
         </div>
     </div>
 </section>
 
 <section class="section" style="background:#fff">
     <div class="container">
-        <h2>Nuestra red de clínicas</h2>
-        <p class="sub">Atención profesional en distintas ciudades.</p>
+        <h2>¿Cómo funciona PawPort?</h2>
+        <p class="sub">Llevar el control de la salud de tus mascotas nunca había sido tan sencillo.</p>
+        <div class="grid" style="text-align:center">
+            <div class="card-paw pad">
+                <img src="/recursos/Img/bola numero 1.png" alt="Paso 1" style="height:48px;margin-bottom:.6rem" />
+                <h3>1. Regístrate</h3>
+                <p class="muted">Crea tu cuenta como propietario o accede como personal médico.</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/bola numero 2.png" alt="Paso 2" style="height:48px;margin-bottom:.6rem" />
+                <h3>2. Agrega tus mascotas</h3>
+                <p class="muted">Registra sus datos clínicos clave, alergias y esquema de vacunación.</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/bola numero 3.png" alt="Paso 3" style="height:48px;margin-bottom:.6rem" />
+                <h3>3. Agenda una cita</h3>
+                <p class="muted">Elige la sucursal internacional, la especialidad y el horario ideal.</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/Bola numero 4.png" alt="Paso 4" style="height:48px;margin-bottom:.6rem" />
+                <h3>4. Seguimiento completo</h3>
+                <p class="muted">Consulta diagnósticos, medicamentos recetados y facturas en línea.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2>Nuestra red internacional de clínicas</h2>
+        <p class="sub">Atención veterinaria conectada en distintas ciudades y países.</p>
         <div class="grid">
             @foreach (Clinica c in clinicas)
             {
                 <article class="card-paw">
-                    @{
-                        // Forzar uso de las tres imágenes específicas según la ciudad
-                        var imgSrc = Url.Content("~/recursos/Img/Ciudad_Mexico.png");
-                        if (c.Ciudad != null && c.Ciudad.Contains("Madrid", System.StringComparison.OrdinalIgnoreCase))
-                        {
-                            imgSrc = Url.Content("~/recursos/Img/Madrid.png");
-                        }
-                        else if (c.Ciudad != null && c.Ciudad.Contains("Buenos", System.StringComparison.OrdinalIgnoreCase))
-                        {
-                            imgSrc = Url.Content("~/recursos/Img/Buenos_Aires.png");
-                        }
-                    }
-                    <img class="card-img" src="@imgSrc" alt="@c.Nombre" />
+                    <img class="card-img" src="@c.Imagen" alt="@c.Nombre" />
                     <div class="card-body-paw">
-                        <h3>@c.Nombre</h3>
-                        <p class="muted">📍 @c.Ciudad</p>
-                        <a class="btn-line" asp-controller="AgendarCita" asp-action="Index" asp-route-clinica="@c.Nombre">Ver clínica</a>
+                        <span class="badge-paw info">@c.Especialidad</span>
+                        <h3 style="margin-top:.5rem">@c.Nombre</h3>
+                        <p class="muted">📍 @c.Ciudad, @c.Pais · ⭐ @c.Calificacion</p>
+                        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                            <a class="btn-line" asp-controller="ExplorarClinicas" asp-action="Detalle" asp-route-id="@c.Id">Ver clínica</a>
+                            <a class="btn-paw" asp-controller="AgendarCita" asp-action="Index" asp-route-clinica="@c.Nombre">Agendar</a>
+                        </div>
                     </div>
                 </article>
             }
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:#fff">
+    <div class="container">
+        <h2>Un sistema para todos</h2>
+        <p class="sub">Perfiles diseñados a la medida de cada rol dentro de nuestra organización.</p>
+        <div class="grid">
+            <div class="card-paw pad">
+                <img src="/recursos/Img/Propietario.png" alt="Propietario" style="height:44px;margin-bottom:.8rem" />
+                <h3>Propietario</h3>
+                <p class="muted">Registra mascotas, agenda citas, consulta expedientes, revisa recordatorios y descarga facturas.</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/Veterinario.png" alt="Veterinario" style="height:44px;margin-bottom:.8rem" />
+                <h3>Veterinario</h3>
+                <p class="muted">Atiende citas del día, actualiza expedientes clínicos, registra diagnósticos, tratamientos y vacunas.</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/Administrador.png" alt="Administrador" style="height:44px;margin-bottom:.8rem" />
+                <h3>Administrador Central y de Sucursal</h3>
+                <p class="muted">Administra clínicas, especialistas, inventario de medicamentos, compras a proveedores y reportes globales.</p>
+            </div>
         </div>
     </div>
 </section>
@@ -68,29 +142,46 @@
     <div class="container grid">
         <div class="stat"><b>+500</b>Clínicas asociadas</div>
         <div class="stat"><b>+10,000</b>Mascotas registradas</div>
-        <div class="stat"><b>+50</b>Ciudades</div>
-        <div class="stat"><b>+200</b>Veterinarios</div>
+        <div class="stat"><b>+50</b>Ciudades cubiertas</div>
+        <div class="stat"><b>+200</b>Veterinarios activos</div>
     </div>
 </section>
 
 <section class="section">
     <div class="container">
+        <h2>Lo que dicen nuestros usuarios</h2>
+        <p class="sub">Experiencias verificadas de propietarios en nuestra red internacional.</p>
+        <div class="grid">
+            @foreach (Reseña r in reseñas.Take(3))
+            {
+                <div class="card-paw pad">
+                    <p style="color:#F59E0B;font-weight:700;margin-bottom:.4rem">⭐⭐⭐⭐⭐ (@r.Calificacion.0)</p>
+                    <p>"@r.Comentario"</p>
+                    <p class="muted" style="margin:0;font-weight:600">— @r.Autor · @r.Clinica (@r.Pais)</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:#fff">
+    <div class="container">
         <h2>Contáctanos</h2>
         <p class="sub">contacto@pawport.com · +503 2222 0000 · San Salvador, El Salvador</p>
         <div class="form-card">
             <form asp-controller="Home" asp-action="Contacto" method="post">
-                <label>Nombre</label>
-                <input type="text" name="nombre" class="form-control" />
-                <label>Correo</label>
-                <input type="email" name="correo" class="form-control" />
+                <label>Nombre completo</label>
+                <input type="text" name="nombre" class="form-control" required />
+                <label>Correo electrónico</label>
+                <input type="email" name="correo" class="form-control" required />
                 <label>Mensaje</label>
-                <textarea name="mensaje" class="form-control" rows="4"></textarea>
+                <textarea name="mensaje" class="form-control" rows="4" required></textarea>
                 <br />
                 <button type="submit" class="btn-paw">Enviar mensaje</button>
             </form>
             @if (ViewBag.Mensaje != null)
             {
-                <p class="@ViewBag.MensajeClase">@ViewBag.Mensaje</p>
+                <p class="@ViewBag.MensajeClase" style="margin-top:1rem">@ViewBag.Mensaje</p>
             }
         </div>
     </div>

@@ -1,0 +1,154 @@
+﻿@model List<Mascota>
+@{
+    ViewData["Title"] = "Gestión de Pacientes y Expedientes";
+    Layout = "_AdminLayout";
+    Mascota? seleccionada = ViewBag.MascotaSeleccionada;
+    List<Expediente> expedientes = ViewBag.ExpedientesMascota;
+    List<Clinica> clinicas = ViewBag.Clinicas;
+    List<Veterinario> veterinarios = ViewBag.Veterinarios;
+    List<ProductoInventario> medicamentos = ViewBag.Medicamentos;
+}
+<section class="section">
+    <div class="container">
+        <h2 style="text-align:left">Gestión de Pacientes y Expedientes Médicos</h2>
+        <p class="muted">Busca, filtra y gestiona el historial médico, diagnósticos, tratamientos y vacunas de las mascotas.</p>
+
+        <form asp-controller="Pacientes" asp-action="Index" method="get" class="card-paw pad" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:end;margin-bottom:1.5rem">
+            <div style="flex:2;min-width:220px">
+                <label>Buscar por mascota, raza o propietario</label>
+                <input type="text" name="buscar" value="@ViewBag.Buscar" class="form-control" placeholder="Ej. Luna, Alejandra..." />
+            </div>
+            <div style="flex:1;min-width:150px">
+                <label>Especie</label>
+                <select name="especie" class="form-control">
+                    <option value="Todas" selected="@((string)ViewBag.Especie == "Todas")">Todas</option>
+                    <option value="Perro" selected="@((string)ViewBag.Especie == "Perro")">Perro</option>
+                    <option value="Gato" selected="@((string)ViewBag.Especie == "Gato")">Gato</option>
+                    <option value="Ave" selected="@((string)ViewBag.Especie == "Ave")">Ave</option>
+                </select>
+            </div>
+            <div style="flex:1;min-width:150px">
+                <label>Estado clínico</label>
+                <select name="estado" class="form-control">
+                    <option value="Todos" selected="@((string)ViewBag.Estado == "Todos")">Todos</option>
+                    <option value="Activo" selected="@((string)ViewBag.Estado == "Activo")">Activo</option>
+                    <option value="En Tratamiento" selected="@((string)ViewBag.Estado == "En Tratamiento")">En Tratamiento</option>
+                    <option value="Inactivo" selected="@((string)ViewBag.Estado == "Inactivo")">Inactivo</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-paw">Aplicar Filtros</button>
+        </form>
+
+        <div class="grid" style="grid-template-columns:1.5fr 1fr;align-items:start">
+            <div class="scroll">
+                <table class="tabla">
+                    <tr><th>Foto</th><th>Nombre</th><th>Especie / Raza</th><th>Propietario</th><th>Última Visita</th><th>Estado</th><th>Acción</th></tr>
+                    @foreach (Mascota m in Model)
+                    {
+                        <tr>
+                            <td><img src="@m.Imagen" alt="@m.Nombre" style="width:42px;height:42px;border-radius:50%;object-fit:cover" /></td>
+                            <td><b>@m.Nombre</b></td>
+                            <td>@m.Especie · @m.Raza</td>
+                            <td>@m.Propietario</td>
+                            <td>@m.UltimaVisita</td>
+                            <td><span class="badge-paw @Datos.ClaseEstado(m.Estado)">@m.Estado</span></td>
+                            <td>
+                                <a class="btn-line" style="padding:.3rem .8rem;font-size:.88rem" asp-controller="Pacientes" asp-action="Index" asp-route-idMascota="@m.Id">Expediente</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+            @if (seleccionada != null)
+            {
+                <div class="card-paw pad">
+                    <h3>@seleccionada.Nombre — Resumen Clínico</h3>
+                    <p class="muted">Propietario: @seleccionada.Propietario</p>
+                    <div class="grid" style="grid-template-columns:1fr 1fr;margin:.8rem 0">
+                        <div class="card-paw pad" style="background:var(--soft)">
+                            <small class="muted">PESO ACTUAL</small>
+                            <h4 style="margin:0">@seleccionada.Peso kg</h4>
+                        </div>
+                        <div class="card-paw pad" style="background:var(--soft)">
+                            <small class="muted">EDAD / VACUNAS</small>
+                            <h4 style="margin:0">@seleccionada.Edad años (@seleccionada.Vacunas)</h4>
+                        </div>
+                    </div>
+
+                    <div class="card-paw pad" style="background:#FEF2F2;border-color:#FECACA;margin-bottom:1rem">
+                        <small style="color:#B91C1C;font-weight:700">ALERGIAS / RECOMENDACIONES</small>
+                        <p style="margin:.2rem 0 0;font-size:.9rem;color:#991B1B">@seleccionada.Alergias</p>
+                    </div>
+
+                    <h4>Historial de Consultas y Tratamientos</h4>
+                    @foreach (Expediente e in expedientes)
+                    {
+                        <div class="card-paw pad" style="margin-bottom:.8rem">
+                            <div style="display:flex;justify-content:space-between">
+                                <b>@e.Fecha — @e.Veterinario</b>
+                                <form asp-controller="Pacientes" asp-action="EliminarExpediente" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@e.Id" />
+                                    <input type="hidden" name="idMascota" value="@seleccionada.Id" />
+                                    <button type="submit" class="btn-mini bad">Eliminar</button>
+                                </form>
+                            </div>
+                            <p style="margin:.3rem 0;font-size:.9rem"><b>Diagnóstico:</b> @e.Diagnostico</p>
+                            <p style="margin:.2rem 0;font-size:.9rem"><b>Tratamiento:</b> @e.Tratamiento</p>
+                            <p style="margin:.2rem 0;font-size:.85rem" class="muted">💊 @e.MedicamentoRecetado · 💉 @e.VacunaAplicada</p>
+                        </div>
+                    }
+
+                    <hr />
+                    <h4>Registrar Nueva Consulta / Diagnóstico</h4>
+                    <form asp-controller="Pacientes" asp-action="RegistrarExpediente" method="post">
+                        <input type="hidden" name="idMascota" value="@seleccionada.Id" />
+                        <label>Clínica</label>
+                        <select name="clinica" class="form-control">
+                            @foreach (Clinica c in clinicas)
+                            {
+                                <option value="@c.Nombre">@c.Nombre</option>
+                            }
+                        </select>
+                        <label>Veterinario responsable</label>
+                        <select name="veterinario" class="form-control">
+                            @foreach (Veterinario v in veterinarios)
+                            {
+                                <option value="@v.Nombre">@v.Nombre (@v.Especialidad)</option>
+                            }
+                        </select>
+                        <label>Diagnóstico clínico *</label>
+                        <textarea name="diagnostico" class="form-control" rows="2" required></textarea>
+                        <label>Tratamiento indicado *</label>
+                        <textarea name="tratamiento" class="form-control" rows="2" required></textarea>
+                        <label>Medicamento recetado</label>
+                        <select name="medicamentoRecetado" class="form-control">
+                            <option value="Ninguno">Ninguno</option>
+                            @foreach (ProductoInventario med in medicamentos)
+                            {
+                                <option value="@med.Nombre">@med.Nombre</option>
+                            }
+                        </select>
+                        <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                            <div>
+                                <label>Vacuna aplicada</label>
+                                <input type="text" name="vacunaAplicada" class="form-control" placeholder="Ej. Antirrábica" />
+                            </div>
+                            <div>
+                                <label>Peso registrado (kg)</label>
+                                <input type="number" step="0.1" name="pesoRegistrado" value="@seleccionada.Peso" class="form-control" required />
+                            </div>
+                        </div>
+                        <label>Actualizar estado del paciente</label>
+                        <select name="estadoPaciente" class="form-control">
+                            <option value="Activo" selected="@(seleccionada.Estado == "Activo")">Activo</option>
+                            <option value="En Tratamiento" selected="@(seleccionada.Estado == "En Tratamiento")">En Tratamiento</option>
+                            <option value="Inactivo" selected="@(seleccionada.Estado == "Inactivo")">Inactivo</option>
+                        </select>
+                        <button type="submit" class="btn-paw" style="margin-top:.8rem;width:100%">Guardar en Expediente</button>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</section>

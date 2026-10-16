@@ -1,0 +1,111 @@
+﻿@model List<Factura>
+@{
+    ViewData["Title"] = "Facturación y Pagos";
+    string rol = ViewBag.Rol;
+    if (rol == "Veterinario" || rol == "AdministradorSucursal" || rol == "AdminCentral")
+    {
+        Layout = "_AdminLayout";
+    }
+    string estado = ViewBag.Estado;
+    List<Mascota> mascotas = ViewBag.Mascotas;
+    List<Clinica> clinicas = ViewBag.Clinicas;
+}
+<section class="section">
+    <div class="container">
+        <h2 style="text-align:left">Facturación y Control de Cobros</h2>
+        <p class="muted">Consulta y administra las facturas de consultas médicas, cirugías, vacunas y medicamentos.</p>
+
+        <div class="grid" style="margin-bottom:1.5rem">
+            <div class="card-paw pad stat-card"><b>$@ViewBag.TotalCobrado.ToString("N2") USD</b>Total facturado y pagado</div>
+            <div class="card-paw pad stat-card"><b>$@ViewBag.TotalPendiente.ToString("N2") USD</b>Saldo pendiente por cobrar</div>
+            <div class="card-paw pad stat-card"><b>@Model.Count</b>Facturas listadas</div>
+        </div>
+
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.2rem">
+            @foreach (string est in new[] { "Todas", "Pagada", "Pendiente", "Anulada" })
+            {
+                <a class="@(estado == est ? "btn-paw" : "btn-line")" asp-controller="Facturacion" asp-action="Index" asp-route-estado="@est">@est</a>
+            }
+        </div>
+
+        <div class="grid" style="grid-template-columns:2fr 1fr;align-items:start">
+            <div class="scroll">
+                <table class="tabla">
+                    <tr><th>N° Factura</th><th>Fecha</th><th>Cliente / Mascota</th><th>Clínica</th><th>Concepto</th><th>Monto</th><th>Estado</th><th>Acciones</th></tr>
+                    @foreach (Factura f in Model)
+                    {
+                        <tr>
+                            <td><b>@f.NumeroFactura</b><br /><small class="muted">@f.MetodoPago</small></td>
+                            <td>@f.Fecha</td>
+                            <td>@f.Propietario<br /><small class="muted">🐾 @f.Mascota</small></td>
+                            <td>@f.Clinica</td>
+                            <td>@f.Concepto</td>
+                            <td><b>$@f.Monto.ToString("0.00")</b></td>
+                            <td><span class="badge-paw @Datos.ClaseEstado(f.Estado)">@f.Estado</span></td>
+                            <td>
+                                <form asp-controller="Facturacion" asp-action="CambiarEstado" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@f.Id" />
+                                    <input type="hidden" name="nuevoEstado" value="Pagada" />
+                                    <button type="submit" class="btn-mini ok">Pagar</button>
+                                </form>
+                                <form asp-controller="Facturacion" asp-action="CambiarEstado" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@f.Id" />
+                                    <input type="hidden" name="nuevoEstado" value="Anulada" />
+                                    <button type="submit" class="btn-mini bad">Anular</button>
+                                </form>
+                                <form asp-controller="Facturacion" asp-action="Eliminar" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@f.Id" />
+                                    <button type="submit" class="btn-mini bad">🗑️</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+            <div class="card-paw pad">
+                <h3>Emitir Nueva Factura</h3>
+                <form asp-controller="Facturacion" asp-action="Emitir" method="post">
+                    <label>Propietario *</label>
+                    <input type="text" name="propietario" value="Alejandra Gómez" class="form-control" required />
+                    <label>Mascota *</label>
+                    <select name="mascota" class="form-control">
+                        @foreach (Mascota m in mascotas)
+                        {
+                            <option value="@m.Nombre">@m.Nombre</option>
+                        }
+                    </select>
+                    <label>Clínica *</label>
+                    <select name="clinica" class="form-control">
+                        @foreach (Clinica c in clinicas)
+                        {
+                            <option value="@c.Nombre">@c.Nombre</option>
+                        }
+                    </select>
+                    <label>Concepto de cobro *</label>
+                    <input type="text" name="concepto" placeholder="Ej. Consulta general + Vacuna" class="form-control" required />
+                    <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+                        <div>
+                            <label>Monto (USD) *</label>
+                            <input type="number" step="0.01" name="monto" value="35.00" min="0.01" class="form-control" required />
+                        </div>
+                        <div>
+                            <label>Método de pago</label>
+                            <select name="metodoPago" class="form-control">
+                                <option>Tarjeta</option>
+                                <option>Efectivo</option>
+                                <option>Transferencia</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label>Estado inicial</label>
+                    <select name="estado" class="form-control">
+                        <option>Pagada</option>
+                        <option>Pendiente</option>
+                    </select>
+                    <button type="submit" class="btn-paw" style="margin-top:.8rem;width:100%">Generar Factura</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

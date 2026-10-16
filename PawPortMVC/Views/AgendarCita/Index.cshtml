@@ -2,59 +2,91 @@
     ViewData["Title"] = "Agendar cita";
     List<Mascota> mascotas = ViewBag.Mascotas;
     List<Clinica> clinicas = ViewBag.Clinicas;
+    List<Veterinario> veterinarios = ViewBag.Veterinarios;
+    List<string> especialidades = ViewBag.Especialidades;
 }
-<div class="form-card">
-    <h2>Agendar una cita</h2>
+<div class="form-card" style="max-width:740px">
+    <h2>Agendar una Cita Veterinaria</h2>
+    <p class="muted">Reserva atención médica en cualquiera de nuestras sucursales internacionales.</p>
+
     <form asp-controller="AgendarCita" asp-action="Index" method="post">
-        <div class="paso"><span>1</span> Datos de la mascota</div>
-        <label>Mascota</label>
-        <select name="mascota" class="form-control">
-            @foreach (Mascota m in mascotas)
+        <div class="paso"><span>1</span> Datos de tu Mascota y Propietario</div>
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div>
+                <label>Mascota *</label>
+                <select name="mascota" class="form-control" required>
+                    @foreach (Mascota m in mascotas)
+                    {
+                        <option value="@m.Nombre">@m.Nombre (@m.Especie - @m.Raza)</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label>Propietario *</label>
+                <input type="text" name="propietario" value="Alejandra Gómez" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="paso"><span>2</span> Selección de Clínica, Especialidad y Médico</div>
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div>
+                <label>Clínica / Sucursal *</label>
+                <select name="clinica" class="form-control" required>
+                    @foreach (Clinica c in clinicas)
+                    {
+                        <option value="@c.Nombre" selected="@(c.Nombre == (string)ViewBag.ClinicaElegida)">@c.Nombre (@c.Ciudad, @c.Pais)</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label>Especialidad *</label>
+                <select name="especialidad" class="form-control" required>
+                    @foreach (string esp in especialidades)
+                    {
+                        <option value="@esp">@esp</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <label>Veterinario Preferido</label>
+        <select name="veterinario" class="form-control">
+            @foreach (Veterinario v in veterinarios)
             {
-                <option>@m.Nombre</option>
+                <option value="@v.Nombre">@v.Nombre — @v.Especialidad (@v.Clinica)</option>
             }
         </select>
+        <div class="paso"><span>3</span> Fecha, Horario y Motivo de Consulta</div>
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div>
+                <label>Fecha preferida *</label>
+                <input type="date" name="fecha" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+            </div>
+            <div>
+                <label>Hora preferida *</label>
+                <select name="hora" class="form-control" required>
+                    <option>09:00</option>
+                    <option>10:30</option>
+                    <option>11:15</option>
+                    <option>14:00</option>
+                    <option>16:00</option>
+                </select>
+            </div>
+        </div>
 
-        <div class="paso"><span>2</span> Clínica y especialidad</div>
-        <label>Clínica</label>
-        <select name="clinica" class="form-control">
-            @foreach (Clinica c in clinicas)
-            {
-                if (c.Nombre == (string)ViewBag.ClinicaElegida)
-                {
-                    <option selected="selected">@c.Nombre</option>
-                }
-                else
-                {
-                    <option>@c.Nombre</option>
-                }
-            }
-        </select>
-        <label>Especialidad</label>
-        <select name="especialidad" class="form-control">
-            <option>Medicina general</option>
-            <option>Cirugía</option>
-            <option>Dermatología</option>
-            <option>Cardiología</option>
-        </select>
+        <label>Motivo de la consulta *</label>
+        <input type="text" name="motivo" class="form-control" placeholder="Ej. Vacunación anual, chequeo general, control dermatológico" required />
 
-        <div class="paso"><span>3</span> Fecha y motivo</div>
-        <label>Fecha</label>
-        <input type="date" name="fecha" class="form-control" />
-        <label>Hora</label>
-        <select name="hora" class="form-control">
-            <option>09:00</option>
-            <option>10:30</option>
-            <option>14:00</option>
-            <option>16:00</option>
-        </select>
-        <label>Motivo de la consulta</label>
-        <textarea name="motivo" class="form-control" rows="3"></textarea>
+        <label>Notas adicionales / Síntomas</label>
+        <textarea name="notas" class="form-control" rows="3" placeholder="Describe síntomas o indicaciones previas..."></textarea>
         <br />
-        <button type="submit" class="btn-paw">Confirmar cita</button>
+        <button type="submit" class="btn-paw" style="width:100%">Enviar Solicitud de Cita</button>
     </form>
+
     @if (ViewBag.Resumen != null)
     {
-        <p class="@ViewBag.ResumenClase">@ViewBag.Resumen</p>
+        <div class="card-paw pad" style="margin-top:1.2rem;background:var(--soft)">
+            <p class="@ViewBag.ResumenClase" style="margin:0">@ViewBag.Resumen</p>
+        </div>
     }
 </div>

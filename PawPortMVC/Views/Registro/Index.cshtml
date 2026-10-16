@@ -2,27 +2,56 @@
     ViewData["Title"] = "Crear cuenta";
 }
 <div class="form-card">
-    <h2>Crea tu cuenta de dueño</h2>
-    <p class="muted">Un pasaporte unificado de salud para tu mascota 🐾</p>
+    <h2>Crea tu cuenta en PawPort</h2>
+    <p class="muted">Un pasaporte unificado de salud para tu mascota en toda nuestra red internacional 🐾</p>
     <form asp-controller="Registro" asp-action="Index" method="post">
-        <label>Nombre completo</label>
-        <input type="text" name="nombre" class="form-control" />
-        <label>Correo electrónico</label>
-        <input type="email" name="correo" class="form-control" />
-        <label>Teléfono</label>
-        <input type="text" name="telefono" class="form-control" />
-        <label>Contraseña</label>
-        <input type="password" name="clave" class="form-control" />
-        <label>Confirmar contraseña</label>
-        <input type="password" name="clave2" class="form-control" />
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div>
+                <label>Nombre *</label>
+                <input type="text" name="nombre" class="form-control" required />
+            </div>
+            <div>
+                <label>Apellido *</label>
+                <input type="text" name="apellido" class="form-control" required />
+            </div>
+        </div>
+
+        <label>Correo electrónico *</label>
+        <input type="email" name="correo" class="form-control" required />
+
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div>
+                <label>Teléfono *</label>
+                <input type="text" name="telefono" class="form-control" placeholder="+503 7000 0000" required />
+            </div>
+            <div>
+                <label>Tipo de cuenta (Rol)</label>
+                <select name="rol" class="form-control">
+                    <option value="Propietario">Propietario de Mascota</option>
+                    <option value="Veterinario">Veterinario</option>
+                    <option value="AdministradorSucursal">Administrador de Sucursal</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div>
+                <label>Contraseña *</label>
+                <input type="password" name="clave" class="form-control" minlength="4" required />
+            </div>
+            <div>
+                <label>Confirmar contraseña *</label>
+                <input type="password" name="clave2" class="form-control" minlength="4" required />
+            </div>
+        </div>
         <br />
-        <label style="display:inline"><input type="checkbox" name="terminos" value="true" /> Acepto los términos y condiciones</label>
+        <label style="display:inline"><input type="checkbox" name="terminos" value="true" required /> Acepto los términos y condiciones de la red PawPort</label>
         <br /><br />
-        <button type="submit" class="btn-paw">Crear cuenta</button>
+        <button type="submit" class="btn-paw" style="width:100%">Crear cuenta</button>
     </form>
     @if (ViewBag.Mensaje != null)
     {
-        <p class="@ViewBag.MensajeClase">@ViewBag.Mensaje</p>
+        <p class="@ViewBag.MensajeClase" style="margin-top:1rem">@ViewBag.Mensaje</p>
     }
     <p class="muted" style="margin-top:1rem">¿Ya tienes cuenta? <a asp-controller="Login" asp-action="Index">Inicia sesión</a></p>
 </div>
