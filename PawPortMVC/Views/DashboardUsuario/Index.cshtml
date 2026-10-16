@@ -8,7 +8,7 @@
 <section class="section">
     <div class="container">
         <div class="banner" style="border-radius:20px;padding:2.2rem;text-align:left;margin-bottom:2rem">
-            <h1>¡Hola, @ViewBag.NombreUsuario! 👋</h1>
+            <h1>¡Hola, @ViewBag.NombreUsuario!</h1>
             <p style="margin:.4rem 0 1.2rem">Tienes @recordatorios.Count recordatorios médicos activos. Revisa el expediente global de tus mascotas o agenda un control en línea.</p>
             <a asp-controller="MisMascotas" asp-action="Index" class="btn-paw">Ver Expedientes</a>
             <a asp-controller="AgendarCita" asp-action="Index" class="btn-line" style="background:#fff;margin-left:.6rem">Agendar Control</a>
@@ -26,7 +26,7 @@
                         <div class="card-paw pad" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
                             <div>
                                 <b>@c.Motivo — @c.Mascota</b>
-                                <p class="muted" style="margin:.2rem 0;font-size:.9rem">📅 @c.Fecha a las @c.Hora · @c.Veterinario · @c.Clinica</p>
+                                <p class="muted" style="margin:.2rem 0;font-size:.9rem">@c.Fecha a las @c.Hora · @c.Veterinario · @c.Clinica</p>
                             </div>
                             <span class="badge-paw @Datos.ClaseEstado(c.Estado)">@c.Estado</span>
                         </div>
@@ -35,7 +35,7 @@
             </div>
 
             <div class="card-paw pad">
-                <h3>🔔 Recordatorios de Vacunas y Citas</h3>
+                <h3>Recordatorios de Vacunas y Citas</h3>
                 @foreach (Recordatorio r in recordatorios)
                 {
                     <div class="card-paw pad" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center;gap:.8rem">
@@ -47,7 +47,7 @@
                         </div>
                         <form asp-controller="DashboardUsuario" asp-action="CompletarRecordatorio" method="post">
                             <input type="hidden" name="id" value="@r.Id" />
-                            <button type="submit" class="btn-mini ok">✓ Completar</button>
+                            <button type="submit" class="btn-mini ok">Completar</button>
                         </form>
                     </div>
                 }
@@ -87,7 +87,7 @@
                     <img class="card-img" src="@c.Imagen" alt="@c.Nombre" />
                     <div class="card-body-paw">
                         <h3>@c.Nombre</h3>
-                        <p class="muted">📍 @c.Ciudad, @c.Pais · ⭐ @c.Calificacion</p>
+                        <p class="muted">@c.Ciudad, @c.Pais · ⭐ @c.Calificacion</p>
                         <a class="btn-line" asp-controller="ExplorarClinicas" asp-action="Detalle" asp-route-id="@c.Id">Ver Detalles</a>
                     </div>
                 </article>

@@ -3,8 +3,8 @@
     string nombreSesion = Context.Session.GetString("Nombre") ?? "Usuario";
     string rolSesion = Context.Session.GetString("Rol") ?? "AdminCentral";
     string tituloPortal = rolSesion == "Veterinario"
-        ? "🩺 PawPort Consultorio"
-        : (rolSesion == "AdministradorSucursal" ? "🏥 PawPort Sucursal" : "🌎 PawPort Dirección Central");
+        ? "Consultorio"
+        : (rolSesion == "AdministradorSucursal" ? "Sucursal" : "Dirección Central");
     string colorHeader = rolSesion == "Veterinario"
         ? "border-bottom: 3px solid #0E8F9B;"
         : (rolSesion == "AdministradorSucursal" ? "border-bottom: 3px solid #FF7A3D;" : "border-bottom: 3px solid #0F2E4A;");
@@ -14,7 +14,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"] - @tituloPortal</title>
+    <title>@ViewData["Title"] - PawPort @tituloPortal</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/pawport.css" />
@@ -23,20 +23,19 @@
 <body>
     <div class="a11y-bar" role="region" aria-label="Herramientas de accesibilidad">
         <div class="container a11y-inner">
-            <span>♿ Accesibilidad:</span>
+            <span>Accesibilidad:</span>
             <button type="button" class="a11y-btn" onclick="cambiarFuente(-1)">A-</button>
             <button type="button" class="a11y-btn" onclick="cambiarFuente(1)">A+</button>
-            <button type="button" class="a11y-btn" onclick="alternarModoOscuro()" id="btnModoOscuro">🌙 Modo oscuro</button>
-            <button type="button" class="a11y-btn" onclick="alternarAltoContraste()" id="btnContraste">👁️ Alto contraste</button>
-            <button type="button" class="a11y-btn" onclick="restablecerAccesibilidad()">↺ Restablecer</button>
+            <button type="button" class="a11y-btn" onclick="alternarModoOscuro()" id="btnModoOscuro">Modo oscuro</button>
+            <button type="button" class="a11y-btn" onclick="alternarAltoContraste()" id="btnContraste">Alto contraste</button>
+            <button type="button" class="a11y-btn" onclick="restablecerAccesibilidad()">Restablecer</button>
         </div>
     </div>
 
     <header class="nav-paw" style="@colorHeader">
         <div class="container nav-inner">
             <a class="brand" asp-controller="Dashboard" asp-action="Index">
-                <img src="/recursos/Img/Logo.png" alt="Logo PawPort" style="height:34px;border-radius:8px;margin-right:6px;vertical-align:middle" />
-                @tituloPortal
+                <img src="/recursos/Img/Logo.png" alt="Logo PawPort" style="height:38px;border-radius:8px;vertical-align:middle" />
             </a>
             <nav class="menu">
                 @if (rolSesion == "Veterinario")
@@ -44,7 +43,7 @@
                     <a asp-controller="Dashboard" asp-action="Index">Mi Consultorio</a>
                     <a asp-controller="GestionCitas" asp-action="Index">Agenda Médica</a>
                     <a asp-controller="Pacientes" asp-action="Index">Pacientes y Expedientes</a>
-                    <span class="badge-paw info">🩺 Dr(a). @nombreSesion (Veterinario)</span>
+                    <span class="badge-paw info">Dr(a). @nombreSesion (Veterinario)</span>
                 }
                 else if (rolSesion == "AdministradorSucursal")
                 {
@@ -55,7 +54,7 @@
                     <a asp-controller="Facturacion" asp-action="Index">Facturación</a>
                     <a asp-controller="Reportes" asp-action="Index">Reportes de Sede</a>
                     <a asp-controller="ConfiguracionClinica" asp-action="Index">Mi Sede y Médicos</a>
-                    <span class="badge-paw wait">🏥 @nombreSesion (Admin Sucursal)</span>
+                    <span class="badge-paw wait">@nombreSesion (Admin Sucursal)</span>
                 }
                 else
                 {
@@ -66,8 +65,9 @@
                     <a asp-controller="Reportes" asp-action="Index">Estadísticas Red</a>
                     <a asp-controller="GestionCitas" asp-action="Index">Citas</a>
                     <a asp-controller="Pacientes" asp-action="Index">Pacientes</a>
-                    <span class="badge-paw ok">🌎 @nombreSesion (Admin Central)</span>
+                    <span class="badge-paw ok">@nombreSesion (Admin Central)</span>
                 }
+                <a asp-controller="Portafolio" asp-action="Index">Portafolio</a>
                 <a asp-controller="Home" asp-action="Index">Vista Pública</a>
                 <a asp-controller="Login" asp-action="Logout" class="btn-line">Cerrar sesión</a>
             </nav>

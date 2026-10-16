@@ -13,7 +13,7 @@
             </div>
             <form asp-controller="Reportes" asp-action="Index" method="get" style="display:flex;gap:.5rem">
                 <select name="clinica" class="form-control" onchange="this.form.submit()">
-                    <option value="Todas" selected="@(clinicaFiltro == "Todas")">🌎 Global (Toda la Red)</option>
+                    <option value="Todas" selected="@(clinicaFiltro == "Todas")">Global (Toda la Red)</option>
                     @foreach (Clinica c in clinicas)
                     {
                         <option value="@c.Nombre" selected="@(clinicaFiltro == c.Nombre)">@c.Nombre (@c.Pais)</option>
@@ -46,13 +46,13 @@
                 <h3>Distribución de Pacientes por Especie</h3>
                 <p class="muted">Proporción actual en el registro clínico internacional.</p>
                 <div style="margin-top:1rem">
-                    <p style="margin:.4rem 0">🐶 <b>Perros:</b> @ViewBag.TotalPerros registrados (65%)</p>
+                    <p style="margin:.4rem 0"><b>Perros:</b> @ViewBag.TotalPerros registrados (65%)</p>
                     <div style="background:var(--line);height:14px;border-radius:10px;overflow:hidden"><div style="width:65%;height:100%;background:var(--teal)"></div></div>
 
-                    <p style="margin:1rem 0 .4rem">🐱 <b>Gatos:</b> @ViewBag.TotalGatos registrados (25%)</p>
+                    <p style="margin:1rem 0 .4rem"><b>Gatos:</b> @ViewBag.TotalGatos registrados (25%)</p>
                     <div style="background:var(--line);height:14px;border-radius:10px;overflow:hidden"><div style="width:25%;height:100%;background:var(--orange)"></div></div>
 
-                    <p style="margin:1rem 0 .4rem">🦜 <b>Aves y Exóticos:</b> @ViewBag.TotalOtros registrados (10%)</p>
+                    <p style="margin:1rem 0 .4rem"><b>Aves y Exóticos:</b> @ViewBag.TotalOtros registrados (10%)</p>
                     <div style="background:var(--line);height:14px;border-radius:10px;overflow:hidden"><div style="width:10%;height:100%;background:#F59E0B"></div></div>
                 </div>
             </div>
@@ -79,19 +79,19 @@
         <h3 style="margin-top:2rem">Descarga de Reportes Oficiales (CSV / Excel)</h3>
         <div class="grid" style="margin-top:1rem">
             <div class="card-paw pad">
-                <h4>📄 Reporte General de Clínicas</h4>
+                <h4>Reporte General de Clínicas</h4>
                 <p class="muted">Listado consolidado de sucursales internacionales, calificaciones y especialidades.</p>
-                <a class="btn-paw" asp-controller="Reportes" asp-action="ExportarCsv" asp-route-tipo="general">⬇ Descargar CSV</a>
+                <a class="btn-paw" asp-controller="Reportes" asp-action="ExportarCsv" asp-route-tipo="general">Descargar CSV</a>
             </div>
             <div class="card-paw pad">
-                <h4>📦 Reporte de Inventario y Stock</h4>
+                <h4>Reporte de Inventario y Stock</h4>
                 <p class="muted">Existencias actuales, alertas de bajo stock y valorización por medicamento.</p>
-                <a class="btn-paw" asp-controller="Reportes" asp-action="ExportarCsv" asp-route-tipo="inventario">⬇ Descargar CSV</a>
+                <a class="btn-paw" asp-controller="Reportes" asp-action="ExportarCsv" asp-route-tipo="inventario">Descargar CSV</a>
             </div>
             <div class="card-paw pad">
-                <h4>💳 Reporte Financiero y Facturación</h4>
+                <h4>Reporte Financiero y Facturación</h4>
                 <p class="muted">Detalle de facturas emitidas, pagos recibidos y cuentas por cobrar.</p>
-                <a class="btn-paw" asp-controller="Reportes" asp-action="ExportarCsv" asp-route-tipo="financiero">⬇ Descargar CSV</a>
+                <a class="btn-paw" asp-controller="Reportes" asp-action="ExportarCsv" asp-route-tipo="financiero">Descargar CSV</a>
             </div>
         </div>
     </div>
