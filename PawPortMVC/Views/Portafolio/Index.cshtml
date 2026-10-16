@@ -1,43 +1,38 @@
-﻿@{
-    ViewData["Title"] = "Iniciar sesión";
+﻿@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Portafolio";
+    string? rolSesion = Context.Session.GetString("Rol");
+    if (rolSesion == "Veterinario" || rolSesion == "AdministradorSucursal" || rolSesion == "AdminCentral")
+    {
+        Layout = "_AdminLayout";
+    }
 }
-<div class="login-grid">
-
-    <img src="/recursos/Img/Inicio de sesión.png" class="login-img" alt="Mascota PawPort" />
-    <div class="login-form">
-
-        <div class="form-card" style="width:100%">
-            <h2>¡Hola de nuevo! 👋</h2>
-            <p class="muted">Ingresa a tu cuenta de la red internacional PawPort.</p>
-
-            <form asp-controller="Login" asp-action="Index" method="post">
-                <label>Correo electrónico</label>
-                <input type="email" name="correo" class="form-control" placeholder="ejemplo@pawport.com" required />
-
-                <label>Contraseña</label>
-                <input type="password" name="clave" class="form-control" placeholder="••••••••" required />
-                <br />
-                <button type="submit" class="btn-paw" style="width:100%">Iniciar sesión</button>
-            </form>
-
-            @if (ViewBag.Error != null)
-            {
-                <p class="msg-error" style="margin-top:1rem">@ViewBag.Error</p>
-            }
-
-            <div class="card-paw pad" style="margin-top:1.2rem;background:var(--soft);font-size:.9rem">
-                <strong>Cuentas de demostración por rol (Clave: 1234):</strong>
-                <ul style="margin:.4rem 0 0;padding-left:1.2rem">
-                    <li><b>Propietario:</b> propietario@pawport.com</li>
-                    <li><b>Veterinario:</b> veterinario@pawport.com</li>
-                    <li><b>Admin Sucursal:</b> sucursal@pawport.com</li>
-                    <li><b>Admin Central:</b> admin@pawport.com</li>
-                </ul>
+<section class="banner">
+    <div class="container">
+        <h1>Nuestro portafolio</h1>
+        <p>Así se verá PawPort: prototipo del diseño final creado en Figma.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container" style="text-align:center">
+        <h2>Prototipo en Figma</h2>
+        <p class="sub">Explora todas las pantallas: landing, login, registros, dashboards, citas y mascotas.</p>
+        <a href="https://www.figma.com/design/AZY7ISSEsifnJim3oF81tS/A2D2--Copy-?t=QybP9cV9oR6l8JUq-1" target="_blank" class="btn-paw btn-big">Ver prototipo en Figma</a>
+    </div>
+    <div class="container galeria" style="margin-top:2.5rem">
+        <div class="grid">
+            <div class="card-paw pad">
+                <img src="/recursos/Img/pawport-landing-page.png" alt="Landing" style="height:220px;object-fit:cover;object-position:top" />
+                <p class="muted" style="margin:.6rem 0 0;font-weight:600">Landing page</p>
             </div>
-
-            <p class="muted" style="margin-top:1rem">
-                ¿No tienes cuenta? <a asp-controller="Registro" asp-action="Index">Regístrate aquí</a>
-            </p>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/dashboard-usuario.png" alt="Dashboard" style="height:220px;object-fit:cover;object-position:top" />
+                <p class="muted" style="margin:.6rem 0 0;font-weight:600">Dashboards y registros</p>
+            </div>
+            <div class="card-paw pad">
+                <img src="/recursos/Img/explorar-clinicas.png" alt="Citas" style="height:220px;object-fit:cover;object-position:top" />
+                <p class="muted" style="margin:.6rem 0 0;font-weight:600">Clínicas, citas y mascotas</p>
+            </div>
         </div>
     </div>
-</div>
+</section>

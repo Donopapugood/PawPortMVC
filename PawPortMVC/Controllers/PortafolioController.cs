@@ -6,7 +6,7 @@ namespace PawPortMVC.Controllers
     {
         public IActionResult Index()
         {
-            return View("~/Views/Portafolio/Index.cshtml");
+            return View();
         }
     }
 }
