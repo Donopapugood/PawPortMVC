@@ -43,21 +43,10 @@ namespace PawPortMVC.Controllers
         {
             if (!string.IsNullOrWhiteSpace(mascota) && !string.IsNullOrWhiteSpace(motivo))
             {
-                int nuevoId = Datos.Citas.Count > 0 ? Datos.Citas.Max(c => c.Id) + 1 : 1;
-                Datos.Citas.Add(new Cita
-                {
-                    Id = nuevoId,
-                    Fecha = string.IsNullOrWhiteSpace(fecha) ? DateTime.Today.ToString("yyyy-MM-dd") : fecha,
-                    Hora = string.IsNullOrWhiteSpace(hora) ? "09:00" : hora,
-                    Mascota = mascota.Trim(),
-                    Especie = "Perro",
-                    Propietario = string.IsNullOrWhiteSpace(propietario) ? "Propietario en clínica" : propietario.Trim(),
-                    Clinica = string.IsNullOrWhiteSpace(clinica) ? "Veterinaria Escalón Central" : clinica,
-                    Veterinario = string.IsNullOrWhiteSpace(veterinario) ? "Dr. Carlos Mendoza" : veterinario,
-                    Especialidad = string.IsNullOrWhiteSpace(especialidad) ? "Medicina general" : especialidad,
-                    Motivo = motivo.Trim(),
-                    Estado = "Confirmada"
-                });
+                string f = string.IsNullOrWhiteSpace(fecha) ? DateTime.Today.ToString("yyyy-MM-dd") : fecha;
+                string h = string.IsNullOrWhiteSpace(hora) ? "09:00" : hora;
+                string cl = string.IsNullOrWhiteSpace(clinica) ? "PawPort Central San Salvador" : clinica;
+                Datos.InsertarCitaSql(mascota.Trim(), cl, f, h, motivo.Trim());
             }
             return RedirectToAction("Index");
         }
@@ -69,6 +58,7 @@ namespace PawPortMVC.Controllers
             if (cita != null && !string.IsNullOrWhiteSpace(nuevoEstado))
             {
                 cita.Estado = nuevoEstado;
+                Datos.CambiarEstadoCitaSql(id, nuevoEstado);
             }
             return RedirectToAction("Index", new { estado = estado, idSeleccionada = id });
         }

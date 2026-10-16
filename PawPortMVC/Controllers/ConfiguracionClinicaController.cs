@@ -44,22 +44,13 @@ namespace PawPortMVC.Controllers
         {
             if (!string.IsNullOrWhiteSpace(nombre) && !string.IsNullOrWhiteSpace(ciudad))
             {
-                int nuevoId = Datos.Clinicas.Count > 0 ? Datos.Clinicas.Max(c => c.Id) + 1 : 1;
-                Datos.Clinicas.Add(new Clinica
-                {
-                    Id = nuevoId,
-                    Nombre = nombre.Trim(),
-                    Pais = string.IsNullOrWhiteSpace(pais) ? "El Salvador" : pais.Trim(),
-                    Ciudad = ciudad.Trim(),
-                    Direccion = string.IsNullOrWhiteSpace(direccion) ? "Sede Central" : direccion.Trim(),
-                    Telefono = string.IsNullOrWhiteSpace(telefono) ? "+503 2222 0000" : telefono.Trim(),
-                    Correo = string.IsNullOrWhiteSpace(correo) ? "contacto@pawport.com" : correo.Trim(),
-                    Imagen = "/recursos/Img/Ciudad_Mexico.png",
-                    Especialidad = string.IsNullOrWhiteSpace(especialidad) ? "Medicina general" : especialidad,
-                    Descripcion = string.IsNullOrWhiteSpace(descripcion) ? "Nueva sucursal integrada a la red internacional PawPort." : descripcion.Trim(),
-                    Calificacion = 5.0,
-                    TotalReseñas = 1
-                });
+                Datos.InsertarSucursalSql(
+                    nombre.Trim(),
+                    string.IsNullOrWhiteSpace(direccion) ? ciudad.Trim() : direccion.Trim(),
+                    string.IsNullOrWhiteSpace(telefono) ? "2200-0000" : telefono.Trim(),
+                    string.IsNullOrWhiteSpace(correo) ? "contacto@pawport.example" : correo.Trim()
+                );
+                int nuevoId = Datos.Clinicas.Count > 0 ? Datos.Clinicas.Max(c => c.Id) : 1;
                 return RedirectToAction("Index", new { idClinica = nuevoId });
             }
             return RedirectToAction("Index");
@@ -90,9 +81,9 @@ namespace PawPortMVC.Controllers
                     Id = nuevoId,
                     Nombre = nombre.Trim(),
                     Especialidad = especialidad,
-                    Clinica = string.IsNullOrWhiteSpace(clinica) ? "Veterinaria Escalón Central" : clinica,
-                    Correo = string.IsNullOrWhiteSpace(correo) ? "medico@pawport.com" : correo.Trim(),
-                    Telefono = string.IsNullOrWhiteSpace(telefono) ? "+503 7000 0000" : telefono.Trim(),
+                    Clinica = string.IsNullOrWhiteSpace(clinica) ? "PawPort Central San Salvador" : clinica,
+                    Correo = string.IsNullOrWhiteSpace(correo) ? "medico@pawport.example" : correo.Trim(),
+                    Telefono = string.IsNullOrWhiteSpace(telefono) ? "7000-0000" : telefono.Trim(),
                     Horario = string.IsNullOrWhiteSpace(horario) ? "Lunes a Viernes 08:00 - 16:00" : horario.Trim(),
                     Estado = "Activo"
                 });

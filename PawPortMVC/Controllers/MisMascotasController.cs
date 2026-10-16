@@ -70,7 +70,7 @@ namespace PawPortMVC.Controllers
                 ? propietario.Trim()
                 : (HttpContext.Session.GetString("Nombre") != null
                     ? HttpContext.Session.GetString("Nombre") + " " + HttpContext.Session.GetString("Apellido")
-                    : "Alejandra Gómez");
+                    : "Maria Hernandez");
 
             Datos.Mascotas.Add(new Mascota
             {
@@ -89,8 +89,9 @@ namespace PawPortMVC.Controllers
                 Alergias = string.IsNullOrWhiteSpace(alergias) ? "Ninguna registrada" : alergias.Trim()
             });
 
+            Datos.InsertarMascotaSql(nombre, especie, raza, edad, peso, sexo ?? "Hembra", "Variado");
             ViewBag.MensajeClase = "msg-ok";
-            ViewBag.Mensaje = "Mascota " + nombre + " registrada correctamente.";
+            ViewBag.Mensaje = "Mascota " + nombre + " registrada correctamente en PawPortDB.";
             CargarVistaPorDefecto();
             return View("Index", Datos.Mascotas);
         }

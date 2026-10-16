@@ -15,6 +15,8 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddScoped<UsuarioDatos>();
 
+Datos.Inicializar(builder.Configuration.GetConnectionString("DefaultConnection"));
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

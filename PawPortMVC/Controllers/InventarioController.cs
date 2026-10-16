@@ -41,19 +41,15 @@ namespace PawPortMVC.Controllers
         {
             if (!string.IsNullOrWhiteSpace(nombre) && precio > 0 && stockActual >= 0)
             {
-                int nuevoId = Datos.Inventario.Count > 0 ? Datos.Inventario.Max(i => i.Id) + 1 : 1;
-                Datos.Inventario.Add(new ProductoInventario
-                {
-                    Id = nuevoId,
-                    Nombre = nombre.Trim(),
-                    Categoria = string.IsNullOrWhiteSpace(categoria) ? "Medicamentos" : categoria,
-                    Clinica = string.IsNullOrWhiteSpace(clinica) ? "Veterinaria Escalón Central" : clinica,
-                    StockActual = stockActual,
-                    StockMinimo = stockMinimo >= 0 ? stockMinimo : 10,
-                    Precio = precio,
-                    Proveedor = string.IsNullOrWhiteSpace(proveedor) ? "VetPharma Internacional" : proveedor.Trim(),
-                    FechaCaducidad = string.IsNullOrWhiteSpace(fechaCaducidad) ? "2027-12-31" : fechaCaducidad
-                });
+                Datos.InsertarProductoSql(
+                    nombre.Trim(),
+                    string.IsNullOrWhiteSpace(categoria) ? "Medicamentos" : categoria,
+                    string.IsNullOrWhiteSpace(clinica) ? "PawPort Central San Salvador" : clinica,
+                    stockActual,
+                    stockMinimo >= 0 ? stockMinimo : 5,
+                    precio,
+                    string.IsNullOrWhiteSpace(fechaCaducidad) ? "2027-12-31" : fechaCaducidad
+                );
             }
             return RedirectToAction("Index");
         }
@@ -90,7 +86,7 @@ namespace PawPortMVC.Controllers
             ProductoInventario? prod = Datos.Inventario.FirstOrDefault(i => i.Id == idProducto);
             if (prod != null && cantidad > 0 && costoUnitario > 0)
             {
-                prod.StockActual += cantidad;
+
                 int idCompra = Datos.Compras.Count > 0 ? Datos.Compras.Max(c => c.Id) + 1 : 1;
                 Datos.Compras.Insert(0, new CompraInventario
                 {
@@ -102,6 +98,7 @@ namespace PawPortMVC.Controllers
                     Cantidad = cantidad,
                     CostoUnitario = costoUnitario
                 });
+                Datos.ActualizarStockCompraSql(idProducto, cantidad);
             }
             return RedirectToAction("Index");
         }

@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PawPortDB\**" />
     <Compile Remove="wwwroot\contents\**" />
+    <Content Remove="PawPortDB\**" />
     <Content Remove="wwwroot\contents\**" />
+    <EmbeddedResource Remove="PawPortDB\**" />
     <EmbeddedResource Remove="wwwroot\contents\**" />
+    <None Remove="PawPortDB\**" />
     <None Remove="wwwroot\contents\**" />
   </ItemGroup>
 
@@ -107,10 +111,6 @@
     <None Include="wwwroot\recursos\Img\veterinaria-perro.png" />
     <None Include="wwwroot\recursos\Img\Veterinario - copia.png" />
     <None Include="wwwroot\recursos\Img\Veterinario.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="PawPortDB\" />
   </ItemGroup>
 
   <ItemGroup>

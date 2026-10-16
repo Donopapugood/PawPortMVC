@@ -33,20 +33,11 @@ namespace PawPortMVC.Controllers
         {
             if (!string.IsNullOrWhiteSpace(propietario) && !string.IsNullOrWhiteSpace(concepto) && monto > 0)
             {
-                int nuevoId = Datos.Facturas.Count > 0 ? Datos.Facturas.Max(f => f.Id) + 1 : 1;
-                Datos.Facturas.Insert(0, new Factura
-                {
-                    Id = nuevoId,
-                    NumeroFactura = "FAC-2026-00" + nuevoId,
-                    Fecha = DateTime.Today.ToString("yyyy-MM-dd"),
-                    Propietario = propietario.Trim(),
-                    Mascota = string.IsNullOrWhiteSpace(mascota) ? "Luna" : mascota,
-                    Clinica = string.IsNullOrWhiteSpace(clinica) ? "Veterinaria Escalón Central" : clinica,
-                    Concepto = concepto.Trim(),
-                    Monto = monto,
-                    MetodoPago = string.IsNullOrWhiteSpace(metodoPago) ? "Tarjeta" : metodoPago,
-                    Estado = string.IsNullOrWhiteSpace(estado) ? "Pendiente" : estado
-                });
+                Datos.InsertarFacturaSql(
+                    string.IsNullOrWhiteSpace(clinica) ? "PawPort Central San Salvador" : clinica,
+                    monto,
+                    string.IsNullOrWhiteSpace(estado) ? "Pendiente" : estado
+                );
             }
             return RedirectToAction("Index");
         }
@@ -58,6 +49,7 @@ namespace PawPortMVC.Controllers
             if (fac != null && !string.IsNullOrWhiteSpace(nuevoEstado))
             {
                 fac.Estado = nuevoEstado;
+                Datos.CambiarEstadoFacturaSql(id, nuevoEstado);
             }
             return RedirectToAction("Index");
         }
