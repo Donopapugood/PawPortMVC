@@ -7,6 +7,13 @@ namespace PawPortMVC.Controllers
 {
     public class RegistroController : Controller
     {
+        private readonly UsuarioDatos _usuarioDatos;
+
+        public RegistroController(UsuarioDatos usuarioDatos)
+        {
+            _usuarioDatos = usuarioDatos;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -44,30 +51,35 @@ namespace PawPortMVC.Controllers
                 return View();
             }
 
-            bool existe = Datos.UsuariosRespaldo.Any(u => u.Usuario.CorreoElectronico.Equals(correo.Trim(), System.StringComparison.OrdinalIgnoreCase));
-            if (existe)
+            string rolElegido = string.IsNullOrWhiteSpace(rol) ? "Propietario" : rol;
+            bool guardadoEnSql = _usuarioDatos.RegistrarUsuario(nombre, apellido, correo, telefono, rolElegido, clave, out string errorSql);
+
+            if (!guardadoEnSql && errorSql.Contains("Ya existe"))
             {
                 ViewBag.MensajeClase = "msg-error";
-                ViewBag.Mensaje = "Ya existe una cuenta registrada con ese correo electrónico.";
+                ViewBag.Mensaje = errorSql;
                 return View();
             }
 
-            int nuevoId = Datos.UsuariosRespaldo.Count + 1;
-            string rolElegido = string.IsNullOrWhiteSpace(rol) ? "Propietario" : rol;
-
-            Datos.UsuariosRespaldo.Add((new Usuario
+            bool existeRespaldo = Datos.UsuariosRespaldo.Any(u => u.Usuario.CorreoElectronico.Equals(correo.Trim(), System.StringComparison.OrdinalIgnoreCase));
+            if (!existeRespaldo)
             {
-                IdUsuario = nuevoId,
-                IdSucursal = rolElegido == "Propietario" ? null : 4,
-                Nombre = nombre.Trim(),
-                Apellido = string.IsNullOrWhiteSpace(apellido) ? "" : apellido.Trim(),
-                CorreoElectronico = correo.Trim(),
-                Rol = rolElegido,
-                Estado = true
-            }, clave));
+
+                int nuevoId = Datos.UsuariosRespaldo.Count + 1;
+                Datos.UsuariosRespaldo.Add((new Usuario
+                {
+                    IdUsuario = nuevoId,
+                    IdSucursal = rolElegido == "Propietario" ? null : 1,
+                    Nombre = nombre.Trim(),
+                    Apellido = string.IsNullOrWhiteSpace(apellido) ? "" : apellido.Trim(),
+                    CorreoElectronico = correo.Trim(),
+                    Rol = rolElegido,
+                    Estado = true
+                }, clave));
+            }
 
             ViewBag.MensajeClase = "msg-ok";
-            ViewBag.Mensaje = "¡Cuenta creada exitosamente para " + nombre + "! Ya puedes iniciar sesión con tu correo.";
+            ViewBag.Mensaje = "¡Cuenta creada exitosamente en PawPortDB para " + nombre + "! Ya puedes iniciar sesión con tu correo.";
             return View();
         }
     }

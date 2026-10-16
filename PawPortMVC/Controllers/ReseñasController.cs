@@ -19,7 +19,7 @@ namespace PawPortMVC.Controllers
             ViewBag.Clinicas = Datos.Clinicas;
             ViewBag.Promedio = Datos.Reseñas.Count > 0 ? Datos.Reseñas.Average(r => r.Calificacion).ToString("0.0") : "4.8";
             ViewBag.Total = Datos.Reseñas.Count;
-            return View(lista);
+            return View("~/Views/Reseñas/Index.cshtml", lista);
         }
 
         [HttpPost]
@@ -37,7 +37,7 @@ namespace PawPortMVC.Controllers
                     Id = nuevoId,
                     Autor = nombreAutor,
                     Pais = string.IsNullOrWhiteSpace(pais) ? "El Salvador" : pais.Trim(),
-                    Clinica = string.IsNullOrWhiteSpace(clinica) ? "Veterinaria Escalón Central" : clinica,
+                    Clinica = string.IsNullOrWhiteSpace(clinica) ? "PawPort Central San Salvador" : clinica,
                     Calificacion = calificacion >= 1 && calificacion <= 5 ? calificacion : 5,
                     Comentario = comentario.Trim(),
                     Fecha = "Hoy"

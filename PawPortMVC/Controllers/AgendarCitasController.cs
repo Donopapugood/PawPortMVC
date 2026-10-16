@@ -40,7 +40,7 @@ namespace PawPortMVC.Controllers
             Mascota? objMascota = Datos.Mascotas.FirstOrDefault(m => m.Nombre == mascota);
             string nombrePropietario = !string.IsNullOrWhiteSpace(propietario)
                 ? propietario.Trim()
-                : (objMascota != null ? objMascota.Propietario : (HttpContext.Session.GetString("Nombre") ?? "Alejandra Gómez"));
+                : (objMascota != null ? objMascota.Propietario : (HttpContext.Session.GetString("Nombre") ?? "Maria Hernandez"));
 
             int nuevoId = Datos.Citas.Count > 0 ? Datos.Citas.Max(c => c.Id) + 1 : 1;
             Datos.Citas.Add(new Cita
@@ -52,11 +52,11 @@ namespace PawPortMVC.Controllers
                 Especie = objMascota != null ? objMascota.Especie : "Perro",
                 Propietario = nombrePropietario,
                 Clinica = clinica,
-                Veterinario = string.IsNullOrWhiteSpace(veterinario) ? "Dr. Carlos Mendoza" : veterinario,
+                Veterinario = string.IsNullOrWhiteSpace(veterinario) ? "Dr(a). Ana Lopez" : veterinario,
                 Especialidad = especialidad,
                 Motivo = motivo.Trim(),
                 Notas = string.IsNullOrWhiteSpace(notas) ? "" : notas.Trim(),
-                Estado = "Pendiente"
+                Estado = "Programada"
             });
 
             int idRec = Datos.Recordatorios.Count > 0 ? Datos.Recordatorios.Max(r => r.Id) + 1 : 1;
@@ -71,8 +71,9 @@ namespace PawPortMVC.Controllers
                 Completado = false
             });
 
+            Datos.InsertarCitaSql(mascota, clinica, fechaCita.ToString("yyyy-MM-dd"), hora, motivo.Trim());
             ViewBag.ResumenClase = "msg-ok";
-            ViewBag.Resumen = "¡Cita registrada! Solicitud #" + nuevoId + " para " + mascota + " en " + clinica + " (" + especialidad + ") el "
+            ViewBag.Resumen = "¡Cita registrada en PawPortDB! Solicitud #" + nuevoId + " para " + mascota + " en " + clinica + " (" + especialidad + ") el "
                 + fechaCita.ToString("dd/MM/yyyy") + " a las " + hora + ".";
             return View();
         }

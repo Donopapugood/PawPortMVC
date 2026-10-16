@@ -54,28 +54,15 @@ namespace PawPortMVC.Controllers
             Mascota? mascota = Datos.Mascotas.FirstOrDefault(m => m.Id == idMascota);
             if (mascota != null && !string.IsNullOrWhiteSpace(diagnostico) && !string.IsNullOrWhiteSpace(tratamiento))
             {
-                int nuevoId = Datos.Expedientes.Count > 0 ? Datos.Expedientes.Max(e => e.Id) + 1 : 1;
-                Datos.Expedientes.Insert(0, new Expediente
-                {
-                    Id = nuevoId,
-                    IdMascota = mascota.Id,
-                    Mascota = mascota.Nombre,
-                    Propietario = mascota.Propietario,
-                    Clinica = string.IsNullOrWhiteSpace(clinica) ? "Veterinaria Escalón Central" : clinica,
-                    Veterinario = string.IsNullOrWhiteSpace(veterinario) ? "Dr. Carlos Mendoza" : veterinario,
-                    Fecha = DateTime.Today.ToString("dd/MM/yyyy"),
-                    Diagnostico = diagnostico.Trim(),
-                    Tratamiento = tratamiento.Trim(),
-                    MedicamentoRecetado = string.IsNullOrWhiteSpace(medicamentoRecetado) ? "Ninguno" : medicamentoRecetado,
-                    VacunaAplicada = string.IsNullOrWhiteSpace(vacunaAplicada) ? "Ninguna" : vacunaAplicada.Trim(),
-                    PesoRegistrado = pesoRegistrado > 0 ? pesoRegistrado : mascota.Peso,
-                    Notas = string.IsNullOrWhiteSpace(notas) ? "" : notas.Trim()
-                });
-
-                if (pesoRegistrado > 0) mascota.Peso = pesoRegistrado;
-                mascota.UltimaVisita = DateTime.Today.ToString("dd/MM/yyyy");
-                if (!string.IsNullOrWhiteSpace(vacunaAplicada)) mascota.Vacunas = "Al día";
-                if (!string.IsNullOrWhiteSpace(estadoPaciente)) mascota.Estado = estadoPaciente;
+                Datos.InsertarExpedienteSql(
+                    idMascota,
+                    string.IsNullOrWhiteSpace(clinica) ? "PawPort Central San Salvador" : clinica,
+                    diagnostico.Trim(),
+                    tratamiento.Trim(),
+                    string.IsNullOrWhiteSpace(medicamentoRecetado) ? "Ninguno" : medicamentoRecetado,
+                    string.IsNullOrWhiteSpace(vacunaAplicada) ? "Ninguna" : vacunaAplicada.Trim(),
+                    string.IsNullOrWhiteSpace(notas) ? "" : notas.Trim()
+                );
             }
 
             return RedirectToAction("Index", new { idMascota = idMascota });
